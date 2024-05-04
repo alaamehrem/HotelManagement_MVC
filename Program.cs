@@ -1,3 +1,7 @@
+using HotelManagement_MVC.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 namespace HotelManagement_MVC
 {
     public class Program
@@ -8,6 +12,16 @@ namespace HotelManagement_MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HotelContext>();
+
+
+            builder.Services.AddDbContext<HotelContext>(
+                Options => Options.
+                UseSqlServer(builder.Configuration.GetConnectionString("cs")));//inject Dbcontext & inject Hotelcontext
+
+
+           // builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
 
             var app = builder.Build();
 
