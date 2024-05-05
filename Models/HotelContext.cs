@@ -7,8 +7,11 @@ namespace HotelManagement_MVC.Models
     public class HotelContext:IdentityDbContext<ApplicationUser>
     {
         public DbSet<Hotel> HotelSet { get; set; }
+        public DbSet<Admin> AdminAet { get; set; }
 
-        //public DbSet<HotelRoom> Room { get; set; }
+        public DbSet<BookingDining> bookingDiningSet { get; set; }
+
+        public DbSet<HotelRoom> RoomSet { get; set; }
         public HotelContext(DbContextOptions<HotelContext> options)
           : base(options)  { }//inject ==>IOC resolve
 
