@@ -10,9 +10,9 @@ namespace HotelManagement_MVC.Models
         public int GuestId { get; set; }
         public Guest Guest { get; set; }
 
-        [ForeignKey("Hotel")]
-        public int HotelId { get; set; }
-        public Hotel Hotel { get; set; }
+        //[ForeignKey("Hotel")]
+        //public int HotelId { get; set; }
+        //public Hotel Hotel { get; set; }
 
         [ForeignKey("HotelRoom")]
         public int HotelRoomId { get; set; }

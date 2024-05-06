@@ -5,7 +5,6 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
         public string Images { get; set; }
         public int BedCount { get; set; }
         public int BathCount { get; set; }

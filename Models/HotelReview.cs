@@ -14,8 +14,8 @@ namespace HotelManagement_MVC.Models
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
 
-        [ForeignKey("HotelRoom")]
-        public int HotelRoomId { get; set; }
-        public HotelRoom HotelRoom { get; set; }
+        //[ForeignKey("HotelRoom")]
+        //public int HotelRoomId { get; set; }
+        //public HotelRoom HotelRoom { get; set; }
     }
 }
