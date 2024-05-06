@@ -1,4 +1,6 @@
+using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
+using HotelManagement_MVC.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,8 +22,27 @@ namespace HotelManagement_MVC
                 Options => Options.
                 UseSqlServer(builder.Configuration.GetConnectionString("cs")));//inject Dbcontext & inject Hotelcontext
 
+            builder.Services.AddScoped<IAdminRepo, AdminRepo>();
+            builder.Services.AddScoped<IHotelDiningRepo, HotelDiningRepo>();
+            builder.Services.AddScoped<IHotelExperienceRepo, HotelExperienceRepo>();
+            builder.Services.AddScoped<IHotelFloorRepo, HotelFloorRepo>();
+            builder.Services.AddScoped<IHotelRoomRepo, HotelRoomRepo>();
+            builder.Services.AddScoped<IBookingDiningRepo, BookingDiningRepo>();
+            builder.Services.AddScoped<IBookingPrivateRetreatRepo, BookingPrivateRetreatRepo>();
+            builder.Services.AddScoped<IBookingRoomRepo, BookingRoomRepo>();
+            builder.Services.AddScoped<IDiningRepo, DiningRepo>();
+            builder.Services.AddScoped<IExperienceRepo, ExperienceRepo>();
+            builder.Services.AddScoped<IGuestRepo, GuestRepo>();
+            builder.Services.AddScoped<IHotelOfferRepo, HotelOfferRepo>();
+            builder.Services.AddScoped<IHotelReviewRepo, HotelReviewRepo>();
+            builder.Services.AddScoped<IHotelRoomTypeRepo, HotelRoomTypeRepo>();
+            builder.Services.AddScoped<IOfferRepo, OfferRepo>();
+            builder.Services.AddScoped<IPrExperienceRepo, PrExperienceRepo>();
+            builder.Services.AddScoped<IPrivateRetreatRepo, PrivateRetreatRepo>();
+            builder.Services.AddScoped<IPrOfferRepo, PrOfferRepo>();
+            builder.Services.AddScoped<IPrReviewRepo, PrReviewRepo>();
+            builder.Services.AddScoped <IHotelRepo, HotelRepo>();
 
-           // builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
 
             var app = builder.Build();
 
