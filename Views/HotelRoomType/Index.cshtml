@@ -4,109 +4,58 @@
     ViewData["Title"] = "Room Type";
     Layout = "_Index";
 }
-@*
-<h1>Index</h1>
 
- <p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="breadcrumb-section">
+   <div class="container">
+     <h3>Room Type Data</h3>
+
+<form asp-action="Index" asp-controller="HotelRoomType" method="get">
+    <div class="row input-group">
+        <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
+    </div>
+</form>
+
+<br />
+<a class="btn btn-success" href="/HotelRoomType/New">New</a>
+<br />
+<br />
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Bed Count</th>
+        <th>Bath Count</th>
+        <th>Max.Guest/Room</th>
+        <th>Price</th>
+        <th>Area</th>
+        <th>View</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Images)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BedCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BathCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxGuestCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Area)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BedType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.View)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Decor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UniqueFeatures)
-            </th>
-            <th></th>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td><img src="/Images/RoomType/@item.Images" style="width:100px" /></td>
+            <td>@item.BedCount</td>
+            <td>@item.BathCount</td>
+            <td>@item.MaxGuestCount</td>
+            <td>@item.Price</td>
+            <td>@item.Area</td>
+            <td>@item.View</td>
+            <td><a href="/Instructor/Details?id=@item.Id">Details</a></td>
+            <td><a class="btn btn-success" href="/HotelRoomType/Edit/@item.Id">Edit</a></td>
+            <td><a class="btn btn-danger" href="/HotelRoomType/Delete/@item.Id">Delete</a></td>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Images)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BedCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BathCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxGuestCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Area)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BedType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.View)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Decor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UniqueFeatures)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table> *@
-<!-- Breadcrumb Section Begin -->
+    }
+</table>
+  </div>
+</div>
+ 
+
+@* <!-- Breadcrumb Section Begin -->
 
 <div class="breadcrumb-section">
     <div class="container">
@@ -158,3 +107,6 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section> *@
