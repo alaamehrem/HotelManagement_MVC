@@ -1,5 +1,6 @@
 ﻿using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement_MVC.Repository
 {
@@ -21,10 +22,6 @@ namespace HotelManagement_MVC.Repository
             return context.HotelRoomTypes.FirstOrDefault(r => r.Id == Id);
         }
 
-        //public List<HotelRoom> GetByRoomTypeId(int roomTypeId)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void Insert(HotelRoomType obj)
         {

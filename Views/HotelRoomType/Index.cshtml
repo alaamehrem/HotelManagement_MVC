@@ -1,10 +1,26 @@
-﻿@model IEnumerable<HotelManagement_MVC.Models.HotelRoomType>
+﻿@model IEnumerable<HotelRoomType>
 
 @{
     ViewData["Title"] = "Room Type";
     Layout = "_Index";
 }
 
+<!-- Breadcrumb Section Begin -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <h2>Room types</h2>
+                    <div class="bt-option">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Rooms Types</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="breadcrumb-section">
    <div class="container">
      <h3>Room Type Data</h3>
@@ -30,6 +46,7 @@
         <th>Price</th>
         <th>Area</th>
         <th>View</th>
+        <th>Details</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -45,7 +62,7 @@
             <td>@item.Price</td>
             <td>@item.Area</td>
             <td>@item.View</td>
-            <td><a href="/Instructor/Details?id=@item.Id">Details</a></td>
+            <td><a href="/HotelRoomType/Details?id=@item.Id">Details</a></td>
             <td><a class="btn btn-success" href="/HotelRoomType/Edit/@item.Id">Edit</a></td>
             <td><a class="btn btn-danger" href="/HotelRoomType/Delete/@item.Id">Delete</a></td>
         </tr>
