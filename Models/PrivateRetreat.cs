@@ -9,7 +9,7 @@ namespace HotelManagement_MVC.Models
         public string Description { get; set; }
         public string Images { get; set; }
         public string Location { get; set; }
-        public List<BookingPrivateRetreat> BookingPrivateRetreat { get; set; }
+        public List<BookingPrivateRetreat>? BookingPrivateRetreat { get; set; }
         public int BedCount { get; set; }
         public int BathCount { get; set; }
         public int MaxGuestCount { get; set; }

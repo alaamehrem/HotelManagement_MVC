@@ -1,6 +1,6 @@
 ﻿namespace HotelManagement_MVC.Repository
 {
-    public class RoomRepositary
+    public class GuestRepo
     {
     }
 }

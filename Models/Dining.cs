@@ -8,6 +8,6 @@ namespace HotelManagement_MVC.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Images { get; set; }
-        public List<BookingDining> BookingDinings { get; set; }
+        public List<BookingDining>? BookingDinings { get; set; }
     }
 }
