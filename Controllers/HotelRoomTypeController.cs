@@ -53,5 +53,17 @@ namespace HotelManagement_MVC.Controllers
 
             return View("New", hotelRoomType);
         }
+
+        [HttpPost]
+        public IActionResult SaveNew(HotelRoomType hotelRoomType)
+        {
+            if (hotelRoomType.Name != null)
+            {
+                HotelRoomTypeRepo.Insert(hotelRoomType);
+                HotelRoomTypeRepo.Save();
+                return RedirectToAction("Index", "HotelRoomType");
+            }
+            return View("New", hotelRoomType);
+        }
     }
 }
