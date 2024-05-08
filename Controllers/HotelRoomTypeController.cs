@@ -110,7 +110,7 @@ namespace HotelManagement_MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveEdit(HotelRoomType hotelRoomTypeReq, IFormFile FileImages)
+        public IActionResult SaveEdit(HotelRoomType hotelRoomTypeReq, IFormFile? FileImages)
         {
             if (ModelState.IsValid)
             {
@@ -136,17 +136,22 @@ namespace HotelManagement_MVC.Controllers
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         FileImages.CopyTo(stream);
+
                     }
 
                     // Set the file path to the Images property of the roomType object
                     hotelRoomTypeReq.Images = FileImages.FileName;
-                }
 
-                hotelRoomTypeDb.Images = hotelRoomTypeReq.Images;
+                    hotelRoomTypeDb.Images = hotelRoomTypeReq.Images;
+                }
+                else
+                {
+                    hotelRoomTypeReq.Images = hotelRoomTypeDb.Images;
+                }
 
                 HotelRoomTypeRepo.Update(hotelRoomTypeDb);
                 HotelRoomTypeRepo.Save();
-                return View("Index", "HotelRoomType");
+                return RedirectToAction("Index", "HotelRoomType");
             }
             return View("Edit", hotelRoomTypeReq);
         }

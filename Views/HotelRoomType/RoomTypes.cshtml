@@ -24,10 +24,11 @@
 <!-- Rooms Section Begin -->
    
 <section class="rooms-section spad">
-    <div class="container">
+    <div class="container" >
         <form asp-action="RoomTypes" asp-controller="HotelRoomType" method="get">
             <div class="row input-group">
                 <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
+                <input type="submit" value="Search" class="btn btn-primary" />
             </div>
         </form>
         <br />
@@ -55,8 +56,12 @@
                                         <td>@item.BedCount</td>
                                     </tr>
                                     <tr>
-                                        <td class="r-o">UniqueFeatures: </td>
-                                        <td>@item.UniqueFeatures </td>
+                                        <td class="r-o">Bath Room: </td>
+                                        <td>@item.BathCount </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="r-o">View:  </td>
+                                        <td>@item.View </td>
                                     </tr>
                                 </tbody>
                             </table>

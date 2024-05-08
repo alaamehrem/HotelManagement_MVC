@@ -1,4 +1,4 @@
-﻿@model HotelManagement_MVC.Models.HotelRoomType
+﻿@model HotelRoomType
 
 @{
     ViewData["Title"] = "Edit";
@@ -28,7 +28,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-            <form method="post" action="/HotelRoomType/SaveEdit/@Model.Id,FileImages=@Model.Images">
+            <form method="post" action="/HotelRoomType/SaveEdit/@Model.Id" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
@@ -47,6 +47,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Images" class="control-label"></label>
+                <img src="/Images/RoomType/@Model.Images" alt="">
                 <input Name="FileImages" type="file" class="form form-control" style="border:none; outline:none;" />
                 <span asp-validation-for="Images" class="text-danger"></span>
             </div>
