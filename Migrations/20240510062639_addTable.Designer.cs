@@ -4,6 +4,7 @@ using HotelManagement_MVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagement_MVC.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    partial class HotelContextModelSnapshot : ModelSnapshot
+    [Migration("20240510062639_addTable")]
+    partial class addTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,13 +180,13 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ExperienceId")
-                        .HasColumnType("int");
-
                     b.Property<int>("GuestId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumAdults")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<string>("SpecialRequest")
@@ -193,8 +196,6 @@ namespace HotelManagement_MVC.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExperienceId");
 
                     b.HasIndex("GuestId");
 
@@ -287,19 +288,7 @@ namespace HotelManagement_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Duration")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Price")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -659,10 +648,6 @@ namespace HotelManagement_MVC.Migrations
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingExperience", b =>
                 {
-                    b.HasOne("HotelManagement_MVC.Models.Experience", null)
-                        .WithMany("BookingExperiences")
-                        .HasForeignKey("ExperienceId");
-
                     b.HasOne("HotelManagement_MVC.Models.Guest", "Guest")
                         .WithMany()
                         .HasForeignKey("GuestId")
@@ -783,11 +768,6 @@ namespace HotelManagement_MVC.Migrations
             modelBuilder.Entity("HotelManagement_MVC.Models.Dining", b =>
                 {
                     b.Navigation("BookingDinings");
-                });
-
-            modelBuilder.Entity("HotelManagement_MVC.Models.Experience", b =>
-                {
-                    b.Navigation("BookingExperiences");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelRoom", b =>

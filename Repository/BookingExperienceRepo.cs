@@ -3,10 +3,10 @@ using HotelManagement_MVC.Models;
 
 namespace HotelManagement_MVC.Repository
 {
-    public class PrReviewRepo : IPrReviewRepo
+    public class BookingExperienceRepo : IBookingExperienceRepo
     {
         public HotelContext context;
-        public PrReviewRepo(HotelContext _context)
+        public BookingExperienceRepo(HotelContext _context)
         {
             context = _context;
         }
