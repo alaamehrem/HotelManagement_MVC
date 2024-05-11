@@ -25,6 +25,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="ViewModel\" />
     <Folder Include="ViewModel\" />
+    <Folder Include="wwwroot\Images\Experience\" />
   </ItemGroup>
 
 </Project>
