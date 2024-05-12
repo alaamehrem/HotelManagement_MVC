@@ -127,29 +127,29 @@ namespace HotelManagement_MVC.Controllers
                 hotelRoomTypeDb.Description = hotelRoomTypeReq.Description;
                 hotelRoomTypeDb.View = hotelRoomTypeReq.View;
 
-                ViewData["ImageFileName"] = hotelRoomTypeDb.Images;
+                //ViewData["ImageFileName"] = hotelRoomTypeDb.Images;
 
-                //if (FileImages != null && FileImages.Length > 0)
-                //{
-                //    // Path to save the file in the wwwroot/uploads directory
-                //    var filePath = Path.Combine(webHostEnvironment.WebRootPath, "Images/RoomType/", FileImages.FileName);
+                if (FileImages != null && FileImages.Length > 0)
+                {
+                    // Path to save the file in the wwwroot/uploads directory
+                    var filePath = Path.Combine(webHostEnvironment.WebRootPath, "Images/RoomType/", FileImages.FileName);
 
-                //    // Save the file to the specified path
-                //    using (var stream = new FileStream(filePath, FileMode.Create))
-                //    {
-                //        FileImages.CopyTo(stream);
+                    // Save the file to the specified path
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        FileImages.CopyTo(stream);
 
-                //    }
+                    }
 
-                //    // Set the file path to the Images property of the roomType object
-                //    hotelRoomTypeReq.Images = FileImages.FileName;
+                    // Set the file path to the Images property of the roomType object
+                    hotelRoomTypeReq.Images = FileImages.FileName;
 
-                //    hotelRoomTypeDb.Images = hotelRoomTypeReq.Images;
-                //}
-                //else
-                //{
-                //    hotelRoomTypeReq.Images = hotelRoomTypeDb.Images;
-                //}
+                    hotelRoomTypeDb.Images = hotelRoomTypeReq.Images;
+                }
+                else
+                {
+                    hotelRoomTypeReq.Images = hotelRoomTypeDb.Images;
+                }
 
                 HotelRoomTypeRepo.Update(hotelRoomTypeDb);
                 HotelRoomTypeRepo.Save();

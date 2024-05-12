@@ -82,7 +82,35 @@ namespace HotelManagement_MVC.Models
                 Images = "MAU_2025_original.jpg",
                 Duration = "3 HOURS",
                 Price = 8000,
-                TimeOfDay = "EVENING"});
+                TimeOfDay = "EVENING"}
+            );
+
+            modelBuilder.Entity<Offer>().HasData(
+              new Offer()
+              {
+                  Id = 1,
+                  OfferName = "Breakfast Only",
+                  OfferDescription = "Start your day with our mouthwatering breakfast options",
+                  OfferImage = "breakfast.jpg",
+                  OfferPrice = 250
+              },
+              new Offer()
+              {
+                  Id = 2,
+                  OfferName = "Lunch Only",
+                  OfferDescription = "Indulge in our savory lunch specials that will tantalize your taste buds",
+                  OfferImage = "lunch.jpg",
+                  OfferPrice = 300
+              },
+              new Offer()
+              {
+                  Id = 3,
+                  OfferName = "Both Breakfast and Lunch",
+                  OfferDescription = "Experience the ultimate culinary journey with our delicious breakfast and lunch combo",
+                  OfferImage = "combo.jpg",
+                  OfferPrice = 500
+              }
+              );
 
 
             base.OnModelCreating(modelBuilder);
