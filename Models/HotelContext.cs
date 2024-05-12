@@ -12,6 +12,7 @@ namespace HotelManagement_MVC.Models
         public DbSet<BookingRoom> BookingRooms { get; set; }
         public DbSet<Dining> Dinings { get; set; }
         public DbSet<Experience> Experiences { get; set; }
+        public DbSet<ExperienceType> ExperienceTypes { get; set; }
         public DbSet<BookingExperience> BookingExperiences { get; set; }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<HotelRoom> HotelRooms { get; set; }

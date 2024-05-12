@@ -23,9 +23,9 @@
 <br />
 <!-- Breadcrumb Section End -->
 
-@* <!-- Blog Section Begin -->
+<!-- Blog Section Begin -->
 <div class="container">
-    <h3>Are you sure you want to delete room type @Model.Name?</h3>
+    <h3>Are you sure you want to delete Experience @Model.Name?</h3>
     <div>
         <hr />
         <dl class="row">
@@ -42,34 +42,28 @@
                 @Model.Name
             </dd>
             <dt class="col-sm-2">
+                <label asp-for="Image"> </label>
+            </dt>
+            <dd class="col-sm-10">
+                <img src="/Images/RoomType/@Model.Image" alt="">
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="CoverImage"> </label>
+            </dt>
+            <dd class="col-sm-10">
+                <img src="/Images/RoomType/@Model.CoverImage" alt="">
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="Type"> </label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Type.Name
+            </dd>
+            <dt class="col-sm-2">
                 <label asp-for="Description"> </label>
             </dt>
             <dd class="col-sm-10">
                 @Model.Description
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="Images"> </label>
-            </dt>
-            <dd class="col-sm-10">
-                <img src="/Images/RoomType/@Model.Images" alt="">
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="BedCount"> </label>
-            </dt>
-            <dd class="col-sm-10">
-                @Model.BedCount
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="BathCount"> </label>
-            </dt>
-            <dd class="col-sm-10">
-                @Model.BathCount
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="MaxGuestCount"> </label>
-            </dt>
-            <dd class="col-sm-10">
-                @Model.MaxGuestCount
             </dd>
             <dt class="col-sm-2">
                 <label asp-for="Price"> </label>
@@ -78,40 +72,17 @@
                 @Model.Price
             </dd>
             <dt class="col-sm-2">
-                <label asp-for="Area"> </label>
+                <label asp-for="Duration"> </label>
             </dt>
             <dd class="col-sm-10">
-                @Model.Area
+                @Model.Duration
             </dd>
-            <dt class="col-sm-2">
-                <label asp-for="BedType"> </label>
-            </dt>
-            <dd class="col-sm-10">
-                @Model.BedType
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="View"> </label>
-            </dt>
-            <dd class="col-sm-10">
-                @Model.View
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="Decor">Decoration</label>
-            </dt>
-            <dd class="col-sm-10">
-                @Model.Decor
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="UniqueFeatures"> </label>
-            </dt>
-            <dd class="col-sm-10">
-                @Model.UniqueFeatures
-            </dd>
-        </dl> *@
+           
+        </dl>
 
-        <form method="post" action="/HotelRoomType/ConfirmDelete/@Model.Id">
+        <form method="post" action="/Experience/ConfirmDelete/@Model.Id">
             <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a asp-action="Index" asp-controller="HotelRoomType">Back to List</a>
+            <a asp-action="Index" asp-controller="Experience" class="b-tag">Back to List</a>
         </form>
     </div>
 </div>

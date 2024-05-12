@@ -1,8 +1,10 @@
 ﻿using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
+using HotelManagement_MVC.ViewModel;
 using HotelManagement_MVC.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace HotelManagement_MVC.Controllers
 {
@@ -30,13 +32,27 @@ namespace HotelManagement_MVC.Controllers
             {
                 ExperienceList = ExperienceRepo.GetAll();
             }
+
+            //List<ExperienceWithTypesViewModel> listexperienceVM = new List<ExperienceWithTypesViewModel>();
+            //foreach (var experience in ExperienceList)
+            //{
+            //    ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
+            //    experienceVM.ExperienceId = experience.Id;
+            //    experienceVM.Type= experience.Type;
+            //    experienceVM.Price = experience.Price;
+            //    experienceVM.CoverImage = experience.CoverImage;
+            //    experienceVM.Image = experience.Image;
+            //    listexperienceVM.Add(experienceVM);
+            //}
+
+            //experienceVM.Experiences = ExperienceList;
+
             return View("Index", ExperienceList);
         }
 
         public IActionResult Experiences(string search)
         {
             List<Experience> ExperienceList;
-
             if (!string.IsNullOrEmpty(search))
             {
                 ExperienceList = ExperienceRepo.Search(search);
@@ -45,6 +61,9 @@ namespace HotelManagement_MVC.Controllers
             {
                 ExperienceList = ExperienceRepo.GetAll();
             }
+            ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
+            experienceVM.Experiences = ExperienceList;
+
             return View("Experiences", ExperienceList);
         }
 
@@ -56,7 +75,7 @@ namespace HotelManagement_MVC.Controllers
         }
 
         //new
-        [HttpGet]
+        [HttpGet] 
         public IActionResult New()
         {
             Experience ExperienceNew = new Experience();
