@@ -26,12 +26,12 @@
 <form asp-action="Index" asp-controller="HotelRoomType" method="get">
     <div class="row input-group">
         <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
-        <input type="submit" value="Search" class="btn btn-primary" />
+            <input type="submit" value="Search" class="btn btn-primary" style="background-color: #DFA974; border:none" />
     </div>
 </form>
 
 <br />
-<a class="btn btn-success" href="/HotelRoomType/New">New</a>
+    <a class="btn btn-success" style="background-color: #DFA974; border:none" href="/HotelRoomType/New">New</a>
 <br />
 <br />
 <table class="table table-bordered table-hover">
@@ -62,7 +62,7 @@
             <td>@item.Area</td>
             <td>@item.View</td>
             <td><a href="/HotelRoomType/Details?id=@item.Id">Details</a></td>
-            <td><a class="btn btn-success" href="/HotelRoomType/Edit/@item.Id">Edit</a></td>
+                <td><a class="btn btn-success" style="background-color: #DFA974; border:none" href="/HotelRoomType/Edit/@item.Id">Edit</a></td>
             <td><a class="btn btn-danger" href="/HotelRoomType/Delete/@item.Id">Delete</a></td>
         </tr>
     }
