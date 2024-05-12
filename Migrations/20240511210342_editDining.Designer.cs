@@ -4,6 +4,7 @@ using HotelManagement_MVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagement_MVC.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    partial class HotelContextModelSnapshot : ModelSnapshot
+    [Migration("20240511210342_editDining")]
+    partial class editDining
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,10 +349,6 @@ namespace HotelManagement_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CoverImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -370,39 +369,9 @@ namespace HotelManagement_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Requirements")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("instructions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TypeId");
 
                     b.ToTable("Experiences");
-                });
-
-            modelBuilder.Entity("HotelManagement_MVC.Models.ExperienceType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ExperienceTypes");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.Guest", b =>
@@ -796,17 +765,6 @@ namespace HotelManagement_MVC.Migrations
                     b.Navigation("Offer");
                 });
 
-            modelBuilder.Entity("HotelManagement_MVC.Models.Experience", b =>
-                {
-                    b.HasOne("HotelManagement_MVC.Models.ExperienceType", "Type")
-                        .WithMany("Experiences")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Type");
-                });
-
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelReview", b =>
                 {
                     b.HasOne("HotelManagement_MVC.Models.Guest", "Guest")
@@ -896,11 +854,6 @@ namespace HotelManagement_MVC.Migrations
             modelBuilder.Entity("HotelManagement_MVC.Models.Experience", b =>
                 {
                     b.Navigation("BookingExperiences");
-                });
-
-            modelBuilder.Entity("HotelManagement_MVC.Models.ExperienceType", b =>
-                {
-                    b.Navigation("Experiences");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelRoom", b =>

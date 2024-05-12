@@ -42,6 +42,47 @@ namespace HotelManagement_MVC.Models
                 Decor = "Modern decor with elegant touches",
                 UniqueFeatures = "Spacious corner room with abundant natural light, High-end furnishings and decor, Marble bathroom with luxurious jacuzzi bathtub, Complimentary high-speed Wi-Fi, In-room dining available 24/7, Personalized concierge service for all your needs."
             });
+            modelBuilder.Entity<Dining>().HasData(new Dining()
+            {
+                Id = 1,
+                Name = "ONCE IN A BLUE MOON",
+                Description = "Picture an elegant table for two, sheltered by palm trees and serenaded by gentle ocean waves. Our team of chefs will prepare a special menu, paired with fine wines and served by your own private attendant. Toes in the sand, glimmering candles and tiki torches make for an incredibly romantic evening.",
+                Images = "KOH_1450_original.jpg",
+                Duration = "3 HOURS",
+                Price = 5000,
+                TimeOfDay = "EVENING"
+            }, new Dining(){
+                Id = 2,
+                Name = "VIRADOR EXPERIENCE",
+                Description = "Framed by towering palm trees, pristine white sand and the gentle waves of the Pacific Ocean, linger over creative cocktails while the sun sinks gently into the ocean. Then dine barefoot with the sand between your toes, at your very own private table on the beach.",
+                Images = "COS_2047_original.jpg",
+                Duration = "4 HOURS",
+                Price = 7000,
+                TimeOfDay = "MORNING, AFTERNOON, EVENING"
+            }, new Dining(){
+                Id = 3,
+                Name = "COUPLES DINING EXPERIENCE",
+                Description = "An intimate dining experience for couples who wish to spend a special evening with toes in the sand as the sun sets and the stars come out. The scene is set for romance with Ruinart Rose, flowers and a private server, as you enjoy a personally curated four course menu highlighting local ingredients.",
+                Images = "KON_1192_original.jpg",
+                Duration = "2 HOURS",
+                Price = 6000,
+                TimeOfDay = "EVENING"
+            }, new Dining(){
+                Id = 4,
+                Name = "DINING UNDER THE STARS",
+                Description = "Before the sun begins to set, take a seat at a private table for two overlooking Hulopoe Bay. As evening descends, enjoy a Champagne welcome followed by a customized menu prepared just for you in consultation with our expert chefs.",
+                Images = "KON_1192_original.jpg",
+                Duration = "3 HOURS",
+                Price = 8000,
+                TimeOfDay = "EVENING"
+            }, new Dining(){
+                Id = 5,
+                Name = "WAILEA POINT PRIVATE DINING",
+                Description = "A custom gourmet dinner prepared exclusively by our chef, with cocktails or wines selected by our sommelier and served by your own personal waiter on a private grassy knoll overlooking Wailea Beach.",
+                Images = "MAU_2025_original.jpg",
+                Duration = "3 HOURS",
+                Price = 8000,
+                TimeOfDay = "EVENING"});
 
 
             base.OnModelCreating(modelBuilder);

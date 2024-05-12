@@ -10,5 +10,43 @@ namespace HotelManagement_MVC.Repository
         {
             context = _context;
         }
+        public List<BookingDining> GetAll()
+        {
+            return context.BookingDinings.ToList();
+        }
+
+        public BookingDining GetById(int Id)
+        {
+            return context.BookingDinings.FirstOrDefault(d => d.Id == Id);
+        }
+
+
+        public void Insert(BookingDining obj)
+        {
+            context.Add(obj);
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
+        }
+
+        public List<BookingDining> Search(string search)
+        {
+            return context.BookingDinings
+                    .Where(d => d.GuestId == int.Parse(search))
+                    .ToList();
+        }
+
+        public void Update(Dining obj)
+        {
+            context.Update(obj);
+        }
+
+        public void Delete(int Id)
+        {
+            BookingDining bookingDining = GetById(Id);
+            context.Remove(bookingDining);
+        }
     }
 }
