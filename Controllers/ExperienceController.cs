@@ -65,20 +65,32 @@ namespace HotelManagement_MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveNew(Experience experiencenew, IFormFile FileImages)
+        public IActionResult SaveNew(Experience experiencenew, IFormFile FileImage, IFormFile FileCoverImage)
         {
             if (ModelState.IsValid)
             {
-                if (FileImages != null && FileImages.Length > 0)
+                if (FileImage != null && FileImage.Length > 0)
                 {
-                    var filePath = Path.Combine(WebHostEnvironment.WebRootPath, "Images/Experience/", FileImages.FileName);
+                    var imageFilePath = Path.Combine(WebHostEnvironment.WebRootPath, "Images/Experience/", FileImage.FileName);
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    using (var stream = new FileStream(imageFilePath, FileMode.Create))
                     {
-                        FileImages.CopyTo(stream);
+                        FileImage.CopyTo(stream);
                     }
 
-                    experiencenew.Image = FileImages.FileName;
+                    experiencenew.Image = FileImage.FileName;
+                }
+
+                if (FileCoverImage != null && FileCoverImage.Length > 0)
+                {
+                    var coverImageFilePath = Path.Combine(WebHostEnvironment.WebRootPath, "Images/Experience/", FileCoverImage.FileName);
+
+                    using (var stream = new FileStream(coverImageFilePath, FileMode.Create))
+                    {
+                        FileCoverImage.CopyTo(stream);
+                    }
+
+                    experiencenew.CoverImage = FileCoverImage.FileName;
                 }
 
                 ExperienceRepo.Insert(experiencenew);
@@ -90,6 +102,33 @@ namespace HotelManagement_MVC.Controllers
             return View("New", experiencenew);
         }
 
+        //[HttpPost]
+        //public IActionResult SaveNew(Experience experiencenew, IFormFile FileImages)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (FileImages != null && FileImages.Length > 0)
+        //        {
+        //            var filePath = Path.Combine(WebHostEnvironment.WebRootPath, "Images/Experience/", FileImages.FileName);
+
+        //            using (var stream = new FileStream(filePath, FileMode.Create))
+        //            {
+        //                FileImages.CopyTo(stream);
+        //            }
+
+        //            experiencenew.Image = FileImages.FileName;
+        //            experiencenew.CoverImage = FileImages.FileName;
+        //        }
+
+        //        ExperienceRepo.Insert(experiencenew);
+        //        ExperienceRepo.Save();
+
+        //        return RedirectToAction("Index", "Experience");
+        //    }
+
+        //    return View("New", experiencenew);
+        //}
+
         //edit
         public IActionResult Edit(int id)
         {
@@ -98,7 +137,7 @@ namespace HotelManagement_MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveEdit(Experience ExperienceReq, IFormFile? FileImages)
+        public IActionResult SaveEdit(Experience ExperienceReq, IFormFile? FileImage, IFormFile? FileCoverImage)
         {
             if (ModelState.IsValid)
             {
@@ -108,8 +147,11 @@ namespace HotelManagement_MVC.Controllers
                 ExperienceDb.Price = ExperienceReq.Price;  
                 ExperienceDb.Duration = ExperienceReq.Duration;
                 ExperienceDb.Image = ExperienceReq.Image;
+                ExperienceDb.CoverImage = ExperienceReq.CoverImage; 
+                ExperienceDb.Type = ExperienceReq.Type;
 
                 ViewData["ImageFileName"] = ExperienceDb.Image;
+                ViewData["CoverImageFileName"] = ExperienceDb.CoverImage;
 
 
                 ExperienceRepo.Update(ExperienceDb);
