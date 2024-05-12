@@ -61,8 +61,8 @@ namespace HotelManagement_MVC.Controllers
             {
                 ExperienceList = ExperienceRepo.GetAll();
             }
-            ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
-            experienceVM.Experiences = ExperienceList;
+            //ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
+            //experienceVM.Experiences = ExperienceList;
 
             return View("Experiences", ExperienceList);
         }
@@ -78,9 +78,11 @@ namespace HotelManagement_MVC.Controllers
         [HttpGet] 
         public IActionResult New()
         {
-            Experience ExperienceNew = new Experience();
-
-            return View("New", ExperienceNew);
+            //Experience ExperienceNew = new Experience();
+            List<Experience> ExperienceList = ExperienceRepo.GetAll();
+            ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel(); 
+            experienceVM.Experiences = ExperienceList;
+            return View("New", experienceVM);
         }
 
         [HttpPost]

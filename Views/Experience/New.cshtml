@@ -1,5 +1,6 @@
-﻿@model Experience
-
+﻿@* @model Experience
+ *@
+ @model ExperienceWithTypesViewModel
 @{
     ViewData["Title"] = "New";
     Layout = "_Index";
@@ -31,8 +32,8 @@
         <br />
         <form asp-action="SaveNew" asp-controller="Experience" method="post" enctype="multipart/form-data">
             <div>
-                <label asp-for="Name"> </label>
-                <input asp-for="Name" class="form form-control" />
+                <label asp-for="ExperienceName"> </label>
+                <input asp-for="ExperienceName" class="form form-control" />
             </div>
             <div>
                 <label asp-for="Image"> </label>
@@ -48,7 +49,7 @@
                 <label asp-for="Type"> </label>
                 <br />
                 <select name="Type" id="Type" class="form form-control">
-                    @if (Model.Type != null && Model.Type.Experiences != null)
+@*                     @if (Model.Type != null && Model.Type.Experiences != null)
                     {
                         foreach (var typeItem in Model.Type.Experiences)
                         {
@@ -65,7 +66,32 @@
                     else
                     {
                         <option value="">No Types Available</option>
+                    } *@
+                    
+@*                     @foreach (var Item in Model.Experiences)
+                    {
+                        if (Model.TypeId == Item.TypeId && Model.ExperienceId != Item.Id)
+                        {
+                            <option value="@Item.TypeId" selected>@Item.Type.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@Item.TypeId"> @Item.Type.Name </option>
+                        }
+                    } *@
+
+                    @{
+                        var addedTypeIds = new List<int>(); 
                     }
+                    @foreach (var Item in Model.Experiences)
+                    {
+                        if (!addedTypeIds.Contains(Item.TypeId))
+                        {
+                            <option value="@Item.TypeId"> @Item.Type.Name </option>
+                            addedTypeIds.Add(Item.TypeId); 
+                        }
+                    }
+
                 </select>
             </div>
             <br />
