@@ -18,7 +18,7 @@ namespace HotelManagement_MVC.Repository
 
         public Experience GetById(int Id)
         {
-            return context.Experiences.FirstOrDefault(r => r.Id == Id);
+            return context.Experiences.Include(i => i.Type).FirstOrDefault(r => r.Id == Id);
         }
 
 
@@ -35,7 +35,7 @@ namespace HotelManagement_MVC.Repository
         public List<Experience> Search(string search)
         {
             return context.Experiences
-                    .Where(i => i.Name.Contains(search))
+                    .Where(i => i.Name.Contains(search)).Include(i => i.Type)
                     .ToList();
         }
 
