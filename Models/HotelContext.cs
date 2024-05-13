@@ -110,7 +110,7 @@ namespace HotelManagement_MVC.Models
                   OfferImage = "combo.jpg",
                   OfferPrice = 500
               }
-              );
+              );         
 
 
             base.OnModelCreating(modelBuilder);
