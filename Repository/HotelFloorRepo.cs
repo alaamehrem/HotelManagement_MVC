@@ -10,5 +10,10 @@ namespace HotelManagement_MVC.Repository
         {
             context = _context;
         }
+
+        public List<HotelFloor> GetAll()
+        {
+           return context.HotelFloors.ToList();
+        }
     }
 }

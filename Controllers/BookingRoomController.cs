@@ -9,10 +9,19 @@ namespace HotelManagement_MVC.Controllers
     public class BookingRoomController : Controller
     {
         private readonly IBookingRoomRepo bookingRoomRepo;
+        private readonly IOfferRepo offerRepo;
+        private readonly IHotelRoomRepo hotelRoomRepo;
+        private readonly IHotelRoomTypeRepo hotelRoomTypeRepo;
+        private readonly IHotelFloorRepo hotelFloorRepo;
 
-        public BookingRoomController(IBookingRoomRepo bookingRoomRepo)
+        public BookingRoomController(IBookingRoomRepo bookingRoomRepo,IOfferRepo offerRepo,
+            IHotelRoomRepo hotelRoomRepo,IHotelRoomTypeRepo hotelRoomTypeRepo,IHotelFloorRepo hotelFloorRepo)
         {
             this.bookingRoomRepo = bookingRoomRepo;
+            this.offerRepo = offerRepo;
+            this.hotelRoomRepo = hotelRoomRepo;
+            this.hotelRoomTypeRepo = hotelRoomTypeRepo;
+            this.hotelFloorRepo = hotelFloorRepo;
         }
 
 
@@ -20,8 +29,10 @@ namespace HotelManagement_MVC.Controllers
         public IActionResult BookingRoom()
         {
             BookingRoom bookingRoom = new BookingRoom();
-
-            return View("BookingRoom", bookingRoom);
+            ViewData["OfferList"] = offerRepo.GetAll();
+            ViewData["FloorList"] = hotelFloorRepo.GetAll();
+            ViewData["RoomTypeList"] = hotelRoomTypeRepo.GetAll();
+            return View("BookingRoom",bookingRoom);
         }
 
         [HttpPost]
@@ -34,7 +45,9 @@ namespace HotelManagement_MVC.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
-
+            ViewData["OfferList"] = offerRepo.GetAll();
+            ViewData["FloorList"] = hotelFloorRepo.GetAll();
+            ViewData["RoomTypeList"] = hotelRoomTypeRepo.GetAll();
             return View("BookingRoom", bookingRoom);
         }
     }
