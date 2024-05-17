@@ -1,4 +1,4 @@
-﻿@model Experience
+﻿@* @model Experience
 
 @{
     ViewData["Title"] = "Details";
@@ -15,166 +15,313 @@
                     <h2>@Model.Name</h2>
                     <ul>
                         <li class="b-time" style="color:white;background-color:#DFA974;"><i class="icon_clock_alt"></i> @Model.Duration</li>
-@*                         <li><i class="icon_profile"></i> Kerry Jones</li>
- *@                    </ul>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Blog Details Hero End -->
+
+<!-- Breadcrumb Section Begin -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <h2>Experience</h2>
+                    <div class="bt-option">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Experience Deatails</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Section End -->
+
 <!-- Blog Details Section Begin -->
-<section class="blog-details-section">
+<section class="room-details-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="room-details-item">
+                    <img src="/Images/Experience/@Model.Image" alt="">
+                    <div class="rd-text">
+                        <div class="rd-title">
+                            <h3>@Model.Name</h3>
+                            <div class="rdt-right">
+                                <div class="rating">
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star-half_alt"></i>
+                                </div>
+                                <a href="#">Booking Now</a>
+                            </div>
+                        </div>
+                        <h2>@Model.Price<span>/PerPerson</span></h2>
+                       
+                        <p class="f-para">
+                            <h3 style="color:#DFA974; ">Discreption</h3>
+                           @Model.Description
+                        </p>
+                        <p class="f-para">
+                            <h3 style="color:#DFA974; ">Requirements</h3>
+                            <ul id="requirements">
+                            </ul>
+                        </p>
+                        <p class="f-para">
+                            <h3 style="color:#DFA974; ">instructions</h3>
+                            @Model.instructions
+                        </p>
+                    </div>
+                    <td><a class=" btn btn-success" style="background-color: #DFA974; border:none" " href="/Experience/Experiences">Back to all experiences</a></td>
+
+                </div>
+                 </div>
+           
+
+            <div class="col-lg-4">
+                <div class="room-booking">
+                    <h3>Your Reservation</h3>
+                    <form action="#">
+                        <div class="check-date">
+                            <label for="date-in">Date:</label>
+                            <input type="text" class="date-input" id="date-in">
+                            <i class="icon_calendar"></i>
+                        </div>
+                 
+                        <div class="select-option">
+                            <label for="guest">Guests:</label>
+                            <select id="guest">
+                                <option value="">3 Adults</option>
+                            </select>
+                        </div>
+                        <button type="submit">Check Availability</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var requirementsDiv = document.getElementById("requirements");
+        var requirementsText = "@Model.Requirements";
+
+        if (requirementsDiv && requirementsText) {
+            var requirements = requirementsText.split('.').filter(function (item) {
+                return item.trim() !== '';
+            }).map(function (item) {
+                return item.trim();
+            });
+
+            requirementsDiv.innerHTML = requirements.map(function (item) {
+                return '<li>' + item + '.</li>';
+            }).join('');
+        }
+    });
+</script>
+ *@
+ @model Experience
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Index";
+}
+
+<!-- Blog Details Hero Section Begin -->
+<section class="blog-details-hero set-bg" data-setbg="/Images/Experience/@Model.CoverImage">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
-                <div class="blog-details-text">
-                    <div class="bd-title">
-                        <p>
-                            Thinking about overseas adventure travel? Have you put any thought into the best places
-                            to go when it comes to overseas adventure travel? Nepal is one of the most popular
-                            places of all, when you visit this magical country you will have the best adventures
-                            right there at your doorstep. Only overseas adventure travel in Nepal will give you
-                            these kinds of opportunities so if this is not on your list of possible places to visit
-                            yet then now is the time to put it on there!
+                <div class="bd-hero-text">
+                    <span>@Model.Type.Name</span>
+                    <h2>@Model.Name</h2>
+                    <ul>
+                        <li class="b-time" style="color:white;background-color:#DFA974;"><i class="icon_clock_alt"></i> @Model.Duration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Hero End -->
+<!-- Breadcrumb Section Begin -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <h2>Experience</h2>
+                    <div class="bt-option">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Experience Details</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Section End -->
+<!-- Blog Details Section Begin -->
+<section class="room-details-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="room-details-item">
+                    <img src="/Images/Experience/@Model.Image" alt="">
+                    <div class="rd-text">
+                        <div class="rd-title">
+                            <h3>@Model.Name</h3>
+                            <div class="rdt-right">
+                                <div class="rating">
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star-half_alt"></i>
+                                </div>
+                                <a href="#">Booking Now</a>
+                            </div>
+                        </div>
+                        <h2>@Model.Price<span>/PerPerson</span></h2>
+
+                        <p class="f-para">
+                            <h3 style="color:#DFA974;">Description</h3>
+                            @Model.Description
                         </p>
-                        <p>
-                            In Nepal your overseas adventure travel is going to be fascinating. You will get to see
-                            the Himalayan Mountains and experience all that the rich Nepalese culture has to offer.
-                            They are an amazing people who have managed to hang on to their own culture and beliefs
-                            longer than most other countries. When overseas adventure travel takes you to Nepal you
-                            will have the chance to see all of the fantastic and one of a kind lakes and forests and
-                            you can even spend days or weeks camping out in their forests with a specialized guide.
-                            And the waterfalls in Nepal are to die for, you will never see anything more gorgeous in
-                            your life as their waterfalls! This should be at the top of your overseas adventure
-                            travel destination list for sure!
+                        <p class="f-para">
+                            <h3 style="color:#DFA974;">Requirements</h3>
+                            <ul id="requirements">
+                            </ul>
                         </p>
+                        <p class="f-para">
+                            <h3 style="color:#DFA974;">Instructions</h3>
+                            @Model.instructions
+                        </p>
+                        <a class="btn btn-success" style="background-color: #DFA974; border:none" href="/Experience/Experiences">Back to all experiences</a>
+                        <br/>
+
                     </div>
-                    <div class="bd-pic">
-                        <div class="bp-item">
-                            <img src="/img/blog/blog-details/blog-details-1.jpg" alt="">
-                        </div>
-                        <div class="bp-item">
-                            <img src="/img/blog/blog-details/blog-details-2.jpg" alt="">
-                        </div>
-                        <div class="bp-item">
-                            <img src="/img/blog/blog-details/blog-details-3.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="bd-more-text">
-                        <div class="bm-item">
-                            <h4>If you live in New York City</h4>
-                            <p>
-                                You know all about the traffic there. Getting places is often next to impossible,
-                                even with the gazillion yellow cabs. If you’re like me you often look with envy at
-                                those shiny limousines with their unformed drivers and wish you could sit in one.
-                                Well, you can. New York limo service is more affordable than you think, whether it’s
-                                for Newark airport transportation, LaGuardia airport transportation, or to drive
-                                wherever you wish to go.
-                            </p>
-                        </div>
-                        <div class="bm-item">
-                            <h4>Every time I hail a cab in New York City</h4>
-                            <p>
-                                I hope I’ll be lucky enough to get one that’s halfway decent and that the driver
-                                actually speaks English. I have spent many anxious moments wondering if I ever get
-                                to my destination. Or whether I’d get ripped off. Even if all goes well, I can’t say
-                                I can remember many rides in New York cabs that were very pleasant. And given how
-                                much they cost by now, going with a limo makes ever more sense.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="tag-share">
-                        <div class="tags">
-                            <a href="#">Travel Trip</a>
-                            <a href="#">Camping</a>
-                            <a href="#">Event</a>
-                        </div>
-                        <div class="social-share">
-                            <span>Share:</span>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-tripadvisor"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        </div>
-                    </div>
-                    <div class="comment-option">
-                        <h4>2 Comments</h4>
-                        <div class="single-comment-item first-comment">
-                            <div class="sc-author">
-                                <img src="/img/blog/blog-details/avatar/avatar-1.jpg" alt="">
+                    <div class="rd-reviews">
+                        <h4>Reviews</h4>
+                        <div class="review-item">
+                            <div class="ri-pic">
+                                <img src="/img/room/avatar/avatar-1.jpg" alt="">
                             </div>
-                            <div class="sc-text">
+                            <div class="ri-text">
                                 <span>27 Aug 2019</span>
+                                <div class="rating">
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star-half_alt"></i>
+                                </div>
                                 <h5>Brandon Kelley</h5>
                                 <p>
                                     Neque porro qui squam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                    adipisci velit, sed quia non numquam eius modi tempora. incidunt ut labore et
-                                    dolore magnam.
+                                    adipisci velit, sed quia non numquam eius modi tempora. incidunt ut labore et dolore
+                                    magnam.
                                 </p>
-                                <a href="#" class="comment-btn">Like</a>
-                                <a href="#" class="comment-btn">Reply</a>
                             </div>
                         </div>
-                        <div class="single-comment-item reply-comment">
-                            <div class="sc-author">
-                                <img src="/img/blog/blog-details/avatar/avatar-2.jpg" alt="">
+                        <div class="review-item">
+                            <div class="ri-pic">
+                                <img src="/img/room/avatar/avatar-2.jpg" alt="">
                             </div>
-                            <div class="sc-text">
+                            <div class="ri-text">
                                 <span>27 Aug 2019</span>
+                                <div class="rating">
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star-half_alt"></i>
+                                </div>
                                 <h5>Brandon Kelley</h5>
                                 <p>
                                     Neque porro qui squam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                    adipisci velit, sed quia non numquam eius modi tempora. incidunt ut labore et
-                                    dolore magnam.
+                                    adipisci velit, sed quia non numquam eius modi tempora. incidunt ut labore et dolore
+                                    magnam.
                                 </p>
-                                <a href="#" class="comment-btn like-btn">Like</a>
-                                <a href="#" class="comment-btn reply-btn">Reply</a>
-                            </div>
-                        </div>
-                        <div class="single-comment-item second-comment ">
-                            <div class="sc-author">
-                                <img src="/img/blog/blog-details/avatar/avatar-3.jpg" alt="">
-                            </div>
-                            <div class="sc-text">
-                                <span>27 Aug 2019</span>
-                                <h5>Brandon Kelley</h5>
-                                <p>
-                                    Neque porro qui squam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                    adipisci velit, sed quia non numquam eius modi tempora. incidunt ut labore et
-                                    dolore magnam.
-                                </p>
-                                <a href="#" class="comment-btn">Like</a>
-                                <a href="#" class="comment-btn">Reply</a>
                             </div>
                         </div>
                     </div>
-                    <div class="leave-comment">
-                        <h4>Leave A Comment</h4>
-                        <form action="#" class="comment-form">
+                    <div class="review-add">
+                        <h4>Add Review</h4>
+                        <form action="#" class="ra-form">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input type="text" placeholder="Name">
+                                    <input type="text" placeholder="Name*">
                                 </div>
                                 <div class="col-lg-6">
-                                    <input type="text" placeholder="Email">
+                                    <input type="text" placeholder="Email*">
                                 </div>
-                                <div class="col-lg-12 text-center">
-                                    <input type="text" placeholder="Website">
-                                    <textarea placeholder="Messages"></textarea>
-                                    <button type="submit" class="site-btn">Send Message</button>
+                                <div class="col-lg-12">
+                                    <div>
+                                        <h5>Your Rating:</h5>
+                                        <div class="rating">
+                                            <i class="icon_star"></i>
+                                            <i class="icon_star"></i>
+                                            <i class="icon_star"></i>
+                                            <i class="icon_star"></i>
+                                            <i class="icon_star-half_alt"></i>
+                                        </div>
+                                    </div>
+                                    <textarea placeholder="Your Review"></textarea>
+                                    <button type="submit">Submit Now</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-4">
+                <div class="room-booking">
+                    <h3>Your Reservation</h3>
+                    <form action="#">
+                        <div class="check-date">
+                            <label for="date-in">Date:</label>
+                            <input type="text" class="date-input" id="date-in">
+                            <i class="icon_calendar"></i>
+                        </div>
+                        <div class="select-option">
+                            <label for="guest">Guests:</label>
+                            <select id="guest">
+                                <option value="">3 Adults</option>
+                            </select>
+                        </div>
+                        <button type="submit">Check Availability</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    <br/>
-    <br />
-
 </section>
 <!-- Blog Details Section End -->
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var requirementsDiv = document.getElementById("requirements");
+        var requirementsText = "@Model.Requirements";
+
+        if (requirementsDiv && requirementsText) {
+            var requirements = requirementsText.split('.').filter(function (item) {
+                return item.trim() !== '';
+            }).map(function (item) {
+                return item.trim();
+            });
+
+            requirementsDiv.innerHTML = requirements.map(function (item) {
+                return '<li>' + item + '.</li>';
+            }).join('');
+        }
+    });
+</script>

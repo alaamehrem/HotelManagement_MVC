@@ -36,20 +36,6 @@ namespace HotelManagement_MVC.Controllers
                 ExperienceList = ExperienceRepo.GetAll();
             }
 
-            //List<ExperienceWithTypesViewModel> listexperienceVM = new List<ExperienceWithTypesViewModel>();
-            //foreach (var experience in ExperienceList)
-            //{
-            //    ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
-            //    experienceVM.ExperienceId = experience.Id;
-            //    experienceVM.Type= experience.Type;
-            //    experienceVM.Price = experience.Price;
-            //    experienceVM.CoverImage = experience.CoverImage;
-            //    experienceVM.Image = experience.Image;
-            //    listexperienceVM.Add(experienceVM);
-            //}
-
-            //experienceVM.Experiences = ExperienceList;
-
             return View("Index", ExperienceList);
         }
 
@@ -64,8 +50,7 @@ namespace HotelManagement_MVC.Controllers
             {
                 ExperienceList = ExperienceRepo.GetAll();
             }
-            //ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
-            //experienceVM.Experiences = ExperienceList;
+
 
             return View("Experiences", ExperienceList);
         }
@@ -81,11 +66,8 @@ namespace HotelManagement_MVC.Controllers
         [HttpGet] 
         public IActionResult New()
         {
-            //Experience ExperienceNew = new Experience();
-            //List<Experience> ExperienceList = ExperienceRepo.GetAll();
             List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
             ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel(); 
-            //experienceVM.Experiences = ExperienceList;
             experienceVM.Type = ExperiencetypeList;
             return View("New", experienceVM);
         }
@@ -93,10 +75,8 @@ namespace HotelManagement_MVC.Controllers
         [HttpPost]
         public IActionResult SaveNew(ExperienceWithTypesViewModel experiencenew, IFormFile FileImage, IFormFile FileCoverImage)
         {
-            List<Experience> ExperienceList = ExperienceRepo.GetAll();
             List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
             Experience ExperienceDb = ExperienceRepo.GetById(experiencenew.ExperienceId);
-            //experiencenew.Experiences = ExperienceList;
             experiencenew.Type = ExperiencetypeList;
             experiencenew.Price = ExperienceDb.Price;
             experiencenew.ExperienceId = ExperienceDb.Id;
@@ -139,86 +119,83 @@ namespace HotelManagement_MVC.Controllers
             return View("New", experiencenew);
         }
 
-        //[HttpPost]
-        //public IActionResult SaveNew(Experience experiencenew, IFormFile FileImages)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (FileImages != null && FileImages.Length > 0)
-        //        {
-        //            var filePath = Path.Combine(WebHostEnvironment.WebRootPath, "Images/Experience/", FileImages.FileName);
-
-        //            using (var stream = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                FileImages.CopyTo(stream);
-        //            }
-
-        //            experiencenew.Image = FileImages.FileName;
-        //            experiencenew.CoverImage = FileImages.FileName;
-        //        }
-
-        //        ExperienceRepo.Insert(experiencenew);
-        //        ExperienceRepo.Save();
-
-        //        return RedirectToAction("Index", "Experience");
-        //    }
-
-        //    return View("New", experiencenew);
-        //}
-
         //edit
         public IActionResult Edit(int id)
         {
             Experience ExperienceEdit = ExperienceRepo.GetById(id);
-            //List<Experience> ExperienceList = ExperienceRepo.GetAll();
             List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
             ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
-            //experienceVM.Experiences = ExperienceList;
             experienceVM.Type = ExperiencetypeList;
             experienceVM.Price = ExperienceEdit.Price;
-            experienceVM.ExperienceId = ExperienceEdit.Id;
             experienceVM.Image=ExperienceEdit.Image;
             experienceVM.CoverImage=ExperienceEdit.CoverImage;
             experienceVM.ExperienceName = ExperienceEdit.Name;
             experienceVM.Description = ExperienceEdit.Description;
             experienceVM.Duration = ExperienceEdit.Duration;
+            experienceVM.TypeId = ExperienceEdit.TypeId;
+            experienceVM.ExperienceId = ExperienceEdit.Id;
+
+
             return View("Edit", experienceVM);
         }
 
         [HttpPost]
         public IActionResult SaveEdit(ExperienceWithTypesViewModel ExperienceReq, IFormFile? FileImage, IFormFile? FileCoverImage)
         {
-            //ExperienceReq.Experiences != null && ExperienceReq.Type != null && ExperienceReq.Price != null
-            //    && ExperienceReq.ExperienceId != 0 && ExperienceReq.ExperienceName != null
-            //    && ExperienceReq.Description != null && ExperienceReq.Duration != null
-            //    && ExperienceReq.CoverImage != null && ExperienceReq.Image != null
-            //List<Experience> ExperienceList = ExperienceRepo.GetAll();
-
-            Experience ExperienceDb = ExperienceRepo.GetById(ExperienceReq.ExperienceId);
 
             if (ModelState.IsValid)
             {
-                //ExperienceReq.Experiences = ExperienceList;
-                //ExperienceReq.Type = ExperiencetypeList;
+                Experience ExperienceDb = ExperienceRepo.GetById(ExperienceReq.ExperienceId);
+
                 ExperienceDb.TypeId = ExperienceReq.TypeId;
                 ExperienceDb.Price = ExperienceReq.Price;
-                ExperienceDb.Id = ExperienceReq.ExperienceId;       
                 ExperienceDb.Name = ExperienceReq.ExperienceName;
                 ExperienceDb.Description = ExperienceReq.Description;
                 ExperienceDb.Duration = ExperienceReq.Duration;
+                //image
+                if (FileImage != null && FileImage.Length > 0)
+                {
+                    var filePath = Path.Combine(WebHostEnvironment.WebRootPath, "Images/Experience/", FileImage.FileName);
 
-                //ViewData["ImageFileName"] = ExperienceDb.Image;
-                ViewData["CoverImageFileName"] = ExperienceDb.CoverImage;
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        FileImage.CopyTo(stream);
 
+                    }
+
+                    ExperienceReq.Image = FileImage.FileName;
+
+                    ExperienceDb.Image = ExperienceReq.Image;
+                }
+                else
+                {
+                    ExperienceReq.Image = ExperienceDb.Image;
+                }
+                //cover image
+                if (FileCoverImage != null && FileCoverImage.Length > 0)
+                {
+                    var filePath = Path.Combine(WebHostEnvironment.WebRootPath, "Images/Experience/", FileCoverImage.FileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        FileCoverImage.CopyTo(stream);
+
+                    }
+
+                    ExperienceReq.CoverImage = FileCoverImage.FileName;
+
+                    ExperienceDb.CoverImage = ExperienceReq.CoverImage;
+                }
+                else
+                {
+                    ExperienceReq.CoverImage = ExperienceDb.CoverImage;
+                }
                 ExperienceRepo.Update(ExperienceDb);
                 ExperienceRepo.Save();
                 return RedirectToAction("Index");
-
             }
             List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
             ExperienceReq.Type = ExperiencetypeList;
-            //ExperienceReq.Image = ExperienceDb.Image;
-            //ExperienceReq.CoverImage = ExperienceDb.CoverImage;
             return View("Edit", ExperienceReq);
         }
 
