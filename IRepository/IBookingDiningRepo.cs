@@ -11,5 +11,6 @@ namespace HotelManagement_MVC.IRepository
         public List<BookingDining> Search(string search);
         public void Update(Dining obj);
         public void Delete(int Id);
+        public Dining GetDiningById(int Id);
     }
 }

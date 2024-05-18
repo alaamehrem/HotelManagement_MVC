@@ -48,5 +48,9 @@ namespace HotelManagement_MVC.Repository
             BookingDining bookingDining = GetById(Id);
             context.Remove(bookingDining);
         }
+        public Dining GetDiningById(int Id)
+        {
+            return context.Dinings.FirstOrDefault(d => d.Id == Id);
+        }
     }
 }
