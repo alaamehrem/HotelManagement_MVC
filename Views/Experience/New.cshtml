@@ -80,7 +80,7 @@
                         }
                     } *@
 
-                    @{
+@*                     @{
                         var addedTypeIds = new List<int>(); 
                     }
                     @foreach (var Item in Model.Experiences)
@@ -90,7 +90,14 @@
                             <option value="@Item.TypeId"> @Item.Type.Name </option>
                             addedTypeIds.Add(Item.TypeId); 
                         }
+                    } *@
+
+                    @foreach (var Item in Model.Type)
+                    {
+                    <option value="@Item.Id"> @Item.Name </option>
+
                     }
+                   
 
                 </select>
             </div>

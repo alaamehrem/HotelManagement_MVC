@@ -29,6 +29,7 @@ namespace HotelManagement_MVC
             builder.Services.AddScoped<IBookingRoomRepo, BookingRoomRepo>();
             builder.Services.AddScoped<IDiningRepo, DiningRepo>();
             builder.Services.AddScoped<IExperienceRepo, ExperienceRepo>();
+            builder.Services.AddScoped<IExperienceTypeRepo, ExperienceTypeRepo>();
             builder.Services.AddScoped<IGuestRepo, GuestRepo>();
             builder.Services.AddScoped<IHotelReviewRepo, HotelReviewRepo>();
             builder.Services.AddScoped<IHotelRoomTypeRepo, HotelRoomTypeRepo>();

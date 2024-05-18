@@ -11,8 +11,8 @@ namespace HotelManagement_MVC.Models
         public HotelFloor HotelFloor { get; set; }
         [ForeignKey("HotelRoomType")]
         public int HotelRoomTypeId { get; set; }
-        public HotelRoomType HotelRoomType { get; set; }
+        public HotelRoomType HotelRoomType { get; set; }      
         public List<BookingRoom>? BookingRoom { get; set; }
-        public int Price { get; set; }
+   
     }
 }

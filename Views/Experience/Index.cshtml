@@ -1,5 +1,4 @@
 ﻿@model  List<Experience>
-@* @model  List<ExperienceWithTypesViewModel> *@
 
  @{
     ViewData["Title"] = "Index";
@@ -25,14 +24,14 @@
     <h3>All Experiences Data</h3>
     <br />
     <!-- search section -->
-    <form asp-action="Experiences" asp-controller="Experience" method="get">
+    <form asp-action="Index" asp-controller="Experience" method="get">
         <div class="row input-group">
             <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
-            <input type="submit" value="Search" class="b-tag" />
+            <input type="submit" value="Search" class="btn btn-primary" style="background-color: #DFA974; border:none" />
         </div>
     </form>
     <br />
-    <a class="btn btn-success" style="background-color: #DFA974;" href="/Experience/New">New</a>
+    <a class="btn btn-success" style="background-color: #DFA974; border:none" href="/Experience/New">New</a>
 
     <br />
     <br />
@@ -62,7 +61,7 @@
                 <td>@item.Price</td>
                 <td>@item.Duration</td>
                 <td><a href="/Experience/Details?id=@item.Id">Details</a></td>
-                <td><a class="btn btn-success" href="/Experience/Edit/@item.Id">Edit</a></td>
+                <td><a class=" btn btn-success" style="background-color: #DFA974; border:none" " href="/Experience/Edit/@item.Id">Edit</a></td>
                 <td><a class="btn btn-danger" href="/Experience/Delete/@item.Id">Delete</a></td>
             </tr>
         }

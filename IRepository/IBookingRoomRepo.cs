@@ -1,6 +1,15 @@
-﻿namespace HotelManagement_MVC.IRepository
+﻿using HotelManagement_MVC.Models;
+
+namespace HotelManagement_MVC.IRepository
 {
     public interface IBookingRoomRepo
     {
+        public List<BookingRoom> GetAll();
+        public BookingRoom GetById(int Id);
+        public void Insert(BookingRoom obj);
+        public void Save();
+        public List<BookingRoom> Search(string search);
+        public void Update(HotelRoom obj);
+        public void Delete(int Id);
     }
 }
