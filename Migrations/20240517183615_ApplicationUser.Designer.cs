@@ -4,6 +4,7 @@ using HotelManagement_MVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagement_MVC.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    partial class HotelContextModelSnapshot : ModelSnapshot
+    [Migration("20240517183615_ApplicationUser")]
+    partial class ApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +59,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Admins", (string)null);
+                    b.ToTable("Admins");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.ApplicationUser", b =>
@@ -144,9 +147,6 @@ namespace HotelManagement_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -165,15 +165,16 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<string>("SpecialRequest")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("paymentStatus")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CartId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DiningId");
 
                     b.HasIndex("GuestId");
 
-                    b.ToTable("BookingDinings", (string)null);
+                    b.ToTable("BookingDinings");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingExperience", b =>
@@ -183,9 +184,6 @@ namespace HotelManagement_MVC.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -202,15 +200,16 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<string>("SpecialRequest")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("paymentStatus")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CartId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ExperienceId");
 
                     b.HasIndex("GuestId");
 
-                    b.ToTable("BookingExperiences", (string)null);
+                    b.ToTable("BookingExperiences");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingRoom", b =>
@@ -220,9 +219,6 @@ namespace HotelManagement_MVC.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("CheckInDate")
                         .HasColumnType("datetime2");
@@ -248,16 +244,16 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<int>("OfferId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<int>("Price")
+                    b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
 
                     b.Property<string>("SpecialRequest")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("TotalDays")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CartId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GuestId");
 
@@ -265,34 +261,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasIndex("OfferId");
 
-                    b.ToTable("BookingRooms", (string)null);
-                });
-
-            modelBuilder.Entity("HotelManagement_MVC.Models.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("GuestId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShippingPrice")
-                        .HasColumnType("int");
-
-                    b.Property<int>("paymentMethod")
-                        .HasColumnType("int");
-
-                    b.Property<int>("paymentStatus")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuestId");
-
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("BookingRooms");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.Dining", b =>
@@ -328,7 +297,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dinings", (string)null);
+                    b.ToTable("Dinings");
 
                     b.HasData(
                         new
@@ -430,7 +399,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Experiences", (string)null);
+                    b.ToTable("Experiences");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.ExperienceType", b =>
@@ -447,7 +416,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExperienceTypes", (string)null);
+                    b.ToTable("ExperienceTypes");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.Guest", b =>
@@ -483,7 +452,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Guests", (string)null);
+                    b.ToTable("Guests");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelFloor", b =>
@@ -499,7 +468,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HotelFloors", (string)null);
+                    b.ToTable("HotelFloors");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelReview", b =>
@@ -524,7 +493,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasIndex("GuestId");
 
-                    b.ToTable("HotelReviews", (string)null);
+                    b.ToTable("HotelReviews");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelRoom", b =>
@@ -541,16 +510,13 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<int>("HotelRoomTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("HotelFloorId");
 
                     b.HasIndex("HotelRoomTypeId");
 
-                    b.ToTable("HotelRooms", (string)null);
+                    b.ToTable("HotelRooms");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelRoomType", b =>
@@ -601,7 +567,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HotelRoomTypes", (string)null);
+                    b.ToTable("HotelRoomTypes");
 
                     b.HasData(
                         new
@@ -646,7 +612,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Offers", (string)null);
+                    b.ToTable("Offers");
 
                     b.HasData(
                         new
@@ -810,10 +776,6 @@ namespace HotelManagement_MVC.Migrations
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingDining", b =>
                 {
-                    b.HasOne("HotelManagement_MVC.Models.Cart", null)
-                        .WithMany("BookingDinings")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("HotelManagement_MVC.Models.Dining", null)
                         .WithMany("BookingDinings")
                         .HasForeignKey("DiningId");
@@ -829,10 +791,6 @@ namespace HotelManagement_MVC.Migrations
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingExperience", b =>
                 {
-                    b.HasOne("HotelManagement_MVC.Models.Cart", null)
-                        .WithMany("BookingExperiences")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("HotelManagement_MVC.Models.Experience", null)
                         .WithMany("BookingExperiences")
                         .HasForeignKey("ExperienceId");
@@ -848,10 +806,6 @@ namespace HotelManagement_MVC.Migrations
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingRoom", b =>
                 {
-                    b.HasOne("HotelManagement_MVC.Models.Cart", null)
-                        .WithMany("BookingRooms")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("HotelManagement_MVC.Models.Guest", "Guest")
                         .WithMany()
                         .HasForeignKey("GuestId")
@@ -875,17 +829,6 @@ namespace HotelManagement_MVC.Migrations
                     b.Navigation("HotelRoom");
 
                     b.Navigation("Offer");
-                });
-
-            modelBuilder.Entity("HotelManagement_MVC.Models.Cart", b =>
-                {
-                    b.HasOne("HotelManagement_MVC.Models.Guest", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Guest");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.Experience", b =>
@@ -978,15 +921,6 @@ namespace HotelManagement_MVC.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("HotelManagement_MVC.Models.Cart", b =>
-                {
-                    b.Navigation("BookingDinings");
-
-                    b.Navigation("BookingExperiences");
-
-                    b.Navigation("BookingRooms");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.Dining", b =>

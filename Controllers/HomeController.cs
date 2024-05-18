@@ -22,5 +22,10 @@ namespace HotelManagement_MVC.Controllers
             return View();
         }
 
-    }
+		public IActionResult AboutUs()
+		{
+			return View();
+		}
+
+	}
 }

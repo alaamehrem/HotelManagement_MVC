@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace HotelManagement_MVC.Models
 {
 
-    public class HotelContext:IdentityDbContext<ApplicationUser>
+    public class HotelContext :IdentityDbContext<ApplicationUser>
     {
         public DbSet<Admin> Admins { get; set; }
         public DbSet<BookingDining> BookingDinings { get; set; }

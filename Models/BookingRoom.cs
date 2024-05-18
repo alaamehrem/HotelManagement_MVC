@@ -22,7 +22,7 @@ namespace HotelManagement_MVC.Models
         public DateTime CheckOutDate { get; set; }
         public int NumAdults { get; set; }
         public int NumChildren { get; set; } = 0;
-        public int? TotalPrice { get; set; }
+        //public int? TotalPrice { get; set; }
         public int? TotalDays { get; set; }
         [Range(1, 10)]
         public int? NumOfRooms { get; set; }= 1;
