@@ -20,6 +20,7 @@ namespace HotelManagement_MVC.Models
         public DbSet<HotelReview> HotelReviews { get; set; }
         public DbSet<HotelRoomType> HotelRoomTypes { get; set; }
         public DbSet<Offer> Offers { get; set; }
+        public DbSet<Cart> Carts { get; set; }
         public HotelContext(DbContextOptions<HotelContext> options)
           : base(options)  { }//inject ==>IOC resolve
 

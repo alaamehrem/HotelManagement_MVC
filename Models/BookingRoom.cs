@@ -23,6 +23,5 @@ namespace HotelManagement_MVC.Models
         public int NumChildren { get; set; } = 0;
         public int Price { get; set; }
         public string? SpecialRequest { get; set; }
-        public PaymentStatus PaymentStatus { get; set; }
     }
 }
