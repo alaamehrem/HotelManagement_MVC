@@ -11,7 +11,7 @@ namespace HotelManagement_MVC.Models
         public Guest Guest { get; set; }
         public DateTime Date { get; set; }
         public int NumAdults { get; set; }
-        //public int Price { get; set; }
+        public int Price { get; set; }
         public string? SpecialRequest { get; set; }
     }
 }

@@ -15,5 +15,6 @@ namespace HotelManagement_MVC.Models
             [ForeignKey("Guest")]
             public int GuestId { get; set; }
             public Guest Guest { get; set; }
+            
     }
 }

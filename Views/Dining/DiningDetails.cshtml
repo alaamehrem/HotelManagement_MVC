@@ -1,7 +1,8 @@
-﻿@model Dining
+﻿@model BookingDiningVM
 @{
     ViewData["Title"] = "Details";
     Layout = "_Index";
+    var today = DateTime.Today.ToString("MM-dd-yyyy");
 }
 <div class="container">
     <div class="row">
@@ -141,25 +142,28 @@
             <div class="col-lg-4">
                 <div class="room-booking">
                     <h3>Your Reservation</h3>
-                    <form asp-action="SaveNew" asp-controller="BookingDining">
+                    <form asp-action="SaveNew" asp-controller="BookingDining" method="post">
+                        <input type="hidden" name="id" value="@Model.DiningId" />
                         <div class="Date">
-                            <label for="date-in">Choose date:</label>
-                            <input type="text" class="date-input" id="date-in">
+                            <label asp-for="Date">Choose date:</label>
+                            <input asp-for="Date" onselect="Date" class="date-input" id="date-in" value="@today">
+                            <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
                         <div class="select-option">
-                            <label for="guest">Guests:</label>
-                            <select id="guest">
-                                <option value="">1 Adults</option>
-                                <option selected value="">2 Adults</option>
-                                <option value="">3 Adults</option>
-                                <option value="">4 Adults</option>
-                                <option value="">5 Adults</option>
-                                <option value="">6 Adults</option>
+                            <label for="NumAdults">Guests:</label>
+                            <select asp-for="NumAdults">
+                                <option value="1">1 Adult</option>
+                                <option selected value="2">2 Adults</option>
+                                <option value="3">3 Adults</option>
+                                <option value="4">4 Adults</option>
+                                <option value="5">5 Adults</option>
+                                <option value="6">6 Adults</option>
                             </select>
+                            <span asp-validation-for="NumAdults" class="text-danger"></span>
                         </div>
                         <div class="select-option">
-                            <label for="specialReq">Special Request:</label>
-                            <input type="text" name="specialReq" id="specialReq" class="form-control" />
+                            <input asp-for="SpecialRequest">Special Request:</label>
+                            <span asp-validation-for="SpecialRequest" class="text-danger"></span>
                         </div>
                         <button type="submit">Add to cart</button>
                     </form>

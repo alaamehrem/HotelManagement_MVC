@@ -38,7 +38,7 @@ namespace HotelManagement_MVC.Repository
                     .ToList();
         }
 
-        public void Update(Dining obj)
+        public void Update(BookingDining obj)
         {
             context.Update(obj);
         }
@@ -51,6 +51,10 @@ namespace HotelManagement_MVC.Repository
         public Dining GetDiningById(int Id)
         {
             return context.Dinings.FirstOrDefault(d => d.Id == Id);
+        }
+        public void UpdateDining(Dining obj)
+        {
+            context.Update(obj);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
+using HotelManagement_MVC.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NuGet.Packaging.Signing;
 
 namespace HotelManagement_MVC.Controllers
@@ -38,10 +40,21 @@ namespace HotelManagement_MVC.Controllers
             }
             return RedirectToAction("AllDining");
         }
-        public IActionResult Details(int Id)
+        public IActionResult Details(int Id,BookingDiningVM bookingDiningVM)
         {
-            Dining dining = DiningRepo.GetById(Id);
-            return View("DiningDetails", dining);
+            Dining diningFromDB = DiningRepo.GetById(Id);
+            bookingDiningVM = new BookingDiningVM()
+            {
+                DiningId = diningFromDB.Id,
+                Name = diningFromDB.Name,
+                Duration = diningFromDB.Duration,
+                Description = diningFromDB.Description,
+                TimeOfDay = diningFromDB.TimeOfDay,
+                Images = diningFromDB.Images,
+                Price = diningFromDB.Price
+            };
+            return View("DiningDetails", bookingDiningVM);
         }
+
     }
 }

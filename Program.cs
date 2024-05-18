@@ -35,7 +35,7 @@ namespace HotelManagement_MVC
             builder.Services.AddScoped<IHotelRoomTypeRepo, HotelRoomTypeRepo>();
             builder.Services.AddScoped<IOfferRepo, OfferRepo>();
             builder.Services.AddScoped<IBookingExperienceRepo, BookingExperienceRepo>();
-
+            builder.Services.AddScoped<ICartRepo, CartRepo>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

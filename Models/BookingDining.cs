@@ -13,5 +13,8 @@ namespace HotelManagement_MVC.Models
         public  int NumAdults { get; set; }
         public int Price { get; set; }
         public string? SpecialRequest { get; set; }
+        [ForeignKey("Dining")]
+        public int DiningId { get; set; }
+        public Dining Dining { get; set; }
     }
 }
