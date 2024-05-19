@@ -15,7 +15,7 @@ namespace HotelManagement_MVC.ViewModel
         [EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
 
-        [RegularExpression("^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number.")]
+        [RegularExpression("^([0-9]{11})$", ErrorMessage = "Invalid Mobile Number.")]
         [Required(ErrorMessage = "Mobile Number is required.")]
         public string Phone { get; set; }
 

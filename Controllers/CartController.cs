@@ -24,7 +24,7 @@ namespace HotelManagement_MVC.Controllers
             Cart cartFromDB = CartRepo.GetById(Id);
             return View("CartDetails", cartFromDB);
         }
-        public IActionResult GetByGuestId(int Id) //May do it a SearchByUser
+        public IActionResult GetByGuestId(string Id) //May do it a SearchByUser
         {
             Cart Cart = CartRepo.GetCartByGuestId(Id);
             return View("CartDetails", Cart);

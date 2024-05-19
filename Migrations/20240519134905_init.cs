@@ -370,8 +370,8 @@ namespace HotelManagement_MVC.Migrations
                     NumAdults = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     SpecialRequest = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CartId = table.Column<int>(type: "int", nullable: true),
-                    DiningId = table.Column<int>(type: "int", nullable: true)
+                    DiningId = table.Column<int>(type: "int", nullable: false),
+                    CartId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -391,7 +391,8 @@ namespace HotelManagement_MVC.Migrations
                         name: "FK_BookingDinings_Dinings_DiningId",
                         column: x => x.DiningId,
                         principalTable: "Dinings",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -403,6 +404,7 @@ namespace HotelManagement_MVC.Migrations
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NumAdults = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
                     SpecialRequest = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CartId = table.Column<int>(type: "int", nullable: true),
                     ExperienceId = table.Column<int>(type: "int", nullable: true)
@@ -441,6 +443,7 @@ namespace HotelManagement_MVC.Migrations
                     CheckOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NumAdults = table.Column<int>(type: "int", nullable: false),
                     NumChildren = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<int>(type: "int", nullable: true),
                     TotalDays = table.Column<int>(type: "int", nullable: true),
                     NumOfRooms = table.Column<int>(type: "int", nullable: true),
                     SpecialRequest = table.Column<string>(type: "nvarchar(max)", nullable: true),

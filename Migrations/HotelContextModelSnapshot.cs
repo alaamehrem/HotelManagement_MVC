@@ -204,9 +204,6 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
                     b.Property<string>("SpecialRequest")
                         .HasColumnType("nvarchar(max)");
 

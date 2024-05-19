@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagement_MVC.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20240518123547_init")]
+    [Migration("20240519134905_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -157,7 +157,7 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DiningId")
+                    b.Property<int>("DiningId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumAdults")
@@ -202,6 +202,9 @@ namespace HotelManagement_MVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("NumAdults")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<string>("SpecialRequest")
@@ -258,6 +261,9 @@ namespace HotelManagement_MVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TotalDays")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalPrice")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -788,11 +794,15 @@ namespace HotelManagement_MVC.Migrations
                         .WithMany("BookingDinings")
                         .HasForeignKey("CartId");
 
-                    b.HasOne("HotelManagement_MVC.Models.Dining", null)
+                    b.HasOne("HotelManagement_MVC.Models.Dining", "Dining")
                         .WithMany("BookingDinings")
-                        .HasForeignKey("DiningId");
+                        .HasForeignKey("DiningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("Dining");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingExperience", b =>
