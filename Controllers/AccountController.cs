@@ -102,6 +102,11 @@ namespace HotelManagement_MVC.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+
+        public async Task<IActionResult> AccessDenied()
+        {
+            return View();
+        }
     }
 }
 
