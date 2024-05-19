@@ -1,0 +1,36 @@
+﻿@model HotelRoomType
+
+<div>
+    <div class="col-lg-4 col-md-6">
+        <div class="room-item">
+            <div class="hp-room-item set-bg" data-setbg="/Images/RoomType/@Model.Images">
+                <div class="hr-text">
+                    <h3>@Model.Name</h3>
+                    <h2>@Model.Price LE <span> /Pernight</span></h2>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="r-o">Size: </td>
+                                <td>@Model.Area m2</td>
+                            </tr>
+                            <tr>
+                                <td class="r-o">Capacity: </td>
+                                <td>@Model.MaxGuestCount</td>
+                            </tr>
+                            <tr>
+                                <td class="r-o">Bed numbers: </td>
+                                <td>@Model.BedCount</td>
+                            </tr>
+                            <tr>
+                                <td class="r-o">View:  </td>
+                                <td>@Model.View </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="#" class="primary-btn">More Details</a>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+

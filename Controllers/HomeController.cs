@@ -19,6 +19,8 @@ namespace HotelManagement_MVC.Controllers
 
         public IActionResult Index()
         {
+
+            //List<HotelRoomType> HotRoomTypList=hotelRoomTypeRepo.GetAll();
             return View();
         }
 
@@ -31,7 +33,11 @@ namespace HotelManagement_MVC.Controllers
 		{
 			return View();
 		}
-  
+        public IActionResult Details(int Id)
+        {
+            HotelRoomType hotelRoomType = hotelRoomTypeRepo.GetById(Id);
+            return View("Details", hotelRoomType);
+        }
 
     }
 }
