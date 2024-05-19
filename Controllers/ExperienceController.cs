@@ -120,21 +120,46 @@ namespace HotelManagement_MVC.Controllers
         }
 
         //edit
+        //public IActionResult Edit(int id)
+        //{
+        //    Experience ExperienceEdit = ExperienceRepo.GetById(id);
+        //    List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
+        //    ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
+        //    experienceVM.Type = ExperiencetypeList;
+        //    experienceVM.Price = ExperienceEdit.Price;
+        //    experienceVM.Image=ExperienceEdit.Image;
+        //    experienceVM.CoverImage=ExperienceEdit.CoverImage;
+        //    experienceVM.ExperienceName = ExperienceEdit.Name;
+        //    experienceVM.Description = ExperienceEdit.Description;
+        //    experienceVM.Duration = ExperienceEdit.Duration;
+        //    experienceVM.TypeId = ExperienceEdit.TypeId;
+        //    experienceVM.ExperienceId = ExperienceEdit.Id;
+
+
+        //    return View("Edit", experienceVM);
+        //}
         public IActionResult Edit(int id)
         {
-            Experience ExperienceEdit = ExperienceRepo.GetById(id);
-            List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
-            ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
-            experienceVM.Type = ExperiencetypeList;
-            experienceVM.Price = ExperienceEdit.Price;
-            experienceVM.Image=ExperienceEdit.Image;
-            experienceVM.CoverImage=ExperienceEdit.CoverImage;
-            experienceVM.ExperienceName = ExperienceEdit.Name;
-            experienceVM.Description = ExperienceEdit.Description;
-            experienceVM.Duration = ExperienceEdit.Duration;
-            experienceVM.TypeId = ExperienceEdit.TypeId;
-            experienceVM.ExperienceId = ExperienceEdit.Id;
+            var ExperienceEdit = ExperienceRepo.GetById(id);
 
+            if (ExperienceEdit == null)
+            {
+                return NotFound();
+            }
+
+            var ExperiencetypeList = experienceTypeRepo.GetAll();
+            var experienceVM = new ExperienceWithTypesViewModel
+            {
+                Type = ExperiencetypeList,
+                Price = ExperienceEdit.Price,
+                Image = ExperienceEdit.Image,
+                CoverImage = ExperienceEdit.CoverImage,
+                ExperienceName = ExperienceEdit.Name,
+                Description = ExperienceEdit.Description,
+                Duration = ExperienceEdit.Duration,
+                TypeId = ExperienceEdit.TypeId,
+                ExperienceId = ExperienceEdit.Id
+            };
 
             return View("Edit", experienceVM);
         }
