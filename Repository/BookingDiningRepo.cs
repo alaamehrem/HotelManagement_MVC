@@ -31,12 +31,12 @@ namespace HotelManagement_MVC.Repository
             context.SaveChanges();
         }
 
-        public List<BookingDining> Search(string search)
-        {
-            return context.BookingDinings
-                    .Where(d => d.GuestId == int.Parse(search))
-                    .ToList();
-        }
+        //public List<BookingDining> Search(string search)
+        //{
+        //    return context.BookingDinings
+        //            .Where(d => d.ApplicationUserId == string.Parse(search))
+        //            .ToList();
+        //}
 
         public void Update(BookingDining obj)
         {

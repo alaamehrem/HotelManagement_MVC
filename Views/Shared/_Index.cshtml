@@ -83,14 +83,24 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">                       
-                        <ul class="tn-left">                          
+                        <ul class="tn-left">
+                            @if (User.Identity.IsAuthenticated == true) { 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Welcome @User.Identity.Name</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                            }
+                            else{
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="register">Register</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                                </li>                            
-                                </ul>                        
+                                </li>
+                            }
+                        </ul>                        
                     </div>
                     <div class="col-lg-6">
                         <div class="tn-right">

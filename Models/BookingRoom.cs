@@ -7,9 +7,9 @@ namespace HotelManagement_MVC.Models
     public class BookingRoom
     {
         public int Id { get; set; }
-        [ForeignKey("Guest")]
-        public int GuestId { get; set; }
-        public Guest Guest { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey("HotelRoom")]
         public int HotelRoomId { get; set; }

@@ -30,7 +30,7 @@ namespace HotelManagement_MVC.Controllers
             //save to database
             if (ModelState.IsValid)
             {
-                Guest user = new Guest();
+                ApplicationUser user = new ApplicationUser();
                 //mapping           
                 user.UserName = userFromReq.Username;
                 user.PasswordHash = userFromReq.Password;

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagement_MVC.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20240510062639_addTable")]
-    partial class addTable
+    [Migration("20240518123547_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,6 +85,14 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Fname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -139,13 +147,17 @@ namespace HotelManagement_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DiningId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GuestId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumAdults")
@@ -157,14 +169,13 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<string>("SpecialRequest")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("paymentStatus")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("DiningId");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("GuestId");
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("DiningId");
 
                     b.ToTable("BookingDinings");
                 });
@@ -177,27 +188,32 @@ namespace HotelManagement_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GuestId")
+                    b.Property<int?>("ExperienceId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumAdults")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
                     b.Property<string>("SpecialRequest")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("paymentStatus")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("GuestId");
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ExperienceId");
 
                     b.ToTable("BookingExperiences");
                 });
@@ -210,14 +226,18 @@ namespace HotelManagement_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CheckInDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("GuestId")
-                        .HasColumnType("int");
 
                     b.Property<int>("HotelRoomId")
                         .HasColumnType("int");
@@ -228,27 +248,57 @@ namespace HotelManagement_MVC.Migrations
                     b.Property<int>("NumChildren")
                         .HasColumnType("int");
 
+                    b.Property<int?>("NumOfRooms")
+                        .HasColumnType("int");
+
                     b.Property<int>("OfferId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaymentStatus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<string>("SpecialRequest")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TotalDays")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("GuestId");
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("HotelRoomId");
 
                     b.HasIndex("OfferId");
 
                     b.ToTable("BookingRooms");
+                });
+
+            modelBuilder.Entity("HotelManagement_MVC.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ShippingPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("paymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("paymentStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.Dining", b =>
@@ -263,6 +313,10 @@ namespace HotelManagement_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Images")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -271,9 +325,68 @@ namespace HotelManagement_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TimeOfDay")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Dinings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Picture an elegant table for two, sheltered by palm trees and serenaded by gentle ocean waves. Our team of chefs will prepare a special menu, paired with fine wines and served by your own private attendant. Toes in the sand, glimmering candles and tiki torches make for an incredibly romantic evening.",
+                            Duration = "3 HOURS",
+                            Images = "KOH_1450_original.jpg",
+                            Name = "ONCE IN A BLUE MOON",
+                            Price = 5000,
+                            TimeOfDay = "EVENING"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Framed by towering palm trees, pristine white sand and the gentle waves of the Pacific Ocean, linger over creative cocktails while the sun sinks gently into the ocean. Then dine barefoot with the sand between your toes, at your very own private table on the beach.",
+                            Duration = "4 HOURS",
+                            Images = "COS_2047_original.jpg",
+                            Name = "VIRADOR EXPERIENCE",
+                            Price = 7000,
+                            TimeOfDay = "MORNING, AFTERNOON, EVENING"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "An intimate dining experience for couples who wish to spend a special evening with toes in the sand as the sun sets and the stars come out. The scene is set for romance with Ruinart Rose, flowers and a private server, as you enjoy a personally curated four course menu highlighting local ingredients.",
+                            Duration = "2 HOURS",
+                            Images = "KON_1192_original.jpg",
+                            Name = "COUPLES DINING EXPERIENCE",
+                            Price = 6000,
+                            TimeOfDay = "EVENING"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Before the sun begins to set, take a seat at a private table for two overlooking Hulopoe Bay. As evening descends, enjoy a Champagne welcome followed by a customized menu prepared just for you in consultation with our expert chefs.",
+                            Duration = "3 HOURS",
+                            Images = "KON_1192_original.jpg",
+                            Name = "DINING UNDER THE STARS",
+                            Price = 8000,
+                            TimeOfDay = "EVENING"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "A custom gourmet dinner prepared exclusively by our chef, with cocktails or wines selected by our sommelier and served by your own personal waiter on a private grassy knoll overlooking Wailea Beach.",
+                            Duration = "3 HOURS",
+                            Images = "MAU_2025_original.jpg",
+                            Name = "WAILEA POINT PRIVATE DINING",
+                            Price = 8000,
+                            TimeOfDay = "EVENING"
+                        });
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.Experience", b =>
@@ -284,7 +397,19 @@ namespace HotelManagement_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CoverImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -292,12 +417,29 @@ namespace HotelManagement_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Requirements")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("instructions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Experiences");
                 });
 
-            modelBuilder.Entity("HotelManagement_MVC.Models.Guest", b =>
+            modelBuilder.Entity("HotelManagement_MVC.Models.ExperienceType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -305,32 +447,13 @@ namespace HotelManagement_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Guests");
+                    b.ToTable("ExperienceTypes");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelFloor", b =>
@@ -357,11 +480,12 @@ namespace HotelManagement_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("GuestId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Review")
                         .IsRequired()
@@ -369,7 +493,7 @@ namespace HotelManagement_MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GuestId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("HotelReviews");
                 });
@@ -386,9 +510,6 @@ namespace HotelManagement_MVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("HotelRoomTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -482,20 +603,44 @@ namespace HotelManagement_MVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OfferImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OfferName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OfferPrice")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OfferPrice")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Offers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            OfferDescription = "Start your day with our mouthwatering breakfast options",
+                            OfferImage = "breakfast.jpg",
+                            OfferName = "Breakfast Only",
+                            OfferPrice = 250
+                        },
+                        new
+                        {
+                            Id = 2,
+                            OfferDescription = "Indulge in our savory lunch specials that will tantalize your taste buds",
+                            OfferImage = "lunch.jpg",
+                            OfferName = "Lunch Only",
+                            OfferPrice = 300
+                        },
+                        new
+                        {
+                            Id = 3,
+                            OfferDescription = "Experience the ultimate culinary journey with our delicious breakfast and lunch combo",
+                            OfferImage = "combo.jpg",
+                            OfferName = "Both Breakfast and Lunch",
+                            OfferPrice = 500
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -633,37 +778,53 @@ namespace HotelManagement_MVC.Migrations
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingDining", b =>
                 {
+                    b.HasOne("HotelManagement_MVC.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelManagement_MVC.Models.Cart", null)
+                        .WithMany("BookingDinings")
+                        .HasForeignKey("CartId");
+
                     b.HasOne("HotelManagement_MVC.Models.Dining", null)
                         .WithMany("BookingDinings")
                         .HasForeignKey("DiningId");
 
-                    b.HasOne("HotelManagement_MVC.Models.Guest", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Guest");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingExperience", b =>
                 {
-                    b.HasOne("HotelManagement_MVC.Models.Guest", "Guest")
+                    b.HasOne("HotelManagement_MVC.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("GuestId")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Guest");
+                    b.HasOne("HotelManagement_MVC.Models.Cart", null)
+                        .WithMany("BookingExperiences")
+                        .HasForeignKey("CartId");
+
+                    b.HasOne("HotelManagement_MVC.Models.Experience", null)
+                        .WithMany("BookingExperiences")
+                        .HasForeignKey("ExperienceId");
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.BookingRoom", b =>
                 {
-                    b.HasOne("HotelManagement_MVC.Models.Guest", "Guest")
+                    b.HasOne("HotelManagement_MVC.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("GuestId")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("HotelManagement_MVC.Models.Cart", null)
+                        .WithMany("BookingRooms")
+                        .HasForeignKey("CartId");
 
                     b.HasOne("HotelManagement_MVC.Models.HotelRoom", "HotelRoom")
                         .WithMany("BookingRoom")
@@ -677,22 +838,44 @@ namespace HotelManagement_MVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Guest");
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("HotelRoom");
 
                     b.Navigation("Offer");
                 });
 
-            modelBuilder.Entity("HotelManagement_MVC.Models.HotelReview", b =>
+            modelBuilder.Entity("HotelManagement_MVC.Models.Cart", b =>
                 {
-                    b.HasOne("HotelManagement_MVC.Models.Guest", "Guest")
+                    b.HasOne("HotelManagement_MVC.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("GuestId")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Guest");
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("HotelManagement_MVC.Models.Experience", b =>
+                {
+                    b.HasOne("HotelManagement_MVC.Models.ExperienceType", "Type")
+                        .WithMany("Experiences")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("HotelManagement_MVC.Models.HotelReview", b =>
+                {
+                    b.HasOne("HotelManagement_MVC.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelRoom", b =>
@@ -765,9 +948,28 @@ namespace HotelManagement_MVC.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HotelManagement_MVC.Models.Cart", b =>
+                {
+                    b.Navigation("BookingDinings");
+
+                    b.Navigation("BookingExperiences");
+
+                    b.Navigation("BookingRooms");
+                });
+
             modelBuilder.Entity("HotelManagement_MVC.Models.Dining", b =>
                 {
                     b.Navigation("BookingDinings");
+                });
+
+            modelBuilder.Entity("HotelManagement_MVC.Models.Experience", b =>
+                {
+                    b.Navigation("BookingExperiences");
+                });
+
+            modelBuilder.Entity("HotelManagement_MVC.Models.ExperienceType", b =>
+                {
+                    b.Navigation("Experiences");
                 });
 
             modelBuilder.Entity("HotelManagement_MVC.Models.HotelRoom", b =>

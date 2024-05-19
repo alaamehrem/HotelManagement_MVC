@@ -1,5 +1,4 @@
 ﻿using HotelManagement_MVC.IRepository;
-using HotelManagement_MVC.Migrations;
 using HotelManagement_MVC.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.Data;

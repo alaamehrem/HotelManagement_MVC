@@ -33,7 +33,7 @@ namespace HotelManagement_MVC.Controllers
                     Date = bookingDiningVM.Date,
                     NumAdults = bookingDiningVM.NumAdults,
                     SpecialRequest = bookingDiningVM.SpecialRequest,
-                    GuestId = 1, // WILL CHANGE TO ACTUAL GUEST ID
+                    //ApplicationUserId = 1, // WILL CHANGE TO ACTUAL GUEST ID
                     Price = dining.Price,
                     DiningId = dining.Id
                     // Additional properties related to dining can be set here if needed
