@@ -120,24 +120,6 @@ namespace HotelManagement_MVC.Controllers
         }
 
         //edit
-        //public IActionResult Edit(int id)
-        //{
-        //    Experience ExperienceEdit = ExperienceRepo.GetById(id);
-        //    List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
-        //    ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
-        //    experienceVM.Type = ExperiencetypeList;
-        //    experienceVM.Price = ExperienceEdit.Price;
-        //    experienceVM.Image=ExperienceEdit.Image;
-        //    experienceVM.CoverImage=ExperienceEdit.CoverImage;
-        //    experienceVM.ExperienceName = ExperienceEdit.Name;
-        //    experienceVM.Description = ExperienceEdit.Description;
-        //    experienceVM.Duration = ExperienceEdit.Duration;
-        //    experienceVM.TypeId = ExperienceEdit.TypeId;
-        //    experienceVM.ExperienceId = ExperienceEdit.Id;
-
-
-        //    return View("Edit", experienceVM);
-        //}
         public IActionResult Edit(int id)
         {
             var ExperienceEdit = ExperienceRepo.GetById(id);
@@ -156,6 +138,8 @@ namespace HotelManagement_MVC.Controllers
                 CoverImage = ExperienceEdit.CoverImage,
                 ExperienceName = ExperienceEdit.Name,
                 Description = ExperienceEdit.Description,
+                Requirements = ExperienceEdit.Requirements,
+                instructions = ExperienceEdit.instructions,
                 Duration = ExperienceEdit.Duration,
                 TypeId = ExperienceEdit.TypeId,
                 ExperienceId = ExperienceEdit.Id

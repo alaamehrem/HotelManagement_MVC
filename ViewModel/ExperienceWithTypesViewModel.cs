@@ -12,6 +12,8 @@ namespace HotelManagement_MVC.ViewModel
         public string Description { get; set; }
         public string Price { get; set; }
         public string Duration { get; set; }
+        public string instructions { get; set; }
+        public string Requirements { get; set; }
         public int TypeId { get; set; }
 
     }
