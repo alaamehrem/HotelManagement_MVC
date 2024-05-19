@@ -3,6 +3,7 @@ using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HotelManagement_MVC.Controllers
 {
@@ -38,12 +39,19 @@ namespace HotelManagement_MVC.Controllers
         [HttpPost]
         public IActionResult SaveNew(BookingRoom bookingRoom)
         {
-            if (ModelState.IsValid)
+            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
             {
-                bookingRoomRepo.Insert(bookingRoom);
-                bookingRoomRepo.Save();
 
-                return RedirectToAction("Index", "Home");
+                Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                string Id = ClaimId.Value;
+                if (ModelState.IsValid)
+                {
+                    bookingRoom.ApplicationUserId=Id;
+                    bookingRoomRepo.Insert(bookingRoom);
+                    bookingRoomRepo.Save();
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
             ViewData["OfferList"] = offerRepo.GetAll();
             ViewData["FloorList"] = hotelFloorRepo.GetAll();

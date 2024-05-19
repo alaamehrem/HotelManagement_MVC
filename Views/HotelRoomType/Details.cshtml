@@ -35,10 +35,21 @@
                                     <i class="icon_star"></i>
                                     <i class="icon_star"></i>
                                     <i class="icon_star"></i>
-                                    <i class="icon_star-half_alt"></i>
-                                </div>
-                                <a asp-action="BookingRoom" asp-controller="BookingRoom">Booking Now</a>
-                            </div>
+                                    <i class="icon_star-half_alt"></i>                                  
+                                    </div>
+                                @if (User.Identity.IsAuthenticated == true)
+                                {
+                                    <div>
+                                    <a asp-action="BookingRoom" asp-controller="BookingRoom">Booking Now</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <a asp-action="Login" asp-controller="Account">Login to Book the Room</a>
+                                    </div>
+                                }
+
                         </div>
                         <h2>@Model.Price LE<span> /Pernight</span></h2>
                         <table>
