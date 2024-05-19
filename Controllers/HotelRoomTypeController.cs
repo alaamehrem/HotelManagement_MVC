@@ -81,6 +81,7 @@ namespace HotelManagement_MVC.Controllers
             return View("Index",HotRoomTypList);
         }
 
+        [AllowAnonymous]
         public IActionResult Details(int Id)
         {
             HotelRoomType hotelRoomType = HotelRoomTypeRepo.GetById(Id);
