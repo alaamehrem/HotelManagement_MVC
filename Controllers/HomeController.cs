@@ -20,8 +20,8 @@ namespace HotelManagement_MVC.Controllers
         public IActionResult Index()
         {
 
-            //List<HotelRoomType> HotRoomTypList=hotelRoomTypeRepo.GetAll();
-            return View();
+            List<HotelRoomType> HotRoomTypList=hotelRoomTypeRepo.GetAll();
+            return View(HotRoomTypList.GetRange(7,3));
         }
 
         public IActionResult Privacy()
