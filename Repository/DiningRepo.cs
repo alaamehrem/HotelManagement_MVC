@@ -19,18 +19,14 @@ namespace HotelManagement_MVC.Repository
         {
             return context.Dinings.FirstOrDefault(d => d.Id == Id);
         }
-
-
         public void Insert(Dining obj)
         {
             context.Add(obj);
         }
-
         public void Save()
         {
             context.SaveChanges();
         }
-
         public List<Dining> Search(string search)
         {
             return context.Dinings
