@@ -55,21 +55,21 @@ namespace HotelManagement_MVC.Controllers
                 // Add the new booking to the cart
                 var cart = CartRepo.GetCartByGuestId(Id); // Assuming a method exists to get the cart by guest ID
 
-                if (cart != null)
+                if (cart == null)
                 {
-                    if (cart.BookingDinings == null)
+                    cart = new Cart
                     {
-                        cart.BookingDinings = new List<BookingDining>();
-                    }
-                    cart.BookingDinings.Add(bookingDining);
-
-                    // Calculate the total price of all booking items
-                    cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
+                        ApplicationUserId = Id,};
+                    CartRepo.Insert(cart);
                 }
+                cart.BookingDinings = new List<BookingDining> { bookingDining };
+
+                // Calculate the total price of all booking items
+                cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
 
                 BookingDiningRepo.Insert(bookingDining);
                 BookingDiningRepo.Save();
-                CartRepo.Insert(cart);// Update the cart in the database
+                CartRepo.Update(cart);// Update the cart in the database
                 CartRepo.Save();
             }
             return RedirectToAction("GetAll", "Dining"); // Redirect to a success page or another action
