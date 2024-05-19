@@ -1,4 +1,6 @@
-﻿namespace HotelManagement_MVC.ViewModel
+﻿using HotelManagement_MVC.Models;
+
+namespace HotelManagement_MVC.ViewModel
 {
     public class BookingDiningVM
     {
@@ -12,5 +14,6 @@
         public DateTime Date { get; set; }
         public int NumAdults { get; set; }
         public string? SpecialRequest { get; set; }
+        public string applicationUserId { get; set;}
     }
 }

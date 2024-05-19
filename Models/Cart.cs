@@ -12,9 +12,8 @@ namespace HotelManagement_MVC.Models
             public PaymentMethod paymentMethod { get; set; }
             public int ShippingPrice { get; set; }
             public PaymentStatus paymentStatus { get; set; }
-            [ForeignKey("Guest")]
-            public int GuestId { get; set; }
-            public Guest Guest { get; set; }
-            
+            [ForeignKey("ApplicationUser")]
+            public string ApplicationUserId { get; set; }
+            public ApplicationUser ApplicationUser { get; set; }
     }
 }

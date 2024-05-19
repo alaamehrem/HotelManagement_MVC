@@ -13,7 +13,7 @@ namespace HotelManagement_MVC.Repository
         }
         public List<BookingRoom> GetAll()
         {
-            return context.BookingRooms.Include(G=>G.Guest).Include(h=>h.HotelRoom).Include(o=>o.Offer).ToList();
+            return context.BookingRooms.Include(a=>a.ApplicationUser).Include(h=>h.HotelRoom).Include(o=>o.Offer).ToList();
         }
 
         public BookingRoom GetById(int Id)
@@ -32,12 +32,12 @@ namespace HotelManagement_MVC.Repository
             context.SaveChanges();
         }
 
-        public List<BookingRoom> Search(string search)
-        {
-            return context.BookingRooms
-                    .Where(d => d.GuestId == int.Parse(search))
-                    .ToList();
-        }
+        //public List<BookingRoom> Search(string search)
+        //{
+        //    return context.BookingRooms
+        //            .Where(d => d.GuestId == int.Parse(search))
+        //            .ToList();
+        //}
 
         public void Update(HotelRoom obj)
         {
