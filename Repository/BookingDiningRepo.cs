@@ -56,5 +56,7 @@ namespace HotelManagement_MVC.Repository
         {
             context.Update(obj);
         }
+
+      
     }
 }

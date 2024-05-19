@@ -10,7 +10,7 @@ namespace HotelManagement_MVC.IRepository
         public void Save();
         public void Update(Cart obj);
         public void Delete(int Id);
-        public Cart GetCartByGuestId(int id);
+        public Cart GetCartByGuestId(string id);
         public int? CalculateTotalPrice(Cart obj);
     }
 }

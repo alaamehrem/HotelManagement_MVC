@@ -1,6 +1,7 @@
 ﻿using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
 using HotelManagement_MVC.ViewModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagement_MVC.Repository
@@ -8,9 +9,12 @@ namespace HotelManagement_MVC.Repository
     public class CartRepo : ICartRepo
     {
         public HotelContext context;
-        public CartRepo(HotelContext _context)
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public CartRepo(HotelContext _context, UserManager<ApplicationUser> userManager)
         {
             context = _context;
+            this.userManager = userManager;
         }
         public List<Cart> GetAll()
         {
@@ -50,13 +54,13 @@ namespace HotelManagement_MVC.Repository
             Cart cart = GetById(Id);
             context.Remove(cart);
         }
-        public Cart GetCartByGuestId(int id)
+        public Cart GetCartByGuestId(string id)
         {
             return context.Carts
                 .Include(c => c.BookingDinings)
                 .Include(c => c.BookingRooms)
                 .Include(c => c.BookingExperiences)
-                .FirstOrDefault(c => c.GuestId == id);
+                .FirstOrDefault(c => c.ApplicationUserId == id);
         }
         public int? CalculateTotalPrice(Cart obj)
         {
@@ -79,5 +83,7 @@ namespace HotelManagement_MVC.Repository
 
             return totalPrice;
         }
+
+      
     }
 }
