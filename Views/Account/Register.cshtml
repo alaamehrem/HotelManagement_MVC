@@ -25,12 +25,13 @@
 
 		<form asp-action="register" asp-controller="Account" method="post" enctype="multipart/form-data">
 				<h3>Registration Form</h3>
-				<div class="form-group">
+				<div class="form-groupL">
 					<input asp-for="Fname" placeholder="First Name" class="form-control">
 				<span asp-validation-for="Fname" class="text-danger"></span>
 			    	<input asp-for="Lname" placeholder="Last Name" class="form-control">
 				<span asp-validation-for="Lname" class="text-danger"></span>
 				</div>
+			<br />
 				<div class="form-wrapper">
 				<input asp-for="Username" placeholder="Username" class="form-control">
 					<i class="zmdi zmdi-account"></i>

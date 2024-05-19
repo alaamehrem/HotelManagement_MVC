@@ -68,12 +68,12 @@ a:hover {
     padding-right: 10px;
 }
 
-.form-group {
+.form-groupL {
     display: flex;
 }
-  .form-group input {
+  .form-groupL input {
     width: 50%; }
-    .form-group input:first-child {
+    .form-groupL input:first-child {
       margin-right: 25px; }
 
 .form-wrapper {

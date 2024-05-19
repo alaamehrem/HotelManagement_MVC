@@ -35,6 +35,7 @@ namespace HotelManagement_MVC.Controllers
                 {
                 return RedirectToAction("GetAll", "Dining"); // Or handle the error as appropriate
                  }
+
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
             {
 
