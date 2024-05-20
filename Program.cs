@@ -20,7 +20,7 @@ namespace HotelManagement_MVC
             // Configure Paymob
             var paymobSettings = builder.Configuration.GetSection("Paymob");
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HotelContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HotelContext>().AddDefaultTokenProviders(); ;
 
 
             builder.Services.AddDbContext<HotelContext>(
@@ -41,7 +41,10 @@ namespace HotelManagement_MVC
             builder.Services.AddScoped<IOfferRepo, OfferRepo>();
             builder.Services.AddScoped<IBookingExperienceRepo, BookingExperienceRepo>();
             builder.Services.AddScoped<ICartRepo, CartRepo>();
-            var app = builder.Build();
+		
+
+
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -83,6 +83,9 @@ namespace HotelManagement_MVC.Controllers
             experiencenew.ExperienceName = ExperienceDb.Name;
             experiencenew.Description = ExperienceDb.Description;
             experiencenew.Duration = ExperienceDb.Duration;
+            experiencenew.instructions = ExperienceDb.instructions;
+            experiencenew.Requirements = ExperienceDb.Requirements;
+
 
             if (ModelState.IsValid)
             {

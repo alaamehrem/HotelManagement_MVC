@@ -1,4 +1,5 @@
-﻿using HotelManagement_MVC.Models;
+﻿using HotelManagement_MVC.Helper;
+using HotelManagement_MVC.Models;
 using HotelManagement_MVC.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -102,6 +103,115 @@ namespace HotelManagement_MVC.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
-    }
+
+        public async Task<IActionResult> AccessDenied()
+        {
+            return View();
+        }
+
+		#region ForgetPassword
+        public IActionResult ForgetPassword()   
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task <IActionResult> SendEmail(ForgetPasswordViewModel userEmailReq)
+        {
+            if (ModelState.IsValid)
+            {
+               
+                var user = await userManager.FindByEmailAsync(userEmailReq.Email);
+                if(user is not null) 
+                {
+					var token =  userManager.GeneratePasswordResetTokenAsync(user);
+					var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = userEmailReq.Email, token }, Request.Scheme);
+					Email email = new Email()
+                    {
+                        Subject = "Reset password",
+                        To = user.Email,
+                        Body= passwordResetLink
+					};
+                    EmailSettings.sendEmail(email);
+                    return RedirectToAction(nameof(CheckYourInbox));
+                }
+                ModelState.AddModelError(string.Empty,"Email does not exist");
+             
+            
+            
+            }
+            return View(userEmailReq);
+        }
+
+        public IActionResult CheckYourInbox()
+        {
+            return View();
+        }
+		#endregion
+
+
+		#region Reset Password
+        public IActionResult ResetPassword(string email,string token)
+        {
+            TempData["Email"] = email;
+            TempData["token"] = token;
+            return View();
+            //var model = new ResetPasswordViewModel
+            //{
+            //	Email = email,
+            //	Token = token
+            //};
+            //return View(model);
+        }
+        [HttpPost]
+        public async Task <IActionResult> ResetPassword(ResetPasswordViewModel vm)
+        {
+            if (ModelState.IsValid) {
+                string email = TempData["Email"] as string;
+                string token = TempData["token"] as string;
+                var user = await userManager.FindByEmailAsync(email);
+               
+                    var result = await userManager.ResetPasswordAsync(user, token, vm.newPassword); 
+                    if(result.Succeeded)
+                    {
+                        return RedirectToAction("Login","Account");   
+                    }
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty,error.Description);   
+                    }
+                
+            }
+			return View(vm);
+		}
+
+		//[HttpPost]
+		//public async Task<IActionResult> ResetPassword(ResetPasswordViewModel vm)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		var user = await userManager.FindByEmailAsync(vm.Email);
+		//		if (user != null)
+		//		{
+		//			var result = await userManager.ResetPasswordAsync(user, vm.Token, vm.NewPassword);
+		//			if (result.Succeeded)
+		//			{
+		//				return RedirectToAction("Login", "Account");
+		//			}
+		//			foreach (var error in result.Errors)
+		//			{
+		//				ModelState.AddModelError(string.Empty, error.Description);
+		//			}
+		//		}
+		//		else
+		//		{
+		//			ModelState.AddModelError(string.Empty, "Invalid email or token.");
+		//		}
+		//	}
+		//	return View(vm);
+		//}
+
+		#endregion
+	}
 }
 
