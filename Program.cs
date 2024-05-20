@@ -15,7 +15,7 @@ namespace HotelManagement_MVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HotelContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HotelContext>().AddDefaultTokenProviders(); ;
 
 
             builder.Services.AddDbContext<HotelContext>(
@@ -36,7 +36,10 @@ namespace HotelManagement_MVC
             builder.Services.AddScoped<IOfferRepo, OfferRepo>();
             builder.Services.AddScoped<IBookingExperienceRepo, BookingExperienceRepo>();
             builder.Services.AddScoped<ICartRepo, CartRepo>();
-            var app = builder.Build();
+		
+
+
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

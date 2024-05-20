@@ -68,13 +68,15 @@
 					<i class="zmdi zmdi-lock"></i>
 				<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 				</div>
-			<button style="background-color: #DFA974; border:none">
+
+			<button style="background-color: #DFA974; border:none; margin-top:20px; margin-bottom:15px;">
 					Register
 					<i class="zmdi zmdi-arrow-right"></i>
 				</button>
-			<button style="background-color: #DFA974; border:none">
-				<a class="nav-link" asp-action="Login" asp-controller="Account" >Login</a>
-			</button>
+			<span>
+				Already have an account?
+				<a class="nav-link" asp-action="Login" asp-controller="Account" style="display:inline">Login</a>
+			</span>
 			</form>
 
 		</div>

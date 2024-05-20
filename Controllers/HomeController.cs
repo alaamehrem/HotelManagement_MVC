@@ -19,7 +19,9 @@ namespace HotelManagement_MVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+
+            List<HotelRoomType> HotRoomTypList=hotelRoomTypeRepo.GetAll();
+            return View(HotRoomTypList.GetRange(7,3));
         }
 
         public IActionResult Privacy()
@@ -31,11 +33,7 @@ namespace HotelManagement_MVC.Controllers
 		{
 			return View();
 		}
-
-        public IActionResult Calendar()
-        {
-            return View();
-        }
+  
 
     }
 }

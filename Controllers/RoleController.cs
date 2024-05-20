@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement_MVC.Controllers
 {
-    //[Authorize(Roles = "Admin")]//cookie and assigned to role admin
+    [Authorize(Roles = "Admin")]//cookie and assigned to role admin
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -16,8 +16,8 @@ namespace HotelManagement_MVC.Controllers
         }
         [HttpGet]
         public IActionResult Create()
-        {
-            return View();
+        {         
+            return View();        
         }
 
         [HttpPost]

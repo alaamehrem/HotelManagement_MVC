@@ -22,9 +22,6 @@
 
 <div class="wrapper" style="background-image: url('/images/log.jpg');">
 	<div class="innerlogin">
-		@* <div class="image-holder">
-			<img src="/images/registration-form-1.jpg" alt="">
-		</div> *@
 		<form asp-action="Login" asp-controller="Account" method="post" enctype="multipart/form-data">
 			<div asp-validation-summary="All" class="text-danger"></div> 
 			<h3>Login</h3>
@@ -45,14 +42,17 @@
 					<input  asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
 				</label>
 			</div>
-			<button style="background-color: #DFA974; border:none">
+			<button style="background-color: #DFA974; border:none; margin-top:20px; margin-bottom:15px;">
 				Login
 				<i class="zmdi zmdi-arrow-right"></i>
 			</button>
-			<button style="background-color: #DFA974; border:none">
-				<a class="nav-link" asp-area="" asp-controller="Account" asp-action="register">Register</a>
-			</button>
+			<p><a asp-action="ForgetPassword">Forget Password</a></p>
+			<span>Don't have an account?
+				<a class="nav-link" asp-area="" asp-controller="Account" asp-action="register" style="display:inline">Register now</a>
+			</span>
+		
 		</form>
+	
 	</div>
 </div>
 <br />

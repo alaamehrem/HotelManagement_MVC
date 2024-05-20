@@ -49,5 +49,10 @@ namespace HotelManagement_MVC.Repository
             BookingRoom bookingRoom = GetById(Id);
             context.Remove(bookingRoom);
         }
+
+        public HotelRoomType GetRoomTypeById(int Id)
+        {
+            return context.HotelRoomTypes.FirstOrDefault(d => d.Id == Id);
+        }
     }
 }
