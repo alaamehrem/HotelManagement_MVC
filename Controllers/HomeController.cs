@@ -31,7 +31,11 @@ namespace HotelManagement_MVC.Controllers
 		{
 			return View();
 		}
-  
+
+        public IActionResult Calendar()
+        {
+            return View();
+        }
 
     }
 }
