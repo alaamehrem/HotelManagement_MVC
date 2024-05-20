@@ -21,7 +21,7 @@ namespace HotelManagement_MVC.Controllers
         {
 
             List<HotelRoomType> HotRoomTypList=hotelRoomTypeRepo.GetAll();
-            return View(HotRoomTypList.GetRange(7,3));
+            return View(HotRoomTypList.GetRange(2,3));
         }
 
         public IActionResult Privacy()
