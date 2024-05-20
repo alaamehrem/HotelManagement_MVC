@@ -27,52 +27,55 @@ namespace HotelManagement_MVC.Controllers
             this.CartRepo = cartRepo;
         }
         [HttpPost]
-        public IActionResult SaveNew(int id, BookingDiningVM bookingDiningVM )
+        public IActionResult SaveNew(int id, BookingDiningVM bookingDiningVM)
         {
-
-                var dining = BookingDiningRepo.GetDiningById(id);
-                if (dining == null)
-                {
+            var dining = BookingDiningRepo.GetDiningById(id);
+            if (dining == null)
+            {
                 return RedirectToAction("GetAll", "Dining"); // Or handle the error as appropriate
-                 }
+            }
 
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
             {
 
                 Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-                string Id = ClaimId.Value;
+                string userId = ClaimId.Value;
+
                 var bookingDining = new BookingDining
                 {
                     Date = bookingDiningVM.Date,
                     NumAdults = bookingDiningVM.NumAdults,
                     SpecialRequest = bookingDiningVM.SpecialRequest,
-                    ApplicationUserId = Id, // WILL CHANGE TO ACTUAL GUEST ID
+                    ApplicationUserId = userId,
                     Price = dining.Price,
                     DiningId = dining.Id
                     // Additional properties related to dining can be set here if needed
                 };
 
-                // Add the new booking to the cart
-                var cart = CartRepo.GetCartByGuestId(Id); // Assuming a method exists to get the cart by guest ID
-
-                if (cart != null)
+                var cart = CartRepo.GetCartByGuestId(userId);
+                if (cart == null)
                 {
-                    if (cart.BookingDinings == null)
+                    cart = new Cart
                     {
-                        cart.BookingDinings = new List<BookingDining>();
-                    }
-                    cart.BookingDinings.Add(bookingDining);
-
-                    // Calculate the total price of all booking items
-                    cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
+                        ApplicationUserId = userId
+                    };
+                    CartRepo.Insert(cart);
                 }
+                cart.BookingDinings = new List<BookingDining> { bookingDining };
+                cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
 
                 BookingDiningRepo.Insert(bookingDining);
                 BookingDiningRepo.Save();
-                CartRepo.Insert(cart);// Update the cart in the database
+                CartRepo.Update(cart);
                 CartRepo.Save();
+
+                // Redirect to cart confirmation page
+                return RedirectToAction("ConfirmCart", "Cart", new { Id = userId });
             }
-            return RedirectToAction("GetAll", "Dining"); // Redirect to a success page or another action
+            else
+            {
+                return RedirectToAction("Login", "Account"); // Redirect user to login if not authenticated
+            }
         }
     }
 }

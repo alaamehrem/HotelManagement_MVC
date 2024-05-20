@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Payment";
+}
+
+<h2>Payment</h2>
+
+<form id="paymentForm" action="@Url.Action("ConfirmCart", "Cart")" method="post">
+    <button type="submit">Pay with Paymob</button>
+</form>

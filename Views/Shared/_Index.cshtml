@@ -41,18 +41,19 @@
     <!-- Offcanvas Menu Section Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="canvas-open">
-        <i class="icon_menu"></i>
+        <i class="fa fa-shopping-bag" style="font-size: 18px; position: relative; bottom: 2px;
+        color: black"></i>
     </div>
     <div class="offcanvas-menu-wrapper">
         <div class="canvas-close">
             <i class="icon_close"></i>
         </div>
-        <div class="search-icon  search-switch">
-            <i class="icon_search"></i>
+        @* ADD SIDE BAR PARTIAL HERE *@
+        <div class="sidebar-container">
+         <partial name="_CartSideBar" />
         </div>
-        <div class="header-configure-area">       
-            <a href="#" class="bk-btn">Booking Now</a>
-        </div>
+        
+
     </div>
     <!-- Offcanvas Menu Section End -->
     <!-- Header Section Begin -->
@@ -85,6 +86,20 @@
     <script src="/js/jquery.slicknav.js"></script>
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetAll", "Cart")',
+                type: 'GET',
+                success: function (data) {
+                    $('.sidebar-container').html(data);
+                },
+                error: function () {
+                    console.error("An error occurred while loading the sidebar.");
+                }
+            });
+        });
+    </script>
 
 </body>
 

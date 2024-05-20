@@ -3,6 +3,9 @@ using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace HotelManagement_MVC
 {
@@ -14,6 +17,8 @@ namespace HotelManagement_MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            // Configure Paymob
+            var paymobSettings = builder.Configuration.GetSection("Paymob");
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HotelContext>();
 
@@ -43,6 +48,7 @@ namespace HotelManagement_MVC
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

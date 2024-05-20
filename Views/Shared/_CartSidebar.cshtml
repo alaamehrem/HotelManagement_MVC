@@ -1,0 +1,48 @@
+﻿@model List<Cart>
+
+<div>
+    <ul>
+        @if (Model == null)
+        {
+            <li class="nav-item">No items in cart</li>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <li class="nav-item"> @item.Id</li>
+                <li class="nav-item"> @item.ShippingPrice</li>
+            }
+
+        }
+
+    </ul>
+    <div class="header-configure-area">
+        <a href="./Cart/ConfirmCart" class="bk-btn">Confirm Cart</a>
+    </div>
+@*     <ul>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="HotelRoomType" asp-action="RoomTypes">Rooms</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Experience" asp-action="Experiences">Experience</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Dining" asp-action="GetAll">Dining</a>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">AboutUs</a>
+        </li>
+            @*                             <li>
+        <a href="./pages.html">Pages</a>
+        <ul class="dropdown">
+        <li><a href="./room-details.html">Room Details</a></li>
+        <li><a href="./blog-details.html">Blog Details</a></li>
+        <li><a href="#">Family Room</a></li>
+        <li><a href="#">Premium Room</a></li>
+        </ul>
+        </li> 
+    </ul> *@
+</div>
