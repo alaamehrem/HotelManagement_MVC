@@ -9,7 +9,8 @@ namespace HotelManagement_MVC.IRepository
         public void Insert(BookingRoom obj);
         public void Save();
         //public List<BookingRoom> Search(string search);
-        public void Update(HotelRoom obj);
         public void Delete(int Id);
+        public HotelRoomType GetRoomTypeById(int Id);
+        public void Update(HotelRoom obj);
     }
 }
