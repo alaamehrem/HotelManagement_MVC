@@ -2,8 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "_Dashboard";
-
+    Layout = "_Index";
 }
 
 <!-- Breadcrumb Section Begin -->
@@ -50,8 +49,8 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CoverImage" class="control-label"></label>
-                    <img src="/Images/Experience/@Model.CoverImage" alt="">
-                    <input name="FileCoverImage" type="file" class="form form-control" style="border:none; outline:none;" />
+                    <img id="imagePreview1" style="width:400px;height:400px" src="/Images/Experience/@Model.CoverImage" alt="Image Preview" />
+                    <input name="FileCoverImage" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage1(event)" />
                     <span asp-validation-for="CoverImage" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -112,3 +111,25 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            var output = document.getElementById('imagePreview');
+            output.src = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+    function previewImage1(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            var output = document.getElementById('imagePreview1');
+            output.src = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
