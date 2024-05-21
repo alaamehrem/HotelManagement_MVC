@@ -13,5 +13,6 @@ namespace HotelManagement_MVC.IRepository
         public Dining GetDiningById(int Id);
         public void UpdateDining(Dining obj);
         public void Update(BookingDining obj);
+        public int? DuplicatePrice(BookingDining bookingDining);
     }
 }

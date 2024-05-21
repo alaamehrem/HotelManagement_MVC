@@ -30,7 +30,12 @@ namespace HotelManagement_MVC.Repository
         {
             context.SaveChanges();
         }
-
+        public int? DuplicatePrice(BookingDining bookingDining)
+        {
+            int? NewPrice = 0;
+            NewPrice = bookingDining.Price * bookingDining.NumAdults;
+            return NewPrice;
+        }
         //public List<BookingDining> Search(string search)
         //{
         //    return context.BookingDinings

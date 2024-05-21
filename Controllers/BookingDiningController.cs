@@ -17,7 +17,7 @@ namespace HotelManagement_MVC.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         ICartRepo CartRepo;
 
-        public BookingDiningController(IBookingDiningRepo BookingDiningRepo,ICartRepo cartRepo, IWebHostEnvironment webHostEnvironment, 
+        public BookingDiningController(IBookingDiningRepo BookingDiningRepo, ICartRepo cartRepo, IWebHostEnvironment webHostEnvironment,
             UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.BookingDiningRepo = BookingDiningRepo;
@@ -51,6 +51,7 @@ namespace HotelManagement_MVC.Controllers
                     DiningId = dining.Id
                     // Additional properties related to dining can be set here if needed
                 };
+                bookingDining.Price = (int)BookingDiningRepo.DuplicatePrice(bookingDining);
 
                 var cart = CartRepo.GetCartByGuestId(userId);
                 if (cart == null)
@@ -61,21 +62,24 @@ namespace HotelManagement_MVC.Controllers
                     };
                     CartRepo.Insert(cart);
                 }
-                cart.BookingDinings = new List<BookingDining> { bookingDining };
-                cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
+                    if (cart.BookingDinings == null)
+                        cart.BookingDinings = new List<BookingDining> { bookingDining };
+                    else
+                        cart.BookingDinings.Add(bookingDining);
+                    cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
 
-                BookingDiningRepo.Insert(bookingDining);
-                BookingDiningRepo.Save();
-                CartRepo.Update(cart);
-                CartRepo.Save();
+                    BookingDiningRepo.Insert(bookingDining);
+                    BookingDiningRepo.Save();
+                    CartRepo.Update(cart);
+                    CartRepo.Save();
 
-                // Redirect to cart confirmation page
-                return RedirectToAction("ConfirmCart", "Cart", new { Id = userId });
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account"); // Redirect user to login if not authenticated
+                    // Redirect to cart confirmation page
+                    return RedirectToAction("GetAll", "Dining", new { Id = userId });
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account"); // Redirect user to login if not authenticated
+                }
             }
         }
     }
-}
