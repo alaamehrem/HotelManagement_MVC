@@ -32,7 +32,18 @@ namespace HotelManagement_MVC.Controllers
             this.signInManager = signInManager;
             this.CartRepo = CartRepo;
         }
-
+        public IActionResult GetAllCart()
+        {
+            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
+            {
+                List<Cart> CartList = CartRepo.GetAll();
+                return View(CartList);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
         public async Task<IActionResult> ConfirmCart()
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login

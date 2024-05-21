@@ -19,13 +19,10 @@ namespace HotelManagement_MVC.Repository
         {
             return context.BookingDinings.FirstOrDefault(d => d.Id == Id);
         }
-
-
         public void Insert(BookingDining obj)
         {
             context.Add(obj);
         }
-
         public void Save()
         {
             context.SaveChanges();
@@ -36,13 +33,6 @@ namespace HotelManagement_MVC.Repository
             NewPrice = bookingDining.Price * bookingDining.NumAdults;
             return NewPrice;
         }
-        //public List<BookingDining> Search(string search)
-        //{
-        //    return context.BookingDinings
-        //            .Where(d => d.ApplicationUserId == string.Parse(search))
-        //            .ToList();
-        //}
-
         public void Update(BookingDining obj)
         {
             context.Update(obj);

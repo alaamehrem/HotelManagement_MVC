@@ -1,0 +1,92 @@
+﻿@model List<Cart>
+
+<div class="container mt-5">
+    <table class="table table-bordered table-hover my-5">
+        @if (Model == null || !Model.Any())
+        {
+            <tr>
+                <td class="nav-item text-center" colspan="5">No items in cart</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var cart in Model)
+            {
+                <!-- Loop through BookingDining -->
+                @if (cart.BookingDinings != null && cart.BookingDinings.Any())
+                {
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                    </tr>
+                    foreach (var dining in cart.BookingDinings)
+                    {
+                        <tr>
+                            <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Dining/@dining.Dining.Images" alt="Dining image" /></td>
+                            <td>@dining.Dining.Name</td>
+                            <td>@dining.Date</td>
+                            <td>@dining.Price</td>
+                        </tr>
+                    }
+                }
+                <!-- Loop through BookingRoom -->
+                @if (cart.BookingRooms != null && cart.BookingRooms.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="nav-item"><strong>Room Bookings:</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Room Type</th>
+                        <th>Image</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Price</th>
+                    </tr>
+                    foreach (var room in cart.BookingRooms)
+                    {
+                        <tr>
+                            <td>@room.HotelRoom.HotelRoomType.Name</td>
+                            <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/RoomType/@room.HotelRoom.HotelRoomType.Images" alt="Room image" /></td>
+                            <td>@room.CheckInDate</td>
+                            <td>@room.CheckOutDate</td>
+                            <td>@room.TotalPrice</td>
+                        </tr>
+                    }
+                }
+
+                <!-- Loop through BookingExperience -->
+                @if (cart.BookingExperiences != null && cart.BookingExperiences.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="nav-item"><strong>Experience Bookings:</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                    </tr>
+                    foreach (var experience in cart.BookingExperiences)
+                    {
+                        <tr>
+                            <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
+                            <td>@experience.Experience.Name</td>
+                            <td>@experience.Date</td>
+                            <td>@experience.Price</td>
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <td colspan="5" class="nav-item text-right">Shipping Price: @cart.ShippingPrice</td>
+                </tr>
+            }
+        }
+    </table>
+
+    <div class="header-configure-area text-right">
+        <a style="margin-bottom:50px" href="./Cart/ConfirmCart" class="btn btn-success">Confirm Cart</a>
+    </div>
+</div>

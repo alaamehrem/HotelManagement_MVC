@@ -54,5 +54,16 @@ namespace HotelManagement_MVC.Repository
         {
             return context.HotelRoomTypes.FirstOrDefault(d => d.Id == Id);
         }
+        public int? DuplicatePrice(BookingRoom bookingRoom)
+        {
+            int? NewPrice = 0;
+            var roomtype = context.HotelRoomTypes.FirstOrDefault(d => d.Id == bookingRoom.HotelRoom.HotelRoomTypeId);
+            if (roomtype != null)
+            {
+                var offer = context.Offers.FirstOrDefault(d => d.Id == bookingRoom.OfferId);
+                if (roomtype != null && offer != null) { NewPrice = (roomtype.Price + offer.OfferPrice) * bookingRoom.NumOfRooms; }
+            }      
+            return NewPrice;
+        }
     }
 }
