@@ -25,14 +25,15 @@
     <div class="container">
         <h3>Room Form</h3>
         <br />
-        <form asp-action="SaveNew" asp-controller="HotelRoomType" method="post" enctype="multipart/form-data">
+        <form asp-action="SaveNew" asp-controller="HotelRoomType" method="post" enctype="multipart/form-data" class="col-md-7">
                 <div>
                     <label asp-for="Name"> </label>
                     <input asp-for="Name" class="form form-control" />                   
                 </div>
                 <div>
-                    <label asp-for="Images"> </label>
-                    <input Name="FileImages" type="file" class="form form-control" style="border:none; outline:none;"/>
+                <label asp-for="Images"> </label>
+                <img id="imagePreview" style="width:400px;height:400px" src="/images/RoomType/@Model.Images" alt="Image Preview" />
+                <input Name="FileImages" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage(event)" />
                 </div>
                 <br />
                 <div>
@@ -79,9 +80,19 @@
             <input type="submit" value="Create" class="btn btn-success" style="background-color: #DFA974; border:none" />|
             <a asp-action="Index" asp-controller="HotelRoomType">Back to List</a>
             </form>
-  
         </div>
     </div>
 </section>
 <br />
-
+ <script>
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function () {
+                var dataURL = reader.result;
+                var output = document.getElementById('imagePreview');
+                output.src = dataURL;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>

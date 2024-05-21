@@ -36,14 +36,17 @@
                 <label asp-for="ExperienceName"> </label>
                 <input asp-for="ExperienceName" class="form form-control" />
             </div>
-            <div>
-                <label asp-for="Image"> </label>
-                <input Name="FileImage" type="file" class="form form-control" style="border:none; outline:none;" />
-            </div>
             <br />
             <div>
+                <label asp-for="Image"> </label>
+                <img id="imagePreview" style="width:400px;height:400px" src="/images/Experience/@Model.Image" alt="Image Preview" />
+                <input Name="FileImage" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage(event)" />
+            </div>
+
+            <div>
                 <label asp-for="CoverImage"> </label>
-                <input Name="FileCoverImage" type="file" class="form form-control" style="border:none; outline:none;" />
+                <img id="imagePreview1" style="width:400px;height:400px" src="/images/Experience/@Model.CoverImage" alt="Image Preview" />
+                <input Name="FileCoverImage" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage1(event)" />
             </div>
             <br />
             <div>
@@ -134,4 +137,25 @@
         </form>
     </div>
 </section>
-
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            var output = document.getElementById('imagePreview');
+            output.src = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+    function previewImage1(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            var output = document.getElementById('imagePreview1');
+            output.src = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>

@@ -28,7 +28,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-            <form method="post" action="/HotelRoomType/SaveEdit/@Model.Id" enctype="multipart/form-data">
+            <form method="post" action="/HotelRoomType/SaveEdit/@Model.Id" enctype="multipart/form-data" >
             <div asp-validation-summary="All" class="text-danger"></div>  
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -42,8 +42,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="Images" class="control-label"></label>
-                <img src="/Images/RoomType/@Model.Images" alt="">
-                <input Name="FileImages" type="file" class="form form-control" style="border:none; outline:none;" />
+                    <img id="imagePreview" style="width:400px;height:400px" src="/images/RoomType/@Model.Images" alt="Image Preview" />
+@*                 <img src="/Images/RoomType/@Model.Images" alt="">
+                    *@                
+                    <input Name="FileImages" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage(event)" />
                 <span asp-validation-for="Images" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -101,3 +103,15 @@
 </div>
 <br />
 
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            var output = document.getElementById('imagePreview');
+            output.src = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>

@@ -289,16 +289,22 @@
             <div class="col-lg-4">
                 <div class="room-booking">
                     <h3>Your Reservation</h3>
-                    <form action="#">
+                    <form asp-action="SaveNew" asp-controller="BookingExperience" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="@Model.Id" />
                         <div class="check-date">
                             <label for="date-in">Date:</label>
                             <input type="text" class="date-input" id="date-in">
                             <i class="icon_calendar"></i>
                         </div>
                         <div class="select-option">
-                            <label for="guest">Guests:</label>
-                            <select id="guest">
-                                <option value="">3 Adults</option>
+                            <label for="NumAdults">Guests:</label>
+                            <select asp-for="NumAdults">
+                                <option value="1">1 Adult</option>
+                                <option selected value="2">2 Adults</option>
+                                <option value="3">3 Adults</option>
+                                <option value="4">4 Adults</option>
+                                <option value="5">5 Adults</option>
+                                <option value="6">6 Adults</option>
                             </select>
                         </div>
                         <button type="submit">Check Availability</button>
