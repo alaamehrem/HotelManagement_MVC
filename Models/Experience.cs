@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
+        public DateTime Date { get; set; }
         public string CoverImage { get; set; }
         public int TypeId { get; set; } // Foreign key for Type
         public ExperienceType Type { get; set; } // Navigation property for Type

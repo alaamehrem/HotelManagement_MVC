@@ -90,7 +90,6 @@ namespace HotelManagement_MVC.Controllers
                     title = "Experience: " + experience.Experience.Name,
                     start = experience.Date.ToString("yyyy-MM-ddTHH:mm:ss"),
                     end = experience.Date.ToString("yyyy-MM-ddTHH:mm:ss"),
-
                     className = "bg-success"
                 });
             }
