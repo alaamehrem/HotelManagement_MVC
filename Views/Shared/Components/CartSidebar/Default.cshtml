@@ -11,7 +11,7 @@
             foreach (var cart in Model)
             {
                 <li class="nav-item">Cart ID: @cart.Id</li>
-                
+
 
                 <!-- Loop through BookingDining -->
                 @if (cart.BookingDinings != null && cart.BookingDinings.Any())
@@ -28,30 +28,30 @@
                 else
                 {
                     <li class="nav-subitem">No Dining Bookings</li>
-                } 
+                }
 
                 <!-- Loop through BookingRoom -->
                 @if (cart.BookingRooms != null && cart.BookingRooms.Any())
                 {
-                     <li class="nav-item"><strong>Room Bookings:</strong></li> 
+                    <li class="nav-item"><strong>Room Bookings:</strong></li>
                     foreach (var room in cart.BookingRooms)
                     {
                         <li class="nav-subitem">Room Type: @room.HotelRoom.HotelRoomType.Name</li>
-                        <li ><img src="@room.HotelRoom.HotelRoomType.Images" /></li>
+                        <li><img src="@room.HotelRoom.HotelRoomType.Images" /></li>
                         <li class="nav-subitem">Check-in: @room.CheckInDate</li>
                         <li class="nav-subitem">Check-out: @room.CheckOutDate</li>
                         <li class="nav-subitem">Price: @room.TotalPrice</li>
                     }
                 }
-                 else
+                else
                 {
                     <li class="nav-subitem">No Room Bookings</li>
-                } 
+                }
 
                 <!-- Loop through BookingExperience -->
-               @if (cart.BookingExperiences != null && cart.BookingExperiences.Any())
+                @if (cart.BookingExperiences != null && cart.BookingExperiences.Any())
                 {
-                     <li class="nav-item"><strong>Experience Bookings:</strong></li> 
+                    <li class="nav-item"><strong>Experience Bookings:</strong></li>
                     foreach (var experience in cart.BookingExperiences)
                     {
                         <li><img src="@experience.Experience.CoverImage" alt="Dining image" /></li>
@@ -63,7 +63,7 @@
                 else
                 {
                     <li class="nav-subitem">No Experience Bookings</li>
-                }  
+                }
                 <li class="nav-item">Shipping Price: @cart.ShippingPrice</li>
             }
         }
@@ -74,3 +74,4 @@
     </div>
 
 </div>
+

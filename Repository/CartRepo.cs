@@ -62,6 +62,7 @@ namespace HotelManagement_MVC.Repository
                 .Include(c => c.BookingExperiences)
                 .FirstOrDefault(c => c.ApplicationUserId == id);
         }
+
         public int? CalculateTotalPrice(Cart obj)
         {
             int? totalPrice = 0;

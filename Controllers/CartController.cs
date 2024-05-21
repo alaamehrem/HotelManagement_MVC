@@ -33,13 +33,6 @@ namespace HotelManagement_MVC.Controllers
             this.CartRepo = CartRepo;
         }
 
-        public IActionResult GetAll()
-        {
-            List<Cart> cartList = CartRepo.GetAll();
-            return PartialView("_CartSidebar", cartList);
-        }
-
-        // This action confirms the cart and initiates payment
         public async Task<IActionResult> ConfirmCart()
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
@@ -53,32 +46,32 @@ namespace HotelManagement_MVC.Controllers
                     return NotFound(); // Handle case where cart is not found
                 }
 
-                cart.paymentStatus = Enums.PaymentStatus.Pending; // Assuming you have a PaymentStatus enum
-                CartRepo.Update(cart);
-                CartRepo.Save();
-
                 // Call CreatePaymentIntent method
                 var paymentUrl = await CreatePaymentIntent(cart);
 
                 if (!string.IsNullOrEmpty(paymentUrl))
                 {
+                    cart.paymentStatus = Enums.PaymentStatus.Pending;
                     // Redirect user to payment page
                     return Redirect(paymentUrl);
+
                 }
                 else
                 {
+                    cart.paymentStatus = Enums.PaymentStatus.Declined;
                     // Handle payment creation failure
                     return RedirectToAction("PaymentError");
                 }
             }
+
             else
             {
                 return RedirectToAction("Login", "Account");
             }
         }
 
-        // This method creates the payment intent
-        private async Task<string> CreatePaymentIntent(Cart cart)
+    // This method creates the payment intent
+    private async Task<string> CreatePaymentIntent(Cart cart)
         {
             var paymobApiKey = _configuration["Paymob:ApiKey"];
             var paymobBaseUrl = "https://accept.paymobsolutions.com/api";

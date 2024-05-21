@@ -7,7 +7,7 @@
     <meta name="keywords" content="Hotel Booking, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hotel Booking  | Template</title>
+    <title>Hotel Booking | Template</title>
     <link rel="icon" href="/Images/favicon.png">
 
     <!-- Google Font -->
@@ -25,16 +25,12 @@
     <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
-
-    <!-- MATERIAL DESIGN ICONIC FONT -->
     <link rel="stylesheet" href="/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-
-    <!-- STYLE CSS -->
     <link rel="stylesheet" href="/css/styler.css">
 </head>
 
 <body>
-    <!-- Page Preloder -->
+    <!-- Page Preloader -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
@@ -42,27 +38,21 @@
     <!-- Offcanvas Menu Section Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="canvas-open">
-        <i class="fa fa-shopping-bag" style="font-size: 18px; position: relative; bottom: 2px;
-        color: black"></i>
+        <i class="fa fa-shopping-bag" style="font-size: 18px; position: relative; bottom: 2px; color: black"></i>
     </div>
     <div class="offcanvas-menu-wrapper">
         <div class="canvas-close">
             <i class="icon_close"></i>
         </div>
         <div class="sidebar-container">
-@*          <partial name="_CartSideBar" /> *@
+            @await Component.InvokeAsync("CartSidebar")
         </div>
-        
-
     </div>
     <!-- Offcanvas Menu Section End -->
     <!-- Header Section Begin -->
     <partial name="_navBar" />
     <!-- Header End -->
     <!-- Hero Section Begin -->
-@*     @{
-        IgnoreBody();
-    }  *@
     @RenderBody()
     <!-- Footer Section Begin -->
     <partial name="_footer" />
@@ -88,17 +78,18 @@
     <script src="/js/main.js"></script>
     <script>
         $(document).ready(function () {
-            $.ajax({
-                url: '@Url.Action("GetAll", "Cart")',
-                type: 'GET',
-                success: function (data) {
-                    $('.sidebar-container').html(data);
-                },
-                error: function () {
-                    console.error("An error occurred while loading the sidebar.");
-                }
-            });
-        });
+    $.ajax({
+        url: '@Url.Action("GetAll", "Cart")',
+        type: 'GET',
+        success: function (data) {
+            $('.sidebar-container').html(data);
+        },
+        error: function (xhr, status, error) {
+            console.error("An error occurred while loading the sidebar.");
+            console.error(xhr.responseText);
+        }
+    });
+});
     </script>
 
 </body>
