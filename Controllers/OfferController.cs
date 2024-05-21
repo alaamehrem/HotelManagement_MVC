@@ -1,6 +1,7 @@
 ﻿using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
@@ -8,6 +9,8 @@ using System.Diagnostics.Metrics;
 
 namespace HotelManagement_MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
+
     public class OfferController : Controller
     {
         private readonly IOfferRepo offerRepo;
@@ -33,6 +36,7 @@ namespace HotelManagement_MVC.Controllers
             return View("Index", offerList);
         }
 
+        [AllowAnonymous]
         public IActionResult Offers(string search)
         {
             List<Offer> offerList;
@@ -47,6 +51,7 @@ namespace HotelManagement_MVC.Controllers
             return View("Offers", offerList);
         }
 
+        [AllowAnonymous]
         public IActionResult Details(int Id)
         {
             Offer offer = offerRepo.GetById(Id);

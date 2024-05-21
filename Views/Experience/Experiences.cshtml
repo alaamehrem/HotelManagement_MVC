@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Experiences";
     Layout = "_Index";
-
 }
 
 <!-- Breadcrumb Section Begin -->
@@ -23,11 +22,11 @@
     </div>
 </div>
 <!-- Breadcrumb Section End -->
-
 <!-- Blog Section Begin -->
 <section class="blog-section blog-page spad">
     <div class="container">
-        <!-- search section -->
+
+        <!-- Search section -->
         <form asp-action="Experiences" asp-controller="Experience" method="get">
             <div class="row input-group">
                 <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
@@ -35,21 +34,34 @@
             </div>
         </form>
         <br />
+
+        <!-- Category filter section -->
+        <div class="row mb-4">
+            <div class="col-lg-12 d-flex justify-content-between">
+                <a href="" class="btn btn-outline-secondary">OFF-SITE SEA ACTIVITIES</a>
+                <a href="" class="btn btn-outline-secondary">DAYBEDS</a>
+                <a href="" class="btn btn-outline-secondary">TOURS</a>
+                <a href="" class="btn btn-outline-secondary">CAR RENTALS</a>
+                <a href="" class="btn btn-outline-secondary">OFF-SITE ACTIVITIES</a>
+            </div>
+        </div>
+        <br />
+
+        <!-- Experiences grid -->
         <div class="row">
             @foreach (var item in Model)
             {
                 <div class="col-lg-4 col-md-6">
                     <div class="blog-item set-bg" data-setbg="/Images/Experience/@item.Image">
                         <div class="bi-text">
-                            <span class="b-tag">@item.Price EGP </span>
+                            <span class="b-tag">@item.Price EGP</span>
                             <h4><a href="/Experience/Details?id=@item.Id">@item.Name</a></h4>
                             <div class="b-time"><i class="icon_clock_alt"></i>@item.Duration</div>
                         </div>
                     </div>
-
                 </div>
             }
-         
+        </div>
     </div>
 </section>
 <!-- Blog Section End -->
@@ -81,9 +93,7 @@
 <!-- Blog Section Begin -->
 <section class="blog-section blog-page spad">
     <div class="container">
-
-
-        <!-- search section -->
+        <!-- Search section -->
         <form asp-action="Experiences" asp-controller="Experience" method="get">
             <div class="row input-group">
                 <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
@@ -91,24 +101,27 @@
             </div>
         </form>
         <br />
+
         <!-- Category filter section -->
         <div class="row mb-4">
             <div class="col-lg-12 d-flex justify-content-between">
-                <a href="/Experience/Experiences?Name=OFF-SITE SEA ACTIVITIES" class="btn btn-outline-secondary">OFF-SITE SEA ACTIVITIES</a>
-                <a href="/Experience/Experiences?category=DAYBEDS" class="btn btn-outline-secondary">DAYBEDS</a>
-                <a href="/Experience/Experiences?category=TOURS" class="btn btn-outline-secondary">TOURS</a>
-                <a href="/Experience/Experiences?category=CAR RENTALS" class="btn btn-outline-secondary">CAR RENTALS</a>
-                <a href="/Experience/Experiences?category=OFF-SITE ACTIVITIES" class="btn btn-outline-secondary">OFF-SITE ACTIVITIES</a>
+                <a href="javascript:void(0)" class="btn btn-outline-secondary" id="filter-offsite-sea" data-type="1">OFF-SITE SEA ACTIVITIES</a>
+                <a href="javascript:void(0)" class="btn btn-outline-secondary" id="filter-daybeds" data-type="2">DAYBEDS</a>
+                <a href="javascript:void(0)" class="btn btn-outline-secondary" id="filter-tours" data-type="3">TOURS</a>
+                <a href="javascript:void(0)" class="btn btn-outline-secondary" id="filter-car-rentals" data-type="4">CAR RENTALS</a>
+                <a href="javascript:void(0)" class="btn btn-outline-secondary" id="filter-offsite" data-type="5">OFF-SITE ACTIVITIES</a>
             </div>
         </div>
         <br />
-        <div class="row">
+
+        <!-- Experiences grid -->
+        <div class="row" id="experiences-container">
             @foreach (var item in Model)
             {
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6 experience-item" data-type="@item.TypeId">
                     <div class="blog-item set-bg" data-setbg="/Images/Experience/@item.Image">
                         <div class="bi-text">
-                            <span class="b-tag">@item.Price EGP </span>
+                            <span class="b-tag">@item.Price EGP</span>
                             <h4><a href="/Experience/Details?id=@item.Id">@item.Name</a></h4>
                             <div class="b-time"><i class="icon_clock_alt"></i>@item.Duration</div>
                         </div>
@@ -119,3 +132,27 @@
     </div>
 </section>
 <!-- Blog Section End -->
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const filterButtons = document.querySelectorAll('[id^="filter-"]');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const typeId = this.getAttribute('data-type');
+                    filterExperiences(typeId);
+                });
+            });
+
+            function filterExperiences(typeId) {
+                const experiences = document.querySelectorAll('.experience-item');
+                experiences.forEach(experience => {
+                    if (experience.getAttribute('data-type') === typeId || typeId === "all") {
+                        experience.style.display = 'block';
+                    } else {
+                        experience.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+}

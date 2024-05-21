@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using NuGet.Protocol.Core.Types;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelManagement_MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ExperienceController : Controller
     {
         private readonly IExperienceRepo ExperienceRepo;
@@ -39,6 +41,7 @@ namespace HotelManagement_MVC.Controllers
             return View("Index", ExperienceList);
         }
 
+        [AllowAnonymous]
         public IActionResult Experiences(string search)
         {
             List<Experience> ExperienceList;
@@ -55,6 +58,7 @@ namespace HotelManagement_MVC.Controllers
             return View("Experiences", ExperienceList);
         }
 
+        [AllowAnonymous]
         //details
         public IActionResult Details(int Id)
         {
