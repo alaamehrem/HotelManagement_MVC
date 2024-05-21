@@ -29,9 +29,13 @@ img {
 ul {
   padding-left: 0;
   margin-bottom: 0; }
-
+a {
+    color: #DFA974;
+}
 a:hover {
-  text-decoration: none; }
+    text-decoration: none;
+    color: deepskyblue;
+}
 
 :focus {
   outline: none; }
