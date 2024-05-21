@@ -27,7 +27,7 @@ namespace HotelManagement_MVC.Controllers
         this.CartRepo = cartRepo;
     }
     [HttpPost]
-    public IActionResult SaveNew(int id, BookingDiningVM bookingDiningVM) //CREATE BOOKING VIEWMODEL
+    public IActionResult SaveNew(int id, BookingExperienceVM bookingExperienceVM) //CREATE BOOKING VIEWMODEL
     {
         var Experience = BookingExperienceRepo.GetExperienceById(id);
         if (Experience == null)
@@ -43,13 +43,11 @@ namespace HotelManagement_MVC.Controllers
 
             var bookingExperience = new BookingExperience
             {
-                Date = bookingDiningVM.Date,
-                NumAdults = bookingDiningVM.NumAdults,
-                SpecialRequest = bookingDiningVM.SpecialRequest,
+                Date = bookingExperienceVM.Date,
+                NumAdults = bookingExperienceVM.NumAdults,
                 ApplicationUserId = userId,
                 Price = Experience.Price,
-                ExperienceId = Experience.Id
-                // Additional properties related to dining can be set here if needed
+                ExperienceId = Experience.Id 
             };
                 bookingExperience.Price = (int)BookingExperienceRepo.DuplicatePrice(bookingExperience);
 
@@ -74,7 +72,7 @@ namespace HotelManagement_MVC.Controllers
             CartRepo.Save();
 
             // Redirect to cart confirmation page
-            return RedirectToAction("Experiences", "Experience", new { Id = userId });
+            return RedirectToAction("Experiences", "Experience");
         }
         else
         {

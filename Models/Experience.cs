@@ -13,6 +13,7 @@
         public string Requirements { get; set; }
         public int Price { get; set; }
         public string Duration { get; set; }
+        public int? NumAdults { get; set; }
         public List<BookingExperience> BookingExperiences { get; set; }
     }
 }
