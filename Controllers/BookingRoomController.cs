@@ -79,26 +79,27 @@ namespace HotelManagement_MVC.Controllers
                         }
                     };
 
-                    // Add the new booking to the cart
-                    var cart = cartRepo.GetCartByGuestId(Id); // Assuming a method exists to get the cart by guest ID
+                    bookingRoom.TotalPrice = (int)bookingRoomRepo.DuplicatePrice(bookingRoom);
 
+                    var cart = cartRepo.GetCartByGuestId(Id);
                     if (cart == null)
                     {
                         cart = new Cart
                         {
-                            ApplicationUserId = Id,
+                            ApplicationUserId = Id
                         };
                         cartRepo.Insert(cart);
                     }
-                    cart.BookingRooms = new List<BookingRoom> { bookingRoom };
-
-                    // Calculate the total price of all booking items
+                    if (cart.BookingRooms == null)
+                        cart.BookingRooms = new List<BookingRoom> { bookingRoom };
+                    else
+                        cart.BookingRooms.Add(bookingRoom);
                     cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
 
                     bookingRoomRepo.Insert(bookingRoom);
                     bookingRoomRepo.Save();
-                    cartRepo.Update(cart);// Update the cart in the database
-                    cartRepo.Save();          
+                    cartRepo.Update(cart);
+                    cartRepo.Save();
 
                     return RedirectToAction("Index", "Home");
                 }

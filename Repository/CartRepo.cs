@@ -18,7 +18,9 @@ namespace HotelManagement_MVC.Repository
         }
         public List<Cart> GetAll()
         {
-            return context.Carts.ToList();
+            return context.Carts.Include(c => c.BookingDinings).ThenInclude(bd => bd.Dining)
+                .Include(c => c.BookingRooms).ThenInclude(br => br.HotelRoom).ThenInclude(ht => ht.HotelRoomType)
+                .Include(c => c.BookingExperiences).ThenInclude(be => be.Experience).ToList();
         }
 
         public Cart GetById(int Id)
