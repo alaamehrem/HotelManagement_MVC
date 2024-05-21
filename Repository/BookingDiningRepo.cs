@@ -1,5 +1,6 @@
 ﻿using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagement_MVC.Repository
 {
@@ -12,7 +13,7 @@ namespace HotelManagement_MVC.Repository
         }
         public List<BookingDining> GetAll()
         {
-            return context.BookingDinings.ToList();
+            return context.BookingDinings.Include(d=>d.Dining).ToList();
         }
 
         public BookingDining GetById(int Id)

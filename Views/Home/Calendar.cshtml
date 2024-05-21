@@ -1,78 +1,46 @@
 ﻿@model AllBookingEventsViewModel
+
 @{
-    ViewData["Title"] = "Calender";
+    ViewData["Title"] = "Calendar";
     Layout = "_Dashboard";
+    var eventsJson = Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Events);
 }
 
-<h2>Calender</h2>
-<br/>
-<!-- Calender Chart Weather  -->
+<h2>Calendar</h2>
+<br />
 <div class="row">
-    <div class ="col-lg-12">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <!-- <h4 class="box-title">Chandler</h4> -->
-                    <div id="calendar"></div>
-            </div>
-        </div><!-- /.card -->
-    </div>
-</div>
-
-@* <!-- /Calender Chart Weather -->
-<!-- Modal - Calendar - Add New Event -->
-<div class="modal fade none-border" id="event-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><strong>Add New Event</strong></h4>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
-                <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                <div id="calendar2"></div>
             </div>
         </div>
     </div>
-</div> *@
-<!-- /#event-modal -->
-@* <!-- Modal - Calendar - Add Category -->
-<div class="modal fade none-border" id="add-category">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><strong>Add a category </strong></h4>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="control-label">Category Name</label>
-                            <input class="form-control form-white" placeholder="Enter name" type="text" name="category-name" />
-                        </div>
-                        <div class="col-md-6">
-                            <label class="control-label">Choose Category Color</label>
-                            <select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
-                                <option value="success">Success</option>
-                                <option value="danger">Danger</option>
-                                <option value="info">Info</option>
-                                <option value="pink">Pink</option>
-                                <option value="primary">Primary</option>
-                                <option value="warning">Warning</option>
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger waves-effect waves-light save-category" data-dismiss="modal">Save</button>
-            </div>
-
-
-        </div>
-    </div>
 </div>
-<!-- /#add-category --> *@
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var events = @Html.Raw(eventsJson);
+            $('#calendar2').fullCalendar({
+                events: events,
+                editable: true,
+                droppable: true,
+                eventLimit: true,
+                selectable: true,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                drop: function(date) { /* your drop handler */ },
+                select: function (start, end, allDay) { /* your select handler */ },
+                eventClick: function(calEvent, jsEvent, view) { /* your event click handler */ }
+            });
+        });
+    </script>
+}

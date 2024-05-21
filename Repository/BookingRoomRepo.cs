@@ -13,7 +13,7 @@ namespace HotelManagement_MVC.Repository
         }
         public List<BookingRoom> GetAll()
         {
-            return context.BookingRooms.Include(a=>a.ApplicationUser).Include(h=>h.HotelRoom).Include(o=>o.Offer).ToList();
+            return context.BookingRooms.Include(a => a.ApplicationUser).Include(h => h.HotelRoom).ThenInclude(c =>c.HotelRoomType).Include(o=>o.Offer).ToList();
         }
 
         public BookingRoom GetById(int Id)
