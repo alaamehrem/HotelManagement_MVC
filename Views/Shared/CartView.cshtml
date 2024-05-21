@@ -26,15 +26,15 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Date</th>
-                        <th>Price</th>
+                        <th colspan="2">Price</th>
                     </tr>
-                    foreach (var dining in cart.BookingDinings)
+                    @foreach (var dining in cart.BookingDinings)
                     {
                         <tr>
                             <td><img src="/Images/Dining/@dining.Dining.Images" alt="Dining image" /></td>
                             <td>@dining.Dining.Name</td>
                             <td>@dining.Date</td>
-                            <td>@dining.Price</td>
+                            <td colspan="2">@dining.Price</td>
                         </tr>
                     }
                 }
@@ -52,8 +52,8 @@
                         <td colspan="5" class="nav-item"><strong>Room Bookings:</strong></td>
                     </tr>
                     <tr>
-                        <th>Room Type</th>
                         <th>Image</th>
+                        <th>Room Type</th>
                         <th>Check-in</th>
                         <th>Check-out</th>
                         <th>Price</th>
@@ -86,7 +86,7 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Date</th>
-                        <th>Price</th>
+                        <th colspan="2">Price</th>
                     </tr>
                     foreach (var experience in cart.BookingExperiences)
                     {
@@ -94,7 +94,7 @@
                             <td><img src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
                             <td>@experience.Experience.Name</td>
                             <td>@experience.Date</td>
-                            <td>@experience.Price</td>
+                            <td colspan="2">@experience.Price</td>
                         </tr>
                     }
                 }

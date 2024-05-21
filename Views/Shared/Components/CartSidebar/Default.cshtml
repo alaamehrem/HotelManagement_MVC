@@ -16,8 +16,8 @@
                 @if (cart.BookingDinings != null && cart.BookingDinings.Any())
                 {
                     <tr>
+                        <th>Dining:</th>
                         <th></th>
-                        <th>Dining</th>
                     </tr>
                     foreach (var dining in cart.BookingDinings)
                     {
@@ -32,14 +32,14 @@
                 @if (cart.BookingRooms != null && cart.BookingRooms.Any())
                 {
                     <tr style="height:70px">
+                        <th>Rooms:</th>
                         <th></th>
-                        <th>Room Type</th>
                     </tr>
                     foreach (var room in cart.BookingRooms)
                     {
                         <tr style="height:70px">
 
-                            <td><img  src="/Images/RoomType/@room.HotelRoom.HotelRoomType.Images" /></td>
+                            <td><img width="100px" src="/Images/RoomType/@room.HotelRoom.HotelRoomType.Images" /></td>
                             <td>@room.HotelRoom.HotelRoomType.Name</td>
                         </tr>
                     }
@@ -49,27 +49,30 @@
                 @if (cart.BookingExperiences != null && cart.BookingExperiences.Any())
                 {
                     <tr style="height:70px">
+                        <th>Experience:</th>
                         <th></th>
-                        <th>Experience</th>
                     </tr>
                     foreach (var experience in cart.BookingExperiences)
                     {
                         <tr style="height:70px">
-                            <td><img src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
+                            <td><img width="100px" src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
                             <td>@experience.Experience.Name</td>
                         </tr>
                     }
                 }
 
                 <tr style="height:70px">
-                    <td colspan="5" class="nav-item">Shipping Price: @cart.ShippingPrice</td>
+                    <td colspan="5" class="nav-item">Total Price: @cart.ShippingPrice</td>
                 </tr>
             }
         }
     </table>
 
     <div style="margin:10px" class="header-configure-area">
-        <a href="./Cart/ConfirmCart" class="bk-btn">Confirm Cart</a>
+        <a href="@Url.Action("GetAllCart", "Cart")" class="bk-btn">View Cart Detail</a>
+    </div>
+    <div style="margin:10px" class="header-configure-area">
+        <a href="@Url.Action("ConfirmCart", "Cart")" class="bk-btn">Confirm Cart</a>
     </div>
 
 </div>

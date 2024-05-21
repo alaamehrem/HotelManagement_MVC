@@ -19,7 +19,7 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Date</th>
-                        <th>Price</th>
+                        <th colspan="2">Price</th>
                     </tr>
                     foreach (var dining in cart.BookingDinings)
                     {
@@ -27,7 +27,7 @@
                             <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Dining/@dining.Dining.Images" alt="Dining image" /></td>
                             <td>@dining.Dining.Name</td>
                             <td>@dining.Date</td>
-                            <td>@dining.Price</td>
+                            <td colspan="2">@dining.Price</td>
                         </tr>
                     }
                 }
@@ -38,8 +38,8 @@
                         <td colspan="5" class="nav-item"><strong>Room Bookings:</strong></td>
                     </tr>
                     <tr>
-                        <th>Room Type</th>
                         <th>Image</th>
+                        <th>Room Type</th>
                         <th>Check-in</th>
                         <th>Check-out</th>
                         <th>Price</th>
@@ -47,8 +47,8 @@
                     foreach (var room in cart.BookingRooms)
                     {
                         <tr>
-                            <td>@room.HotelRoom.HotelRoomType.Name</td>
                             <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/RoomType/@room.HotelRoom.HotelRoomType.Images" alt="Room image" /></td>
+                            <td>@room.HotelRoom.HotelRoomType.Name</td>
                             <td>@room.CheckInDate</td>
                             <td>@room.CheckOutDate</td>
                             <td>@room.TotalPrice</td>
@@ -66,7 +66,7 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Date</th>
-                        <th>Price</th>
+                        <th colspan="2">Price</th>
                     </tr>
                     foreach (var experience in cart.BookingExperiences)
                     {
@@ -74,7 +74,7 @@
                             <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
                             <td>@experience.Experience.Name</td>
                             <td>@experience.Date</td>
-                            <td>@experience.Price</td>
+                            <td colspan="2">@experience.Price</td>
                         </tr>
                     }
                 }
@@ -86,7 +86,7 @@
         }
     </table>
 
-    <div class="header-configure-area text-right">
-        <a style="margin-bottom:50px" href="./Cart/ConfirmCart" class="btn btn-success">Confirm Cart</a>
+    <div style="margin:10px ; text-align:right" class="header-configure-area">
+        <a href="@Url.Action("ConfirmCart", "Cart")" class="btn btn-primary" style="background-color: #DFA974; margin-bottom:50px; border:none">Confirm Cart</a>
     </div>
 </div>
