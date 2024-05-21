@@ -66,15 +66,21 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">AboutUs</a>
                                 </li>
-    @*                             <li>
-                                    <a href="./pages.html">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="./room-details.html">Room Details</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="#">Family Room</a></li>
-                                        <li><a href="#">Premium Room</a></li>
-                                    </ul>
-                                </li> *@
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                    <li>
+                                        <a asp-controller ="HotelRoomType" asp-action="Index">
+                                            DashBoard</a>
+                                        <ul class="dropdown">
+                                            <li><a class="nav-link text-dark" asp-area="" asp-controller="Experience" asp-action="Index">Experience</a></li>
+                                            <li><a class="nav-link text-dark" asp-area="" asp-controller="HotelRoomType" asp-action="Index">RoomType</a></li>
+                                            <li><a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="Index">Offer</a></li>
+                                            <li><a class="nav-link text-dark" asp-area="" asp-controller="Dining" asp-action="Index">Dining</a></li>
+                                            <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Calendar">Events</a></li>
+                                        </ul>
+                                    </li>
+                                    }
+                                   
                             </ul>
                         </nav>
               @*           <div class="nav-right search-switch">

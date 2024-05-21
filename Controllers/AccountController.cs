@@ -3,6 +3,7 @@ using HotelManagement_MVC.Models;
 using HotelManagement_MVC.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Security.Claims;
 
 namespace HotelManagement_MVC.Controllers
@@ -124,8 +125,10 @@ namespace HotelManagement_MVC.Controllers
                 var user = await userManager.FindByEmailAsync(userEmailReq.Email);
                 if(user is not null) 
                 {
-					var token =  userManager.GeneratePasswordResetTokenAsync(user);
-					var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = userEmailReq.Email, token }, Request.Scheme);
+					var token = await userManager.GeneratePasswordResetTokenAsync(user);
+					var encodedToken = WebUtility.UrlEncode(token);
+					var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = userEmailReq.Email, token = encodedToken }, Request.Scheme);
+
 					Email email = new Email()
                     {
                         Subject = "Reset password",
@@ -153,64 +156,45 @@ namespace HotelManagement_MVC.Controllers
 		#region Reset Password
         public IActionResult ResetPassword(string email,string token)
         {
+            token = WebUtility.UrlDecode(token);
             TempData["Email"] = email;
             TempData["token"] = token;
             return View();
-            //var model = new ResetPasswordViewModel
-            //{
-            //	Email = email,
-            //	Token = token
-            //};
-            //return View(model);
+       
         }
-        [HttpPost]
-        public async Task <IActionResult> ResetPassword(ResetPasswordViewModel vm)
-        {
-            if (ModelState.IsValid) {
-                string email = TempData["Email"] as string;
-                string token = TempData["token"] as string;
-                var user = await userManager.FindByEmailAsync(email);
-               
-                    var result = await userManager.ResetPasswordAsync(user, token, vm.newPassword); 
-                    if(result.Succeeded)
-                    {
-                        return RedirectToAction("Login","Account");   
-                    }
-                    foreach(var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty,error.Description);   
-                    }
-                
-            }
+		
+		[HttpPost]
+		public async Task<IActionResult> ResetPassword(ResetPasswordViewModel vm)
+		{
+			if (ModelState.IsValid)
+			{
+				string email = TempData["Email"] as string;
+				string token = TempData["Token"] as string;
+				if (email == null || token == null)
+				{
+					ModelState.AddModelError(string.Empty, "Invalid password reset token.");
+					return View(vm);
+				}
+
+				var user = await userManager.FindByEmailAsync(email);
+				if (user == null)
+				{
+					ModelState.AddModelError(string.Empty, "User not found.");
+					return View(vm);
+				}
+
+				var result = await userManager.ResetPasswordAsync(user, token, vm.newPassword);
+				if (result.Succeeded)
+				{
+					return RedirectToAction("Login", "Account");
+				}
+				foreach (var error in result.Errors)
+				{
+					ModelState.AddModelError(string.Empty, error.Description);
+				}
+			}
 			return View(vm);
-		}
-
-		//[HttpPost]
-		//public async Task<IActionResult> ResetPassword(ResetPasswordViewModel vm)
-		//{
-		//	if (ModelState.IsValid)
-		//	{
-		//		var user = await userManager.FindByEmailAsync(vm.Email);
-		//		if (user != null)
-		//		{
-		//			var result = await userManager.ResetPasswordAsync(user, vm.Token, vm.NewPassword);
-		//			if (result.Succeeded)
-		//			{
-		//				return RedirectToAction("Login", "Account");
-		//			}
-		//			foreach (var error in result.Errors)
-		//			{
-		//				ModelState.AddModelError(string.Empty, error.Description);
-		//			}
-		//		}
-		//		else
-		//		{
-		//			ModelState.AddModelError(string.Empty, "Invalid email or token.");
-		//		}
-		//	}
-		//	return View(vm);
-		//}
-
+		}		
 		#endregion
 	}
 }

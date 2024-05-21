@@ -1,6 +1,7 @@
 ﻿using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
+using HotelManagement_MVC.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -10,11 +11,15 @@ namespace HotelManagement_MVC.Controllers
     {     
         private readonly ILogger<HomeController> _logger;
         private readonly IHotelRoomTypeRepo hotelRoomTypeRepo;
+        private readonly IExperienceRepo experienceRepo;
+        private readonly IDiningRepo diningRepo;
 
-        public HomeController(ILogger<HomeController> logger,IHotelRoomTypeRepo hotelRoomTypeRepo)
+        public HomeController(ILogger<HomeController> logger,IHotelRoomTypeRepo hotelRoomTypeRepo,IExperienceRepo experienceRepo,IDiningRepo diningRepo)
         {
             _logger = logger;
             this.hotelRoomTypeRepo = hotelRoomTypeRepo;
+            this.experienceRepo = experienceRepo;
+            this.diningRepo = diningRepo;
         }
 
         public IActionResult Index()
@@ -35,7 +40,11 @@ namespace HotelManagement_MVC.Controllers
 		}
         public IActionResult Calendar()
         {
-            return View();
+            AllBookingEventsViewModel allBookingEventsViewModel = new AllBookingEventsViewModel();
+            allBookingEventsViewModel.Dining = diningRepo.GetAll();
+            allBookingEventsViewModel.Experience = experienceRepo.GetAll();
+            allBookingEventsViewModel.HotelRoomType = hotelRoomTypeRepo.GetAll();
+            return View(allBookingEventsViewModel);
         }
 
     }
