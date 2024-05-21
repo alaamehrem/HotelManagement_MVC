@@ -132,6 +132,7 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "_Index";
+    var today = DateTime.Today.ToString("MM-dd-yyyy");
 }
 
 <!-- Blog Details Hero Section Begin -->
@@ -291,10 +292,10 @@
                     <h3>Your Reservation</h3>
                     <form asp-action="SaveNew" asp-controller="BookingExperience" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="@Model.Id" />
-                        <div class="check-date">
-                            <label for="date-in">Date:</label>
-                            <input type="text" class="date-input" id="date-in">
-                            <i class="icon_calendar"></i>
+                        <div class="Date">
+                            <label asp-for="Date">Choose date:</label>
+                            <input asp-for="Date" onselect="Date" class="date-input" id="date-in" value="@today">
+                            <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
                         <div class="select-option">
                             <label for="NumAdults">Guests:</label>
