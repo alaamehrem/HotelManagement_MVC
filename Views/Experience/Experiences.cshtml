@@ -1,4 +1,4 @@
-﻿@model List<Experience>
+﻿@* @model List<Experience>
 
 @{
     ViewData["Title"] = "Experiences";
@@ -50,6 +50,72 @@
                 </div>
             }
          
+    </div>
+</section>
+<!-- Blog Section End -->
+ *@
+ @model List<Experience>
+
+@{
+    ViewData["Title"] = "Experiences";
+    Layout = "_Index";
+}
+
+<!-- Breadcrumb Section Begin -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <h2>Experiences</h2>
+                    <div class="bt-option">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <span>All Experiences</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Section End -->
+<!-- Blog Section Begin -->
+<section class="blog-section blog-page spad">
+    <div class="container">
+
+
+        <!-- search section -->
+        <form asp-action="Experiences" asp-controller="Experience" method="get">
+            <div class="row input-group">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
+                <input type="submit" value="Search" class="btn btn-primary" style="background-color: #DFA974; border:none" />
+            </div>
+        </form>
+        <br />
+        <!-- Category filter section -->
+        <div class="row mb-4">
+            <div class="col-lg-12 d-flex justify-content-between">
+                <a href="/Experience/Experiences?Name=OFF-SITE SEA ACTIVITIES" class="btn btn-outline-secondary">OFF-SITE SEA ACTIVITIES</a>
+                <a href="/Experience/Experiences?category=DAYBEDS" class="btn btn-outline-secondary">DAYBEDS</a>
+                <a href="/Experience/Experiences?category=TOURS" class="btn btn-outline-secondary">TOURS</a>
+                <a href="/Experience/Experiences?category=CAR RENTALS" class="btn btn-outline-secondary">CAR RENTALS</a>
+                <a href="/Experience/Experiences?category=OFF-SITE ACTIVITIES" class="btn btn-outline-secondary">OFF-SITE ACTIVITIES</a>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-item set-bg" data-setbg="/Images/Experience/@item.Image">
+                        <div class="bi-text">
+                            <span class="b-tag">@item.Price EGP </span>
+                            <h4><a href="/Experience/Details?id=@item.Id">@item.Name</a></h4>
+                            <div class="b-time"><i class="icon_clock_alt"></i>@item.Duration</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </section>
 <!-- Blog Section End -->

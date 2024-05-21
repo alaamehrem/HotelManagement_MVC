@@ -50,7 +50,7 @@ namespace HotelManagement_MVC.Controllers
             {
                 ExperienceList = ExperienceRepo.GetAll();
             }
-
+           
 
             return View("Experiences", ExperienceList);
         }
