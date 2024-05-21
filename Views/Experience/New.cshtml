@@ -36,14 +36,11 @@
                 <label asp-for="ExperienceName"> </label>
                 <input asp-for="ExperienceName" class="form form-control" />
             </div>
-            <div>
-                <label asp-for="Image"> </label>
-                <input Name="FileImage" type="file" class="form form-control" style="border:none; outline:none;" />
-            </div>
             <br />
             <div>
-                <label asp-for="CoverImage"> </label>
-                <input Name="FileCoverImage" type="file" class="form form-control" style="border:none; outline:none;" />
+                <label asp-for="Image"> </label>
+                <img id="imagePreview" style="width:400px;height:400px" src="/images/RoomType/@Model.Image" alt="Image Preview" />
+                <input Name="FileCoverImage" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage(event)" />
             </div>
             <br />
             <div>

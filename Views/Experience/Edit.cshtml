@@ -43,8 +43,9 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Image" class="control-label"></label>
-                    <img src="/Images/Experience/@Model.Image" alt="">
-                    <input name="FileImage" type="file" class="form form-control" style="border:none; outline:none;" />
+                   @*  <img src="/Images/Experience/@Model.Image" alt=""> *@
+                    <img id="imagePreview" style="width:400px;height:400px" src="/Images/Experience/@Model.Image" alt="Image Preview" />
+                    <input name="FileImage" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage(event)" />
                     <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
                 <div class="form-group">

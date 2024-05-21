@@ -31,7 +31,8 @@
             </div>
             <div>
                 <label asp-for="OfferImage"> </label>
-                <input Name="FileImages" type="file" class="form form-control" style="border:none; outline:none;" />
+                <img id="imagePreview" style="width:400px;height:400px" src="/images/RoomType/@Model.OfferImage" alt="Image Preview" />
+                <input Name="FileImages" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage(event)" />
             </div>
             <br />
             <div>
