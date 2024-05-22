@@ -28,6 +28,7 @@
                             <td>@dining.Dining.Name</td>
                             <td>@dining.Date</td>
                             <td colspan="2">@dining.Price</td>
+                        <td><a href="/BookingDining/Delete?id=@dining.Id" class="btn btn-danger">Delete</a></td>
                         </tr>
                     }
                 }
@@ -53,13 +54,14 @@
                             <td>@room.CheckInDate</td>
                             <td>@room.CheckOutDate</td>
                             <td>@room.TotalPrice</td>
+                        <td><a href="/BookingRoom/Delete?id=@room.Id" class="btn btn-danger">Delete</a></td>
                         </tr>
                     }
                 }
 
                 <!-- Loop through BookingExperience -->
-            @if (@Model.BookingExperiences != null && @Model.BookingExperiences.Any())
-                {
+            @if (Model.BookingExperiences != null && Model.BookingExperiences.Any())
+            {
                 <tr>
                     <td colspan="5" class="nav-item"><strong>Experience Bookings:</strong></td>
                 </tr>
@@ -70,25 +72,28 @@
                     <th colspan="2">Price</th>
                     <th>Delete</th>
                 </tr>
-                foreach (var experience in @Model.BookingExperiences)
+                foreach (var experience in Model.BookingExperiences)
                 {
                     <tr>
                         <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
-                            <td>@experience.Experience.Name</td>
-                            <td>@experience.Date</td>
-                            <td colspan="2">@experience.Price</td>
-                            <td><a href="/Cart/Delete/@experience.Id">Delete </a></td>
-                        </tr>
-                    }
-
-                <tr>
-                    <td colspan="5" class="nav-item text-right">Shipping Price: @@Model.ShippingPrice</td>
-                </tr>
+                        <td>@experience.Experience.Name</td>
+                        <td>@experience.Date</td>
+                        <td colspan="2">@experience.Price</td>
+                        <td>
+                            <a href="/BookingExperience/Delete?id=@experience.Id" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
             }
+
+            <!-- Display Shipping Price -->
+            <tr>
+                <td colspan="5" class="nav-item text-right">Shipping Price: @Model.ShippingPrice</td>
+            </tr>
         }
     </table>
 
-    <div style="margin:10px ; text-align:right" class="header-configure-area">
-        <a href="@Url.Action("ConfirmCart", "Cart")" class="btn btn-primary" style="background-color: #DFA974; margin-bottom:50px; border:none">Confirm Cart</a>
+    <div style="margin: 10px; text-align: right;" class="header-configure-area">
+        <a href="@Url.Action("ConfirmCart", "Cart")" class="btn btn-primary" style="background-color: #DFA974; margin-bottom: 50px; border: none;">Confirm Cart</a>
     </div>
 </div>

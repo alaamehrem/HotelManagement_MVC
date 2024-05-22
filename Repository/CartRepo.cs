@@ -3,6 +3,7 @@ using HotelManagement_MVC.Models;
 using HotelManagement_MVC.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace HotelManagement_MVC.Repository
 {
@@ -86,7 +87,10 @@ namespace HotelManagement_MVC.Repository
 
             return totalPrice;
         }
-
+        //public Cart GetCartByBookingDiningID (int bookingid)
+        //{
+        //    var cart = context.Carts.FirstOrDefault(c=>c.BookingDinings in  bookingid);
+        //}
       
     }
 }

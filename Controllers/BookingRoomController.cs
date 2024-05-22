@@ -109,5 +109,36 @@ namespace HotelManagement_MVC.Controllers
             ViewData["RoomTypeList"] = hotelRoomTypeRepo.GetAll();
             return View("BookingRoom", bookingRoomReq);
         }
-    }
+        public IActionResult Delete(int id)
+        {
+            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
+            {
+
+                Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                string userId = ClaimId.Value;
+
+                BookingRoom bookingRoom = bookingRoomRepo.GetById(id);
+
+            if (bookingRoom == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                bookingRoomRepo.Delete(id);
+                bookingRoomRepo.Save();
+            }
+            var cart = cartRepo.GetCartByGuestId(userId);
+            cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
+            cartRepo.Update(cart);
+            cartRepo.Save();
+            return RedirectToAction("GetAllCart", "Cart");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
 }
+        }
+    }
+
