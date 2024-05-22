@@ -45,13 +45,6 @@ namespace HotelManagement_MVC.Repository
             context.SaveChanges();
         }
 
-        //public List<Cart> Search(string search)
-        //{
-        //    return context.Carts
-        //            .Where(d => d.GuestId.Contains(search))
-        //            .ToList();
-        //}
-
         public void Update(Cart obj)
         {
             context.Update(obj);

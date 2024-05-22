@@ -12,6 +12,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using HotelManagement_MVC.Repository;
+using HotelManagement_MVC.Enums;
+using PayPal.Api;
+using PayPalCheckoutSdk.Orders;
 
 namespace HotelManagement_MVC.Controllers
 {
@@ -117,21 +120,21 @@ namespace HotelManagement_MVC.Controllers
         }
 
         //delete
-        public IActionResult Delete(int id)
-        {
-            Cart cart = CartRepo.GetById(id);
+        //public IActionResult Delete(int id)
+        //{
+        //    Cart cart = CartRepo.GetById(id);
 
-            if (cart == null)
-            {
-                return RedirectToAction("GetAllCart", "Cart");
-            }
-            else
-            {
-                CartRepo.Delete(id);
-                CartRepo.Save();
-            }
-            return RedirectToAction("GetAllCart", "Cart");
-        }
+        //    if (cart == null)
+        //    {
+        //        return RedirectToAction("GetAllCart", "Cart");
+        //    }
+        //    else
+        //    {
+        //        CartRepo.Delete(id);
+        //        CartRepo.Save();
+        //    }
+        //    return RedirectToAction("GetAllCart", "Cart");
+        //}
 
         // This method creates the payment intent
         private async Task<string> CreatePaymentIntent(Cart cart)
@@ -232,6 +235,75 @@ namespace HotelManagement_MVC.Controllers
                 // Redirect to payment
                 return $"https://accept.paymobsolutions.com/api/acceptance/iframes/847676?payment_token={paymentKey}";
             }
+        }
+        //delete
+        public IActionResult DeleteAdmin(int id)
+        {
+            Cart CartDelete = CartRepo.GetById(id);
+
+            if (CartDelete == null)
+            {
+                return NotFound();
+            }
+            return View("Delete", CartDelete);
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmDelete(int id)
+        {
+            Cart Cart = CartRepo.GetById(id);
+
+            if (Cart == null)
+            {
+                return NotFound();
+            }
+
+            CartRepo.Delete(Cart.Id);
+            CartRepo.Save();
+
+            return RedirectToAction("GetAllCart", "Cart");
+        }
+
+        //EDIT
+        public IActionResult Edit(int id)
+        {
+            var CartEdit = CartRepo.GetById(id);
+
+            if (CartEdit == null)
+            {
+                return NotFound();
+            }
+            var CartNew = new Cart
+            {
+                ApplicationUserId = CartEdit.ApplicationUserId,
+                ShippingPrice = CartEdit.ShippingPrice,
+                paymentMethod = CartEdit.paymentMethod,
+                paymentStatus = CartEdit.paymentStatus
+            };
+
+            return View("Edit", CartNew);
+        }
+
+        [HttpPost]
+        public IActionResult SaveEdit(Cart CartNew, IFormFile? FileImage)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Cart CartDb = CartRepo.GetById(CartNew.Id);
+
+                CartDb.ApplicationUserId = CartNew.ApplicationUserId;
+                CartDb.ShippingPrice = CartNew.ShippingPrice;
+                CartDb.paymentMethod = CartNew.paymentMethod;
+                CartDb.paymentStatus = CartNew.paymentStatus;
+            
+
+
+                CartRepo.Update(CartDb);
+                CartRepo.Save();
+                return RedirectToAction("GetAllCart");
+            }
+            return View("Edit", CartNew);
         }
     }
 }
