@@ -20,19 +20,6 @@ namespace HotelManagement_MVC.Controllers
             this.HotelRoomTypeRepo = HotelRoomTypeRepo;
             this.webHostEnvironment = webHostEnvironment;
         }
-        //public IActionResult Paging(int pg=1)
-        //{
-        //	List<HotelRoomType> HotRoomTypList = HotelRoomTypeRepo.GetAll();
-        //          const int pageSize = 5;
-        //          if (pg < 1) pg = 1;
-        //          int recsCount = HotRoomTypList.Count();
-        //          Pager pager = new Pager(recsCount,pg,pageSize);
-        //          int recSkip = (pg - 1) * pageSize;
-        //          var data=HotRoomTypList.Skip(recSkip).Take(pager.PageSize).ToList();
-        //          this.ViewBag.Pager=pager;
-
-        //          return View(data);
-        //}
 
         [AllowAnonymous]
         public IActionResult RoomTypes(string search, int pg = 1)

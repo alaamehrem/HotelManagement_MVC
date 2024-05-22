@@ -3,6 +3,7 @@ using HotelManagement_MVC.IRepository;
 using NuGet.Protocol.Plugins;
 using HotelManagement_MVC.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 namespace HotelManagement_MVC.ViewComponents
 {
     public class CartSidebarViewComponent : ViewComponent
@@ -27,5 +28,48 @@ namespace HotelManagement_MVC.ViewComponents
                  cartList = _cartRepository.GetAll();
             return View(cartList);
         }
+
+        //public IViewComponentResult Invoke()
+        //{
+        //    Cart cart;
+        //    if (User.Identity.IsAuthenticated != true) //If the user is not logedin redirect the view to the login
+        //    {
+        //        cart = null;
+        //        return View(cart);
+        //    }
+        //    else //If the user is not logedin redirect the view to the login
+        //    {
+        //        Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //        string Id = ClaimId.Value;
+        //        cart = _cartRepository.GetCartByGuestId(Id);
+        //        return View(cart);
+        //    }
+
+        //}
+        //public IViewComponentResult Invoke()
+        //{
+        //    Cart cart;
+
+        //    if (!User.Identity.IsAuthenticated)
+        //    {
+        //        cart = null;
+        //        return View(cart);
+        //    }
+        //    else
+        //    {
+        //        var claimsPrincipal = User as ClaimsPrincipal;
+        //        var claimId = claimsPrincipal?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+        //        if (claimId == null)
+        //        {
+        //            cart = null;
+        //            return View(cart);
+        //        }
+
+        //        string id = claimId.Value;
+        //        cart = _cartRepository.GetCartByGuestId(id);
+        //        return View(cart);
+        //    }
+        //}
     }
 }
