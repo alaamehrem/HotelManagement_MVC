@@ -1,8 +1,8 @@
-﻿@model List<Cart>
+﻿@model Cart
 
 <div class="container mt-5">
     <table class="table table-bordered table-hover my-5">
-        @if (Model == null || !Model.Any())
+        @if (Model == null)
         {
             <tr>
                 <td class="nav-item text-center" colspan="5">No items in cart</td>
@@ -10,29 +10,30 @@
         }
         else
         {
-            foreach (var cart in Model)
-            {
+
                 <!-- Loop through BookingDining -->
-                @if (cart.BookingDinings != null && cart.BookingDinings.Any())
+            @if (@Model.BookingDinings != null && @Model.BookingDinings.Any())
                 {
                     <tr>
                         <th>Image</th>
                         <th>Name</th>
                         <th>Date</th>
                         <th colspan="2">Price</th>
+                        <th>Delete</th>
                     </tr>
-                    foreach (var dining in cart.BookingDinings)
+                foreach (var dining in @Model.BookingDinings)
                     {
                         <tr>
                             <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Dining/@dining.Dining.Images" alt="Dining image" /></td>
                             <td>@dining.Dining.Name</td>
                             <td>@dining.Date</td>
                             <td colspan="2">@dining.Price</td>
+                        <td><a href="/BookingDining/Delete?id=@dining.Id" class="btn btn-danger">Delete</a></td>
                         </tr>
                     }
                 }
                 <!-- Loop through BookingRoom -->
-                @if (cart.BookingRooms != null && cart.BookingRooms.Any())
+            @if (@Model.BookingRooms != null && @Model.BookingRooms.Any())
                 {
                     <tr>
                         <td colspan="5" class="nav-item"><strong>Room Bookings:</strong></td>
@@ -43,8 +44,9 @@
                         <th>Check-in</th>
                         <th>Check-out</th>
                         <th>Price</th>
+                        <th>Delete</th>
                     </tr>
-                    foreach (var room in cart.BookingRooms)
+                foreach (var room in @Model.BookingRooms)
                     {
                         <tr>
                             <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/RoomType/@room.HotelRoom.HotelRoomType.Images" alt="Room image" /></td>
@@ -52,41 +54,46 @@
                             <td>@room.CheckInDate</td>
                             <td>@room.CheckOutDate</td>
                             <td>@room.TotalPrice</td>
+                        <td><a href="/BookingRoom/Delete?id=@room.Id" class="btn btn-danger">Delete</a></td>
                         </tr>
                     }
                 }
 
                 <!-- Loop through BookingExperience -->
-                @if (cart.BookingExperiences != null && cart.BookingExperiences.Any())
+            @if (Model.BookingExperiences != null && Model.BookingExperiences.Any())
+            {
+                <tr>
+                    <td colspan="5" class="nav-item"><strong>Experience Bookings:</strong></td>
+                </tr>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th colspan="2">Price</th>
+                    <th>Delete</th>
+                </tr>
+                foreach (var experience in Model.BookingExperiences)
                 {
                     <tr>
-                        <td colspan="5" class="nav-item"><strong>Experience Bookings:</strong></td>
+                        <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
+                        <td>@experience.Experience.Name</td>
+                        <td>@experience.Date</td>
+                        <td colspan="2">@experience.Price</td>
+                        <td>
+                            <a href="/BookingExperience/Delete?id=@experience.Id" class="btn btn-danger">Delete</a>
+                        </td>
                     </tr>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th colspan="2">Price</th>
-                    </tr>
-                    foreach (var experience in cart.BookingExperiences)
-                    {
-                        <tr>
-                            <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
-                            <td>@experience.Experience.Name</td>
-                            <td>@experience.Date</td>
-                            <td colspan="2">@experience.Price</td>
-                        </tr>
-                    }
                 }
-
-                <tr>
-                    <td colspan="5" class="nav-item text-right">Shipping Price: @cart.ShippingPrice</td>
-                </tr>
             }
+
+            <!-- Display Shipping Price -->
+            <tr>
+                <td colspan="5" class="nav-item text-right">Shipping Price: @Model.ShippingPrice</td>
+            </tr>
         }
     </table>
 
-    <div style="margin:10px ; text-align:right" class="header-configure-area">
-        <a href="@Url.Action("ConfirmCart", "Cart")" class="btn btn-primary" style="background-color: #DFA974; margin-bottom:50px; border:none">Confirm Cart</a>
+    <div style="margin: 10px; text-align: right;" class="header-configure-area">
+        <a href="@Url.Action("ConfirmCart", "Cart")" class="btn btn-primary" style="background-color: #DFA974; margin-bottom: 50px; border: none;">Confirm Cart</a>
     </div>
 </div>

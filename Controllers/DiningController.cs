@@ -19,6 +19,21 @@ namespace HotelManagement_MVC.Controllers
             this.DiningRepo = DiningRepo;
             this.webHostEnvironment = webHostEnvironment;
         }
+        public IActionResult Index(string search)
+        {
+            List<Dining> dinings;
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                dinings = DiningRepo.Search(search);
+            }
+            else
+            {
+                dinings = DiningRepo.GetAll();
+            }
+
+            return View("Index", dinings);
+        }
         public IActionResult GetAll()
         {
             List<Dining> DiningList = DiningRepo.GetAll();

@@ -81,5 +81,37 @@ namespace HotelManagement_MVC.Controllers
                     return RedirectToAction("Login", "Account"); // Redirect user to login if not authenticated
                 }
             }
+        public IActionResult Delete (int id)
+        {
+            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
+            {
+
+                Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                string userId = ClaimId.Value;
+
+                BookingDining bookingDining = BookingDiningRepo.GetById(id);
+
+                if (bookingDining == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    BookingDiningRepo.Delete(id);
+                    BookingDiningRepo.Save();
+                }
+                var cart = CartRepo.GetCartByGuestId(userId);
+                cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
+                CartRepo.Update(cart);
+                CartRepo.Save();
+                return RedirectToAction("GetAllCart", "Cart");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
+        
+        }
+
     }

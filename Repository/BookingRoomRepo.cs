@@ -56,14 +56,37 @@ namespace HotelManagement_MVC.Repository
         }
         public int? DuplicatePrice(BookingRoom bookingRoom)
         {
-            int? NewPrice = 0;
-            var roomtype = context.HotelRoomTypes.FirstOrDefault(d => d.Id == bookingRoom.HotelRoom.HotelRoomTypeId);
-            if (roomtype != null)
+            if (bookingRoom == null || bookingRoom.CheckInDate == default || bookingRoom.CheckOutDate == default)
+            {
+                return null;
+            }
+
+            DateTime checkinDate = bookingRoom.CheckInDate;
+            DateTime checkoutDate = bookingRoom.CheckOutDate;
+
+            // Ensure checkoutDate is after checkinDate
+            if (checkoutDate <= checkinDate)
+            {
+                return null; 
+            }
+
+            // Calculate the number of days
+            int numberOfDays = (checkoutDate - checkinDate).Days;
+
+            var roomType = context.HotelRoomTypes.FirstOrDefault(d => d.Id == bookingRoom.HotelRoom.HotelRoomTypeId);
+            if (roomType != null)
             {
                 var offer = context.Offers.FirstOrDefault(d => d.Id == bookingRoom.OfferId);
-                if (roomtype != null && offer != null) { NewPrice = (roomtype.Price + offer.OfferPrice) * bookingRoom.NumOfRooms; }
-            }      
-            return NewPrice;
+                if (offer != null)
+                {
+                    return (roomType.Price + offer.OfferPrice) * bookingRoom.NumOfRooms * numberOfDays;
+                }
+                else
+                {
+                    return roomType.Price * bookingRoom.NumOfRooms * numberOfDays;
+                }
+            }
+            return null; 
         }
     }
 }

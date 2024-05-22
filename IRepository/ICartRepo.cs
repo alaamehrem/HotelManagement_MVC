@@ -12,5 +12,6 @@ namespace HotelManagement_MVC.IRepository
         public void Delete(int Id);
         public Cart GetCartByGuestId(string id);
         public int? CalculateTotalPrice(Cart obj);
+        public List<Cart> Search(string search);
     }
 }

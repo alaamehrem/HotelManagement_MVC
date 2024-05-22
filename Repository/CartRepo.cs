@@ -3,6 +3,7 @@ using HotelManagement_MVC.Models;
 using HotelManagement_MVC.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace HotelManagement_MVC.Repository
 {
@@ -20,9 +21,14 @@ namespace HotelManagement_MVC.Repository
         {
             return context.Carts.Include(c => c.BookingDinings).ThenInclude(bd => bd.Dining)
                 .Include(c => c.BookingRooms).ThenInclude(br => br.HotelRoom).ThenInclude(ht => ht.HotelRoomType)
-                .Include(c => c.BookingExperiences).ThenInclude(be => be.Experience).ToList();
+                .Include(c => c.BookingExperiences).ThenInclude(be => be.Experience).Include(u=>u.ApplicationUser).ToList();
         }
-
+        public List<Cart> Search(string search)
+        {
+            return context.Carts.Include(u => u.ApplicationUser)
+                    .Where(i => i.ApplicationUser.UserName.Contains(search))
+                    .ToList();
+        }
         public Cart GetById(int Id)
         {
             return context.Carts.FirstOrDefault(d => d.Id == Id);
@@ -59,9 +65,9 @@ namespace HotelManagement_MVC.Repository
         public Cart GetCartByGuestId(string id)
         {
             return context.Carts
-                .Include(c => c.BookingDinings)
-                .Include(c => c.BookingRooms)
-                .Include(c => c.BookingExperiences)
+                .Include(c => c.BookingDinings).ThenInclude(bd=> bd.Dining)
+                .Include(c => c.BookingRooms).ThenInclude(br => br.HotelRoom).ThenInclude(hr=>hr.HotelRoomType)
+                .Include(c => c.BookingExperiences).ThenInclude(be=> be.Experience)
                 .FirstOrDefault(c => c.ApplicationUserId == id);
         }
 
@@ -86,7 +92,10 @@ namespace HotelManagement_MVC.Repository
 
             return totalPrice;
         }
-
+        //public Cart GetCartByBookingDiningID (int bookingid)
+        //{
+        //    var cart = context.Carts.FirstOrDefault(c=>c.BookingDinings in  bookingid);
+        //}
       
     }
 }

@@ -32,12 +32,47 @@ namespace HotelManagement_MVC.Controllers
             this.signInManager = signInManager;
             this.CartRepo = CartRepo;
         }
+        public IActionResult Index(string search, int pg = 1)
+        {
+            List<Cart> cartList ;
+            if (!string.IsNullOrEmpty(search))
+            {
+                cartList = CartRepo.Search(search);
+            }
+            else
+            {
+                cartList = CartRepo.GetAll();
+                const int pageSize = 5;
+                if (pg < 1) pg = 1;
+                int recsCount = cartList.Count();
+                Pager pager = new Pager(recsCount, pg, pageSize);
+                int recSkip = (pg - 1) * pageSize;
+                var data = cartList.Skip(recSkip).Take(pager.PageSize).ToList();
+                this.ViewBag.Pager = pager;
+
+                return View(data);
+            }
+            return View(cartList);
+        }
         public IActionResult GetAllCart()
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
             {
-                List<Cart> CartList = CartRepo.GetAll();
-                return View(CartList);
+                Cart cart;
+
+                    var claimsPrincipal = User as ClaimsPrincipal;
+                    var claimId = claimsPrincipal?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+                    if (claimId == null)
+                    {
+                        cart = null;
+                        return View(cart);
+                    }
+
+                    string id = claimId.Value;
+                    cart = CartRepo.GetCartByGuestId(id);
+                    return View(cart);
+                
             }
             else
             {
@@ -81,8 +116,25 @@ namespace HotelManagement_MVC.Controllers
             }
         }
 
-    // This method creates the payment intent
-    private async Task<string> CreatePaymentIntent(Cart cart)
+        //delete
+        public IActionResult Delete(int id)
+        {
+            Cart cart = CartRepo.GetById(id);
+
+            if (cart == null)
+            {
+                return RedirectToAction("GetAllCart", "Cart");
+            }
+            else
+            {
+                CartRepo.Delete(id);
+                CartRepo.Save();
+            }
+            return RedirectToAction("GetAllCart", "Cart");
+        }
+
+        // This method creates the payment intent
+        private async Task<string> CreatePaymentIntent(Cart cart)
         {
             var paymobApiKey = _configuration["Paymob:ApiKey"];
             var paymobBaseUrl = "https://accept.paymobsolutions.com/api";

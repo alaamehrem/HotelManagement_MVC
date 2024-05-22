@@ -78,29 +78,30 @@ namespace HotelManagement_MVC.Controllers
                             HotelFloorId = bookingRoomReq.HotelFloorId
                         }
                     };
-
-                    bookingRoom.TotalPrice = (int)bookingRoomRepo.DuplicatePrice(bookingRoom);
-
-                    var cart = cartRepo.GetCartByGuestId(Id);
-                    if (cart == null)
+                    var totalPrice = bookingRoomRepo.DuplicatePrice(bookingRoom);
+                    if (totalPrice != null)
                     {
-                        cart = new Cart
+                        bookingRoom.TotalPrice = (int)bookingRoomRepo.DuplicatePrice(bookingRoom);
+                        var cart = cartRepo.GetCartByGuestId(Id);
+                        if (cart == null)
                         {
-                            ApplicationUserId = Id
-                        };
-                        cartRepo.Insert(cart);
+                            cart = new Cart
+                            {
+                                ApplicationUserId = Id
+                            };
+                            cartRepo.Insert(cart);
+                        }
+                        if (cart.BookingRooms == null)
+                            cart.BookingRooms = new List<BookingRoom> { bookingRoom };
+                        else
+                            cart.BookingRooms.Add(bookingRoom);
+                        cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
+
+                        bookingRoomRepo.Insert(bookingRoom);
+                        bookingRoomRepo.Save();
+                        cartRepo.Update(cart);
+                        cartRepo.Save();
                     }
-                    if (cart.BookingRooms == null)
-                        cart.BookingRooms = new List<BookingRoom> { bookingRoom };
-                    else
-                        cart.BookingRooms.Add(bookingRoom);
-                    cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
-
-                    bookingRoomRepo.Insert(bookingRoom);
-                    bookingRoomRepo.Save();
-                    cartRepo.Update(cart);
-                    cartRepo.Save();
-
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -109,5 +110,36 @@ namespace HotelManagement_MVC.Controllers
             ViewData["RoomTypeList"] = hotelRoomTypeRepo.GetAll();
             return View("BookingRoom", bookingRoomReq);
         }
-    }
+        public IActionResult Delete(int id)
+        {
+            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
+            {
+
+                Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                string userId = ClaimId.Value;
+
+                BookingRoom bookingRoom = bookingRoomRepo.GetById(id);
+
+            if (bookingRoom == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                bookingRoomRepo.Delete(id);
+                bookingRoomRepo.Save();
+            }
+            var cart = cartRepo.GetCartByGuestId(userId);
+            cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
+            cartRepo.Update(cart);
+            cartRepo.Save();
+            return RedirectToAction("GetAllCart", "Cart");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
 }
+        }
+    }
+
