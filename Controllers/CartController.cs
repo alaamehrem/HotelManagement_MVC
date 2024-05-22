@@ -2,19 +2,12 @@
 using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using System.Net.Http;
-using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
-using HotelManagement_MVC.Repository;
 using HotelManagement_MVC.Enums;
-using PayPal.Api;
-using PayPalCheckoutSdk.Orders;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HotelManagement_MVC.Controllers
 {
@@ -264,7 +257,7 @@ namespace HotelManagement_MVC.Controllers
             return RedirectToAction("GetAllCart", "Cart");
         }
 
-        //EDIT
+        // EDIT
         public IActionResult Edit(int id)
         {
             var CartEdit = CartRepo.GetById(id);
@@ -273,12 +266,18 @@ namespace HotelManagement_MVC.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.PaymentMethods = new SelectList(Enum.GetValues(typeof(PaymentMethod)));
+            ViewBag.PaymentStatuses = new SelectList(Enum.GetValues(typeof(PaymentStatus)));
+
             var CartNew = new Cart
             {
+                Id = CartEdit.Id,
                 ApplicationUserId = CartEdit.ApplicationUserId,
                 ShippingPrice = CartEdit.ShippingPrice,
                 paymentMethod = CartEdit.paymentMethod,
-                paymentStatus = CartEdit.paymentStatus
+                paymentStatus = CartEdit.paymentStatus,
+                ApplicationUser = CartEdit.ApplicationUser,
             };
 
             return View("Edit", CartNew);
@@ -287,22 +286,28 @@ namespace HotelManagement_MVC.Controllers
         [HttpPost]
         public IActionResult SaveEdit(Cart CartNew, IFormFile? FileImage)
         {
-
             if (ModelState.IsValid)
             {
-                Cart CartDb = CartRepo.GetById(CartNew.Id);
+                var CartDb = CartRepo.GetById(CartNew.Id);
+
+                if (CartDb == null)
+                {
+                    return NotFound();
+                }
 
                 CartDb.ApplicationUserId = CartNew.ApplicationUserId;
                 CartDb.ShippingPrice = CartNew.ShippingPrice;
                 CartDb.paymentMethod = CartNew.paymentMethod;
                 CartDb.paymentStatus = CartNew.paymentStatus;
-            
-
 
                 CartRepo.Update(CartDb);
                 CartRepo.Save();
                 return RedirectToAction("GetAllCart");
             }
+
+            ViewBag.PaymentMethods = new SelectList(Enum.GetValues(typeof(PaymentMethod)));
+            ViewBag.PaymentStatuses = new SelectList(Enum.GetValues(typeof(PaymentStatus)));
+
             return View("Edit", CartNew);
         }
     }
