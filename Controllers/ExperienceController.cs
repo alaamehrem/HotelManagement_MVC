@@ -80,7 +80,7 @@ namespace HotelManagement_MVC.Controllers
         public IActionResult SaveNew(ExperienceWithTypesViewModel experiencenew, IFormFile FileImage, IFormFile FileCoverImage)
         {
             List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
-            Experience ExperienceDb = ExperienceRepo.GetById(experiencenew.ExperienceId);
+            Experience ExperienceDb = new Experience();
             experiencenew.Type = ExperiencetypeList;
             experiencenew.Price = ExperienceDb.Price;
             experiencenew.ExperienceId = ExperienceDb.Id;

@@ -1,12 +1,17 @@
-﻿using HotelManagement_MVC.Models;
+﻿using HotelManagement_MVC.IRepository;
+using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
 using HotelManagement_MVC.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace HotelManagement_MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
+
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -59,17 +64,112 @@ namespace HotelManagement_MVC.Controllers
         public async Task<IActionResult> Details(string Id)
         {
             var user = await userManager.FindByIdAsync(Id);
-            var mappedUser = new UserViewModel()
+            var UserVM = new UserViewModel()
             {
                 Id = user.Id,
                 FName = user.Fname,
                 LName = user.Lname,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                //Roles = userManager.GetRolesAsync(user).Result
             };
-            return View("Details", mappedUser);
+            return View("Details", UserVM);
         }
 
+        public async Task<IActionResult> Edit(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userVM = new UserViewModel
+            {
+                Id = user.Id,
+                FName = user.Fname,
+                LName = user.Lname,
+                Email = user.Email,
+                password=user.PasswordHash,
+                PhoneNumber = user.PhoneNumber,
+            };
+
+            return View("Edit", userVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveEdit(UserViewModel userReq)
+        {
+            if (ModelState.IsValid)
+            {
+                var userDb = await userManager.FindByIdAsync(userReq.Id);
+
+                if (userDb == null)
+                {
+                    return NotFound();
+                }
+
+                userDb.Fname = userReq.FName;
+                userDb.Lname = userReq.LName;
+                userDb.Email = userReq.Email;
+                userDb.PasswordHash = userReq.password;
+                userDb.PhoneNumber = userReq.PhoneNumber;
+
+                var result = await userManager.UpdateAsync(userDb);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return View("Edit", userReq);
+        }
+
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var User = new UserViewModel()
+            {
+                Id = user.Id,
+                FName = user.Fname,
+                LName = user.Lname,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+            };
+            return View("Delete", User);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmDelete(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var result = await userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "User");
+            }
+           var User = new UserViewModel()
+            {
+                Id = user.Id,
+                FName = user.Fname,
+                LName = user.Lname,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+            };
+            return View("Delete", User);
+        }
     }
 }
