@@ -98,6 +98,10 @@ namespace HotelManagement_MVC.Controllers
 
             return View(allBookingEventsViewModel);
         }
+        public IActionResult BookingNow()
+        {
+            return View();
+        }
 
     }
 }
