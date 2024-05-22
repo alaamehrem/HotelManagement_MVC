@@ -78,29 +78,30 @@ namespace HotelManagement_MVC.Controllers
                             HotelFloorId = bookingRoomReq.HotelFloorId
                         }
                     };
-
-                    bookingRoom.TotalPrice = (int)bookingRoomRepo.DuplicatePrice(bookingRoom);
-
-                    var cart = cartRepo.GetCartByGuestId(Id);
-                    if (cart == null)
+                    var totalPrice = bookingRoomRepo.DuplicatePrice(bookingRoom);
+                    if (totalPrice != null)
                     {
-                        cart = new Cart
+                        bookingRoom.TotalPrice = (int)bookingRoomRepo.DuplicatePrice(bookingRoom);
+                        var cart = cartRepo.GetCartByGuestId(Id);
+                        if (cart == null)
                         {
-                            ApplicationUserId = Id
-                        };
-                        cartRepo.Insert(cart);
+                            cart = new Cart
+                            {
+                                ApplicationUserId = Id
+                            };
+                            cartRepo.Insert(cart);
+                        }
+                        if (cart.BookingRooms == null)
+                            cart.BookingRooms = new List<BookingRoom> { bookingRoom };
+                        else
+                            cart.BookingRooms.Add(bookingRoom);
+                        cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
+
+                        bookingRoomRepo.Insert(bookingRoom);
+                        bookingRoomRepo.Save();
+                        cartRepo.Update(cart);
+                        cartRepo.Save();
                     }
-                    if (cart.BookingRooms == null)
-                        cart.BookingRooms = new List<BookingRoom> { bookingRoom };
-                    else
-                        cart.BookingRooms.Add(bookingRoom);
-                    cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
-
-                    bookingRoomRepo.Insert(bookingRoom);
-                    bookingRoomRepo.Save();
-                    cartRepo.Update(cart);
-                    cartRepo.Save();
-
                     return RedirectToAction("Index", "Home");
                 }
             }
