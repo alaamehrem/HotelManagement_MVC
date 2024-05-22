@@ -15,13 +15,6 @@ namespace HotelManagement_MVC.Repository
         {
             return context.ExperienceTypes.ToList();
         }
-        public void Insert(ExperienceWithTypesViewModel obj)
-        {
-            context.Add(obj);
-        }
-        public void Save()
-        {
-            context.SaveChanges();
-        }
+        
     }
 }

@@ -1,10 +1,9 @@
-﻿@* @model Experience
- *@
- @model ExperienceWithTypesViewModel
+﻿
+@model ExperienceWithTypesViewModel
+
 @{
     ViewData["Title"] = "New";
     Layout = "_Dashboard";
-
 }
 
 <!-- Breadcrumb Section Begin -->
@@ -24,112 +23,65 @@
 </div>
 <br />
 <!-- Breadcrumb Section End -->
-
 <!-- Blog Section Begin -->
 <section class="blog-section blog-page spad">
-
     <div class="container">
         <h3>Experience Form</h3>
         <br />
         <form asp-action="SaveNew" asp-controller="Experience" method="post" enctype="multipart/form-data">
-            <div>
+            <div class="form-group">
                 <label asp-for="ExperienceName"> </label>
                 <input asp-for="ExperienceName" class="form form-control" />
+                <span asp-validation-for="ExperienceName" class="text-danger"></span>
             </div>
             <br />
-            <div>
+            <div class="form-group">
                 <label asp-for="Image"> </label>
                 <img id="imagePreview" style="width:400px;height:400px" src="/images/Experience/@Model.Image" alt="Image Preview" />
                 <input Name="FileImage" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage(event)" />
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-
-            <div>
+            <div class="form-group">
                 <label asp-for="CoverImage"> </label>
                 <img id="imagePreview1" style="width:400px;height:400px" src="/images/Experience/@Model.CoverImage" alt="Image Preview" />
                 <input Name="FileCoverImage" type="file" class="form form-control" style="border:none; outline:none;" onchange="previewImage1(event)" />
+                <span asp-validation-for="CoverImage" class="text-danger"></span>
             </div>
             <br />
-            <div>
-                <label asp-for="Type"> </label>
-                <br />
-                <select name="Type" id="Type" class="form form-control">
-@*                     @if (Model.Type != null && Model.Type.Experiences != null)
-                    {
-                        foreach (var typeItem in Model.Type.Experiences)
-                        {
-                            if (Model.TypeId == typeItem.Id)
-                            {
-                                <option value="@typeItem.Id" selected>@typeItem.Type.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@typeItem.Id">@typeItem.Name</option>
-                            }
-                        }
-                    }
-                    else
-                    {
-                        <option value="">No Types Available</option>
-                    } *@
-                    
-@*                     @foreach (var Item in Model.Experiences)
-                    {
-                        if (Model.TypeId == Item.TypeId && Model.ExperienceId != Item.Id)
-                        {
-                            <option value="@Item.TypeId" selected>@Item.Type.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@Item.TypeId"> @Item.Type.Name </option>
-                        }
-                    } *@
-
-@*                     @{
-                        var addedTypeIds = new List<int>(); 
-                    }
-                    @foreach (var Item in Model.Experiences)
-                    {
-                        if (!addedTypeIds.Contains(Item.TypeId))
-                        {
-                            <option value="@Item.TypeId"> @Item.Type.Name </option>
-                            addedTypeIds.Add(Item.TypeId); 
-                        }
-                    } *@
-
-                    @foreach (var Item in Model.Type)
-                    {
-                    <option value="@Item.Id"> @Item.Name </option>
-
-                    }
-                   
-
-                </select>
+            <div class="form-group">
+               <label asp-for="TypeId"> </label>
+               <select asp-for="TypeId" class="form form-control" asp-items="@(new SelectList(Model.Type, "Id", "Name"))"></select>
+               <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
             <br />
-            <br /> 
-            <div>
+            <div class="form-group">
                 <label asp-for="Description"> </label>
                 <input asp-for="Description" class="form form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <br />
-            <div>
+            <div class="form-group">
                 <label asp-for="Price"> </label>
                 <input asp-for="Price" class="form form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <br />
-            <div>
+            <div class="form-group">
                 <label asp-for="Duration"> </label>
                 <input asp-for="Duration" class="form form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
             <br />
-            <div>
+            <div class="form-group">
                 <label asp-for="instructions"> </label>
                 <input asp-for="instructions" class="form form-control" />
+                <span asp-validation-for="instructions" class="text-danger"></span>
             </div>
             <br />
-            <div>
+            <div class="form-group">
                 <label asp-for="Requirements"> </label>
                 <input asp-for="Requirements" class="form form-control" />
+                <span asp-validation-for="Requirements" class="text-danger"></span>
             </div>
             <br />
             <input type="submit" value="Create" class="btn btn-success" style="background-color: #DFA974; border:none" />|

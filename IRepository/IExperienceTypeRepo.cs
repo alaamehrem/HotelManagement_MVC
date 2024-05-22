@@ -6,8 +6,7 @@ namespace HotelManagement_MVC.IRepository
     public interface IExperienceTypeRepo
     {
         List<ExperienceType> GetAll();
-        void Insert(ExperienceWithTypesViewModel obj);
-        void Save();
+
 
     }
 }

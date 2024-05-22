@@ -17,11 +17,11 @@ namespace HotelManagement_MVC.Controllers
         private readonly IWebHostEnvironment WebHostEnvironment;
         private readonly IExperienceTypeRepo experienceTypeRepo;
 
-        public ExperienceController(IExperienceRepo _ExperienceRepo,IExperienceTypeRepo _ExperienceTypeRepo, IWebHostEnvironment _WebHostEnvironment)
+        public ExperienceController(IExperienceRepo _ExperienceRepo, IExperienceTypeRepo _ExperienceTypeRepo, IWebHostEnvironment _WebHostEnvironment)
         {
             ExperienceRepo = _ExperienceRepo;
             WebHostEnvironment = _WebHostEnvironment;
-            experienceTypeRepo= _ExperienceTypeRepo;
+            experienceTypeRepo = _ExperienceTypeRepo;
         }
 
         //index
@@ -53,7 +53,7 @@ namespace HotelManagement_MVC.Controllers
             {
                 ExperienceList = ExperienceRepo.GetAll();
             }
-           
+
 
             return View("Experiences", ExperienceList);
         }
@@ -65,13 +65,13 @@ namespace HotelManagement_MVC.Controllers
             Experience ExperienceDetails = ExperienceRepo.GetById(Id);
             return View("Details", ExperienceDetails);
         }
+        [HttpGet]
 
         //new
-        [HttpGet] 
         public IActionResult New()
         {
             List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
-            ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel(); 
+            ExperienceWithTypesViewModel experienceVM = new ExperienceWithTypesViewModel();
             experienceVM.Type = ExperiencetypeList;
             return View("New", experienceVM);
         }
@@ -80,19 +80,20 @@ namespace HotelManagement_MVC.Controllers
         public IActionResult SaveNew(ExperienceWithTypesViewModel experiencenew, IFormFile FileImage, IFormFile FileCoverImage)
         {
             List<ExperienceType> ExperiencetypeList = experienceTypeRepo.GetAll();
-            Experience ExperienceDb = new Experience();
             experiencenew.Type = ExperiencetypeList;
-            experiencenew.Price = ExperienceDb.Price;
-            experiencenew.ExperienceId = ExperienceDb.Id;
-            experiencenew.ExperienceName = ExperienceDb.Name;
-            experiencenew.Description = ExperienceDb.Description;
-            experiencenew.Duration = ExperienceDb.Duration;
-            experiencenew.instructions = ExperienceDb.instructions;
-            experiencenew.Requirements = ExperienceDb.Requirements;
-
 
             if (ModelState.IsValid)
             {
+                Experience ExperienceDb = new Experience();
+                ExperienceDb.Price = experiencenew.Price;
+                ExperienceDb.Id = experiencenew.ExperienceId;
+                ExperienceDb.Name = experiencenew.ExperienceName;
+                ExperienceDb.Description = experiencenew.Description;
+                ExperienceDb.Duration = experiencenew.Duration;
+                ExperienceDb.instructions = experiencenew.instructions;
+                ExperienceDb.Requirements = experiencenew.Requirements;
+                ExperienceDb.TypeId = experiencenew.TypeId;
+
                 if (FileImage != null && FileImage.Length > 0)
                 {
                     var imageFilePath = Path.Combine(WebHostEnvironment.WebRootPath, "Images/Experience/", FileImage.FileName);
@@ -102,7 +103,7 @@ namespace HotelManagement_MVC.Controllers
                         FileImage.CopyTo(stream);
                     }
 
-                    experiencenew.Image = FileImage.FileName;
+                    ExperienceDb.Image = FileImage.FileName;
                 }
 
                 if (FileCoverImage != null && FileCoverImage.Length > 0)
@@ -114,11 +115,11 @@ namespace HotelManagement_MVC.Controllers
                         FileCoverImage.CopyTo(stream);
                     }
 
-                    experiencenew.CoverImage = FileCoverImage.FileName;
+                    ExperienceDb.CoverImage = FileCoverImage.FileName;
                 }
 
-                experienceTypeRepo.Insert(experiencenew);
-                experienceTypeRepo.Save();
+                ExperienceRepo.Insert(ExperienceDb);
+                ExperienceRepo.Save();
 
                 return RedirectToAction("Index", "Experience");
             }
@@ -126,8 +127,8 @@ namespace HotelManagement_MVC.Controllers
             return View("New", experiencenew);
         }
 
-        //edit
-        public IActionResult Edit(int id)
+            //edit
+            public IActionResult Edit(int id)
         {
             var ExperienceEdit = ExperienceRepo.GetById(id);
 
