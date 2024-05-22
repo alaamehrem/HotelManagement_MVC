@@ -32,6 +32,28 @@ namespace HotelManagement_MVC.Controllers
             this.signInManager = signInManager;
             this.CartRepo = CartRepo;
         }
+        public IActionResult Index(string search, int pg = 1)
+        {
+            List<Cart> cartList ;
+            if (!string.IsNullOrEmpty(search))
+            {
+                cartList = CartRepo.Search(search);
+            }
+            else
+            {
+                cartList = CartRepo.GetAll();
+                const int pageSize = 5;
+                if (pg < 1) pg = 1;
+                int recsCount = cartList.Count();
+                Pager pager = new Pager(recsCount, pg, pageSize);
+                int recSkip = (pg - 1) * pageSize;
+                var data = cartList.Skip(recSkip).Take(pager.PageSize).ToList();
+                this.ViewBag.Pager = pager;
+
+                return View(data);
+            }
+            return View(cartList);
+        }
         public IActionResult GetAllCart()
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
