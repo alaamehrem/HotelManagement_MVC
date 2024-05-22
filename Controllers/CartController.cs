@@ -36,8 +36,21 @@ namespace HotelManagement_MVC.Controllers
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
             {
-                List<Cart> CartList = CartRepo.GetAll();
-                return View(CartList);
+                Cart cart;
+
+                    var claimsPrincipal = User as ClaimsPrincipal;
+                    var claimId = claimsPrincipal?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+                    if (claimId == null)
+                    {
+                        cart = null;
+                        return View(cart);
+                    }
+
+                    string id = claimId.Value;
+                    cart = CartRepo.GetCartByGuestId(id);
+                    return View(cart);
+                
             }
             else
             {
@@ -81,8 +94,25 @@ namespace HotelManagement_MVC.Controllers
             }
         }
 
-    // This method creates the payment intent
-    private async Task<string> CreatePaymentIntent(Cart cart)
+        //delete
+        public IActionResult Delete(int id)
+        {
+            Cart cart = CartRepo.GetById(id);
+
+            if (cart == null)
+            {
+                return RedirectToAction("GetAllCart", "Cart");
+            }
+            else
+            {
+                CartRepo.Delete(id);
+                CartRepo.Save();
+            }
+            return RedirectToAction("GetAllCart", "Cart");
+        }
+
+        // This method creates the payment intent
+        private async Task<string> CreatePaymentIntent(Cart cart)
         {
             var paymobApiKey = _configuration["Paymob:ApiKey"];
             var paymobBaseUrl = "https://accept.paymobsolutions.com/api";

@@ -59,9 +59,9 @@ namespace HotelManagement_MVC.Repository
         public Cart GetCartByGuestId(string id)
         {
             return context.Carts
-                .Include(c => c.BookingDinings)
-                .Include(c => c.BookingRooms)
-                .Include(c => c.BookingExperiences)
+                .Include(c => c.BookingDinings).ThenInclude(bd=> bd.Dining)
+                .Include(c => c.BookingRooms).ThenInclude(br => br.HotelRoom).ThenInclude(hr=>hr.HotelRoomType)
+                .Include(c => c.BookingExperiences).ThenInclude(be=> be.Experience)
                 .FirstOrDefault(c => c.ApplicationUserId == id);
         }
 
