@@ -2,13 +2,9 @@
 using HotelManagement_MVC.ViewModel;
 using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
-using Newtonsoft.Json;
-using HotelManagement_MVC.Repository;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using NuGet.Packaging.Signing;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace HotelManagement_MVC.Controllers
 {
