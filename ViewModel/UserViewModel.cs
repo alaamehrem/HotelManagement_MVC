@@ -11,6 +11,7 @@ namespace HotelManagement_MVC.ViewModel
         public string Id { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }
+        public string UserName { get; set; }
         [Required(ErrorMessage = "Email is requires")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
