@@ -71,7 +71,7 @@ namespace HotelManagement_MVC.Models
                 Id = 4,
                 Name = "DINING UNDER THE STARS",
                 Description = "Before the sun begins to set, take a seat at a private table for two overlooking Hulopoe Bay. As evening descends, enjoy a Champagne welcome followed by a customized menu prepared just for you in consultation with our expert chefs.",
-                Images = "KON_1192_original.jpg",
+                Images = "MAN_2010_original.jpg",
                 Duration = "3 HOURS",
                 Price = 8000,
                 TimeOfDay = "EVENING"
