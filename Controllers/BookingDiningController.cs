@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using HotelManagement_MVC.Repository;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Packaging.Signing;
 
 namespace HotelManagement_MVC.Controllers
 {
@@ -16,8 +18,9 @@ namespace HotelManagement_MVC.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         ICartRepo CartRepo;
+        IDiningRepo DiningRepo;
 
-        public BookingDiningController(IBookingDiningRepo BookingDiningRepo, ICartRepo cartRepo, IWebHostEnvironment webHostEnvironment,
+        public BookingDiningController(IBookingDiningRepo BookingDiningRepo,IDiningRepo DiningRepo, ICartRepo cartRepo, IWebHostEnvironment webHostEnvironment,
             UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.BookingDiningRepo = BookingDiningRepo;
@@ -25,6 +28,7 @@ namespace HotelManagement_MVC.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.CartRepo = cartRepo;
+            this.DiningRepo = DiningRepo;
         }
         [HttpPost]
         public IActionResult SaveNew(int id, BookingDiningVM bookingDiningVM)
@@ -111,7 +115,56 @@ namespace HotelManagement_MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-        
+        //EDIT
+        public IActionResult Edit(int id)
+        {
+            var bookingDiningEdit = BookingDiningRepo.GetById(id);
+
+            if (bookingDiningEdit == null)
+            {
+                return NotFound();
+            }
+
+            var diningOptions = DiningRepo.GetAll(); // Assuming you have a DiningRepo to fetch dining options
+            ViewData["DiningList"] = diningOptions;
+            var viewModel = new BookingDiningEditVM
+            {
+                Id = bookingDiningEdit.Id,
+                Date = bookingDiningEdit.Date,
+                NumAdults = bookingDiningEdit.NumAdults,
+                Price = bookingDiningEdit.Price,
+                SpecialRequest = bookingDiningEdit.SpecialRequest,
+                DiningId = bookingDiningEdit.DiningId,
+            };
+
+            return View(viewModel);
         }
+
+        [HttpPost]
+        public IActionResult SaveEdit(BookingDiningEditVM viewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var bookingDiningDb = BookingDiningRepo.GetById(viewModel.Id);
+
+                bookingDiningDb.Date = viewModel.Date;
+                bookingDiningDb.NumAdults = viewModel.NumAdults;
+                bookingDiningDb.Price = viewModel.Price;
+                bookingDiningDb.SpecialRequest = viewModel.SpecialRequest;
+                bookingDiningDb.DiningId = viewModel.DiningId;
+
+                BookingDiningRepo.Update(bookingDiningDb);
+                BookingDiningRepo.Save();
+
+                return RedirectToAction("GetAllCart" , "Cart");
+            }
+            var diningOptions = DiningRepo.GetAll();
+            ViewData["DiningList"] = diningOptions;
+
+            return View("Edit", viewModel);
+        }
+
+    }
 
     }

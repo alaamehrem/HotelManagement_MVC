@@ -19,6 +19,7 @@
                         <th>Name</th>
                         <th>Date</th>
                         <th colspan="2">Price</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 foreach (var dining in @Model.BookingDinings)
@@ -28,7 +29,9 @@
                             <td>@dining.Dining.Name</td>
                             <td>@dining.Date</td>
                             <td colspan="2">@dining.Price</td>
+                        <td><a href="/BookingDining/Edit?id=@dining.Id">Edit</a></td>
                         <td><a href="/BookingDining/Delete?id=@dining.Id" class="btn btn-danger">Delete</a></td>
+                        
                         </tr>
                     }
                 }
