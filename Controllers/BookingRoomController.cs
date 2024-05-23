@@ -2,6 +2,7 @@
 using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
 using HotelManagement_MVC.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using System.Security.Claims;
 
 namespace HotelManagement_MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BookingRoomController : Controller
     {
         private readonly IBookingRoomRepo bookingRoomRepo;
@@ -36,6 +38,7 @@ namespace HotelManagement_MVC.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult BookingRoom()
         {
             ViewData["OfferList"] = offerRepo.GetAll();
@@ -45,6 +48,7 @@ namespace HotelManagement_MVC.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult SaveNew(int id,BookingRoomOfferRoomTypeVM bookingRoomReq)
         {
             //var Room = bookingRoomRepo.GetRoomTypeById(id);
@@ -101,6 +105,7 @@ namespace HotelManagement_MVC.Controllers
                         bookingRoomRepo.Save();
                         cartRepo.Update(cart);
                         cartRepo.Save();
+
                     }
                     return RedirectToAction("Index", "Home");
                 }
@@ -110,6 +115,7 @@ namespace HotelManagement_MVC.Controllers
             ViewData["RoomTypeList"] = hotelRoomTypeRepo.GetAll();
             return View("BookingRoom", bookingRoomReq);
         }
+        [AllowAnonymous]
         public IActionResult Delete(int id)
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
@@ -133,7 +139,10 @@ namespace HotelManagement_MVC.Controllers
             cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
             cartRepo.Update(cart);
             cartRepo.Save();
-            return RedirectToAction("GetAllCart", "Cart");
+                if (User.IsInRole("Admin"))
+                    return RedirectToAction("GetAllCartAdmin", "Cart");
+                else
+                    return RedirectToAction("GetAllCart", "Cart");
             }
             else
             {

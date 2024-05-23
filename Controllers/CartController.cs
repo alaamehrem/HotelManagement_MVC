@@ -9,9 +9,11 @@ using Newtonsoft.Json;
 using HotelManagement_MVC.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HotelManagement_MVC.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelManagement_MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CartController : Controller
     {
         ICartRepo CartRepo;
@@ -36,6 +38,7 @@ namespace HotelManagement_MVC.Controllers
             this.BookingExperienceRepo = bookingExperienceRepo;
             this.BookingRoomRepo = bookingRoomRepo;
         }
+        [AllowAnonymous]
         public IActionResult Index(string search, int pg = 1)
         {
             List<Cart> cartList ;
@@ -58,6 +61,8 @@ namespace HotelManagement_MVC.Controllers
             }
             return View(cartList);
         }
+
+        [AllowAnonymous]
         public IActionResult GetAllCart()
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
@@ -72,7 +77,6 @@ namespace HotelManagement_MVC.Controllers
                         cart = null;
                         return View(cart);
                     }
-
                     string id = claimId.Value;
                     cart = CartRepo.GetCartByGuestId(id);
                     return View(cart);
@@ -83,6 +87,18 @@ namespace HotelManagement_MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
+        public IActionResult GetAllCartAdmin()
+        {
+
+            var CartList = CartRepo.GetAll();
+            if (CartList != null)
+            {
+                return View(CartList);
+            }
+            return View(CartList);
+        }
+
+        [AllowAnonymous]
         public async Task<IActionResult> ConfirmCart()
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
@@ -120,24 +136,8 @@ namespace HotelManagement_MVC.Controllers
             }
         }
 
-        //delete
-        public IActionResult Delete(int id)
-        {
-            Cart cart = CartRepo.GetById(id);
-
-            if (cart == null)
-            {
-                return RedirectToAction("GetAllCart", "Cart");
-            }
-            else
-            {
-                CartRepo.Delete(id);
-                CartRepo.Save();
-            }
-            return RedirectToAction("GetAllCart", "Cart");
-        }
-
         // This method creates the payment intent
+        [AllowAnonymous]
         private async Task<string> CreatePaymentIntent(Cart cart)
         {
             var paymobApiKey = _configuration["Paymob:ApiKey"];
@@ -236,87 +236,6 @@ namespace HotelManagement_MVC.Controllers
                 // Redirect to payment
                 return $"https://accept.paymobsolutions.com/api/acceptance/iframes/847676?payment_token={paymentKey}";
             }
-        }
-        //delete
-        public IActionResult DeleteAdmin(int id)
-        {
-            Cart CartDelete = CartRepo.GetById(id);
-
-            if (CartDelete == null)
-            {
-                return NotFound();
-            }
-            return View("Delete", CartDelete);
-        }
-
-        [HttpPost]
-        public IActionResult ConfirmDelete(int id)
-        {
-            Cart Cart = CartRepo.GetById(id);
-
-            if (Cart == null)
-            {
-                return NotFound();
-            }
-
-            CartRepo.Delete(Cart.Id);
-            CartRepo.Save();
-
-            return RedirectToAction("GetAllCart", "Cart");
-        }
-
-        // EDIT
-        public IActionResult Edit(int id)
-        {
-            var cartEdit = CartRepo.GetById(id);
-
-            if (cartEdit == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.PaymentMethods = new SelectList(Enum.GetValues(typeof(PaymentMethod)));
-            ViewBag.PaymentStatuses = new SelectList(Enum.GetValues(typeof(PaymentStatus)));
-
-            var cartNew = new Cart
-            {
-                Id = cartEdit.Id,
-                ShippingPrice = cartEdit.ShippingPrice,
-                paymentMethod = cartEdit.paymentMethod,
-                paymentStatus = cartEdit.paymentStatus
-            };
-
-            return View(cartNew);
-        }
-
-        [HttpPost]
-        public IActionResult SaveEdit(Cart cartNew)
-        {
-            if (ModelState.IsValid)
-            {
-                var cartDb = CartRepo.GetById(cartNew.Id);
-
-                if (cartDb == null)
-                {
-                    return NotFound();
-                }
-
-                cartDb.ShippingPrice = cartNew.ShippingPrice;
-                cartDb.paymentMethod = cartNew.paymentMethod;
-                cartDb.paymentStatus = cartNew.paymentStatus;
-
-
-                CartRepo.Update(cartDb);
-                CartRepo.Save();
-                return RedirectToAction("GetAllCart");
-            }
-
-            ViewBag.PaymentMethods = new SelectList(Enum.GetValues(typeof(PaymentMethod)));
-            ViewBag.PaymentStatuses = new SelectList(Enum.GetValues(typeof(PaymentStatus)));
-
-
-
-            return View("Edit", cartNew);
         }
     }
 }

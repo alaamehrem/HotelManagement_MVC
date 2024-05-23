@@ -4,10 +4,12 @@ using HotelManagement_MVC.IRepository;
 using HotelManagement_MVC.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace HotelManagement_MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BookingDiningController : Controller
     {
         IBookingDiningRepo BookingDiningRepo;
@@ -28,6 +30,7 @@ namespace HotelManagement_MVC.Controllers
             this.DiningRepo = DiningRepo;
         }
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult SaveNew(int id, BookingDiningVM bookingDiningVM)
         {
             var dining = BookingDiningRepo.GetDiningById(id);
@@ -82,9 +85,10 @@ namespace HotelManagement_MVC.Controllers
                 return RedirectToAction("Login", "Account"); // Redirect user to login if not authenticated
             }
         }
+        [AllowAnonymous]
         public IActionResult Delete(int id)
         {
-            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
+            if (User.Identity.IsAuthenticated == true || User.IsInRole("Admin")) //If the user is not logedin redirect the view to the login
             {
 
                 Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
@@ -105,13 +109,18 @@ namespace HotelManagement_MVC.Controllers
                 cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
                 CartRepo.Update(cart);
                 CartRepo.Save();
-                return RedirectToAction("GetAllCart", "Cart");
+                if (User.IsInRole("Admin"))
+                    return RedirectToAction("GetAllCartAdmin", "Cart");
+                else
+                    return RedirectToAction("GetAllCart", "Cart");
             }
             else
             {
                 return RedirectToAction("Login", "Account");
             }
         }
+
+        [AllowAnonymous]
         //EDIT
         public IActionResult Edit(int id)
         {
@@ -138,6 +147,7 @@ namespace HotelManagement_MVC.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult SaveEdit(BookingDiningEditVM viewModel)
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login

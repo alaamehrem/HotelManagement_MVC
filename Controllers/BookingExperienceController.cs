@@ -2,13 +2,14 @@
 using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
 using HotelManagement_MVC.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace HotelManagement_MVC.Controllers
 {
-    
+    [Authorize(Roles = "Admin")]
     public class BookingExperienceController : Controller
     { 
     IBookingExperienceRepo BookingExperienceRepo;
@@ -26,6 +27,7 @@ namespace HotelManagement_MVC.Controllers
         this.signInManager = signInManager;
         this.CartRepo = cartRepo;
     }
+        [AllowAnonymous]
     [HttpPost]
     public IActionResult SaveNew(int id, BookingExperienceVM bookingExperienceVM) //CREATE BOOKING VIEWMODEL
     {
@@ -71,6 +73,7 @@ namespace HotelManagement_MVC.Controllers
             CartRepo.Update(cart);
             CartRepo.Save();
 
+
             // Redirect to cart confirmation page
             return RedirectToAction("Experiences", "Experience");
         }
@@ -80,6 +83,7 @@ namespace HotelManagement_MVC.Controllers
         }
 
     }
+        [AllowAnonymous]
         public IActionResult Delete(int id)
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
@@ -103,7 +107,10 @@ namespace HotelManagement_MVC.Controllers
                 cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
                 CartRepo.Update(cart);
                 CartRepo.Save();
-                return RedirectToAction("GetAllCart", "Cart");
+                if (User.IsInRole("Admin"))
+                    return RedirectToAction("GetAllCartAdmin", "Cart");
+                else
+                    return RedirectToAction("GetAllCart", "Cart");
             }
             else
             {
@@ -112,6 +119,7 @@ namespace HotelManagement_MVC.Controllers
         
         }
         //EDIT
+        [AllowAnonymous]
         public IActionResult Edit(int id)
         {
             var bookingExperienceEdit = BookingExperienceRepo.GetById(id);
@@ -132,7 +140,7 @@ namespace HotelManagement_MVC.Controllers
 
             return View(viewModel);
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult SaveEdit(BookingExperienceEditVM viewModel)
         {

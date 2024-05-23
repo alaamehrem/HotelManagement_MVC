@@ -10,7 +10,10 @@
         }
         else
         {
-            
+            @if ((Model.BookingDinings != null && Model.BookingDinings.Any()) ||
+           (Model.BookingExperiences != null && Model.BookingExperiences.Any()) ||
+           (Model.BookingRooms != null && Model.BookingRooms.Any()))
+            {
                 <!-- Loop through BookingDining -->
                 @if (@Model.BookingDinings != null && @Model.BookingDinings.Any())
                 {
@@ -62,7 +65,7 @@
 
                 <tr style="height:70px">
                 <td colspan="5" class="nav-item">Total Price: @Model.ShippingPrice</td>
-                </tr>
+                </tr>}
             
         }
     </table>

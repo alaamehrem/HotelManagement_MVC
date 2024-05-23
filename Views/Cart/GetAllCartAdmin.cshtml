@@ -1,7 +1,7 @@
-﻿@model Cart
+﻿@model List<Cart>
 @{
-    ViewData["Title"] = "AllCart";
-    Layout = "_Index";
+    ViewData["Title"] = "AllCarts";
+    Layout = "_Dashboard";
 }
 
 <!-- Breadcrumb Section Begin -->
@@ -9,10 +9,10 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="breadcrumb-text">
-                <h2>Edit Dining</h2>
+                <h2>All Carts</h2>
                 <div class="bt-option">
                     <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    <span>All Cart</span>
+                    <span>All Carts</span>
                 </div>
             </div>
         </div>
@@ -25,18 +25,22 @@
         @if (Model == null)
         {
             <tr>
-                <td class="nav-item text-center" colspan="5">No items in cart</td>
+                <td class="nav-item text-center" colspan="7">No items in cart</td>
             </tr>
         }
         else
         {
-                @if ((Model.BookingDinings != null && Model.BookingDinings.Any()) ||
-               (Model.BookingExperiences != null && Model.BookingExperiences.Any()) ||
-               (Model.BookingRooms != null && Model.BookingRooms.Any()))
-                {
-
+            @foreach( var cart in Model)
+            {
                 <!-- Loop through BookingDining -->
-            @if (@Model.BookingDinings != null && @Model.BookingDinings.Any())
+                @if ((cart.BookingDinings != null && cart.BookingDinings.Any()) ||
+               (cart.BookingExperiences != null && cart.BookingExperiences.Any()) ||
+               (cart.BookingRooms != null && cart.BookingRooms.Any()))
+                {
+                <tr>
+                    <td class="nav-item text-center" colspan="7">@cart.ApplicationUser.UserName</td>
+                </tr>
+                @if (cart.BookingDinings != null && cart.BookingDinings.Any())
                 {
                     <tr>
                         <th>Image</th>
@@ -46,7 +50,7 @@
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
-                foreach (var dining in @Model.BookingDinings)
+                foreach (var dining in cart.BookingDinings)
                     {
                         <tr>
                             <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Dining/@dining.Dining.Images" alt="Dining image" /></td>
@@ -60,20 +64,20 @@
                     }
                 }
                 <!-- Loop through BookingRoom -->
-            @if (@Model.BookingRooms != null && @Model.BookingRooms.Any())
+            @if (cart.BookingRooms != null && cart.BookingRooms.Any())
                 {
                     <tr>
-                        <td colspan="5" class="nav-item"><strong>Room Bookings:</strong></td>
+                        <td colspan="7" class="nav-item"><strong>Room Bookings:</strong></td>
                     </tr>
                     <tr>
                         <th>Image</th>
                         <th>Room Type</th>
                         <th>Check-in</th>
                         <th>Check-out</th>
-                        <th>Price</th
+                        <th>Price</th>
                         <th>Delete</th>
                     </tr>
-                foreach (var room in @Model.BookingRooms)
+                foreach (var room in cart.BookingRooms)
                     {
                         <tr>
                             <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/RoomType/@room.HotelRoom.HotelRoomType.Images" alt="Room image" /></td>
@@ -87,7 +91,7 @@
                 }
 
                 <!-- Loop through BookingExperience -->
-            @if (Model.BookingExperiences != null && Model.BookingExperiences.Any())
+            @if (cart.BookingExperiences != null && cart.BookingExperiences.Any())
             {
                 <tr>
                     <td colspan="5" class="nav-item"><strong>Experience Bookings:</strong></td>
@@ -100,7 +104,7 @@
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
-                foreach (var experience in Model.BookingExperiences)
+                foreach (var experience in cart.BookingExperiences)
                 {
                     <tr>
                         <td class="text-center"><img class="img-fluid" style="width: 200px;" src="/Images/Experience/@experience.Experience.CoverImage" alt="Experience image" /></td>
@@ -115,14 +119,19 @@
                 }
             }
 
+
+                    <tr>
+                        <td colspan="7" class="nav-item text-right">Total Price: @cart.ShippingPrice</td>
+                    </tr>
+                }
+      
+            }
             <!-- Display Shipping Price -->
-            <tr>
-                <td colspan="5" class="nav-item text-right">Total Price: @Model.ShippingPrice</td>
-            </tr>
-        }}
+
+        }
     </table>
 
-    <div style="margin: 10px; text-align: right;" class="header-configure-area">
+@*     <div style="margin: 10px; text-align: right;" class="header-configure-area">
         <a href="@Url.Action("ConfirmCart", "Cart")" class="btn btn-primary" style="background-color: #DFA974; margin-bottom: 50px; border: none;">Confirm Cart</a>
-    </div>
+    </div> *@
 </div>
