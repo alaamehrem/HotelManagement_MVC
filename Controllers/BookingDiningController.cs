@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Packaging.Signing;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HotelManagement_MVC.Controllers
 {
@@ -20,7 +21,7 @@ namespace HotelManagement_MVC.Controllers
         ICartRepo CartRepo;
         IDiningRepo DiningRepo;
 
-        public BookingDiningController(IBookingDiningRepo BookingDiningRepo,IDiningRepo DiningRepo, ICartRepo cartRepo, IWebHostEnvironment webHostEnvironment,
+        public BookingDiningController(IBookingDiningRepo BookingDiningRepo, IDiningRepo DiningRepo, ICartRepo cartRepo, IWebHostEnvironment webHostEnvironment,
             UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.BookingDiningRepo = BookingDiningRepo;
@@ -66,26 +67,26 @@ namespace HotelManagement_MVC.Controllers
                     };
                     CartRepo.Insert(cart);
                 }
-                    if (cart.BookingDinings == null)
-                        cart.BookingDinings = new List<BookingDining> { bookingDining };
-                    else
-                        cart.BookingDinings.Add(bookingDining);
-                    cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
-
-                    BookingDiningRepo.Insert(bookingDining);
-                    BookingDiningRepo.Save();
-                    CartRepo.Update(cart);
-                    CartRepo.Save();
-
-                    // Redirect to cart confirmation page
-                    return RedirectToAction("GetAll", "Dining", new { Id = userId });
-                }
+                if (cart.BookingDinings == null)
+                    cart.BookingDinings = new List<BookingDining> { bookingDining };
                 else
-                {
-                    return RedirectToAction("Login", "Account"); // Redirect user to login if not authenticated
-                }
+                    cart.BookingDinings.Add(bookingDining);
+                cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
+
+                BookingDiningRepo.Insert(bookingDining);
+                BookingDiningRepo.Save();
+                CartRepo.Update(cart);
+                CartRepo.Save();
+
+                // Redirect to cart confirmation page
+                return RedirectToAction("GetAll", "Dining", new { Id = userId });
             }
-        public IActionResult Delete (int id)
+            else
+            {
+                return RedirectToAction("Login", "Account"); // Redirect user to login if not authenticated
+            }
+        }
+        public IActionResult Delete(int id)
         {
             if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
             {
@@ -132,7 +133,7 @@ namespace HotelManagement_MVC.Controllers
                 Id = bookingDiningEdit.Id,
                 Date = bookingDiningEdit.Date,
                 NumAdults = bookingDiningEdit.NumAdults,
-                Price = bookingDiningEdit.Price,
+                //Price = bookingDiningEdit.Price,
                 SpecialRequest = bookingDiningEdit.SpecialRequest,
                 DiningId = bookingDiningEdit.DiningId,
             };
@@ -143,28 +144,40 @@ namespace HotelManagement_MVC.Controllers
         [HttpPost]
         public IActionResult SaveEdit(BookingDiningEditVM viewModel)
         {
-
-            if (ModelState.IsValid)
+            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
             {
-                var bookingDiningDb = BookingDiningRepo.GetById(viewModel.Id);
+                Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                string userId = ClaimId.Value;
 
-                bookingDiningDb.Date = viewModel.Date;
-                bookingDiningDb.NumAdults = viewModel.NumAdults;
-                bookingDiningDb.Price = viewModel.Price;
-                bookingDiningDb.SpecialRequest = viewModel.SpecialRequest;
-                bookingDiningDb.DiningId = viewModel.DiningId;
+                if (ModelState.IsValid)
+                {
+                    var bookingDiningDb = BookingDiningRepo.GetById(viewModel.Id);
 
-                BookingDiningRepo.Update(bookingDiningDb);
-                BookingDiningRepo.Save();
+                    bookingDiningDb.Date = viewModel.Date;
+                    bookingDiningDb.NumAdults = viewModel.NumAdults;
+                    bookingDiningDb.SpecialRequest = viewModel.SpecialRequest;
+                    bookingDiningDb.DiningId = viewModel.DiningId;
 
-                return RedirectToAction("GetAllCart" , "Cart");
+                    int newPrice = (int)BookingDiningRepo.DuplicatePrice(bookingDiningDb);
+                    bookingDiningDb.Price = newPrice;
+
+                    BookingDiningRepo.Update(bookingDiningDb);
+                    BookingDiningRepo.Save();
+
+                    var cart = CartRepo.GetCartByGuestId(userId);
+                    cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
+                    CartRepo.Update(cart);
+                    CartRepo.Save();
+                    return RedirectToAction("GetAllCart", "Cart");
+                }
             }
-            var diningOptions = DiningRepo.GetAll();
-            ViewData["DiningList"] = diningOptions;
+                var diningOptions = DiningRepo.GetAll();
+                ViewData["DiningList"] = diningOptions;
 
-            return View("Edit", viewModel);
+                return View("Edit", viewModel);
+            }
+            }
+
         }
 
-    }
 
-    }
