@@ -148,7 +148,82 @@ namespace HotelManagement_MVC.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-}
+        }
+        public IActionResult Edit(int id)
+        {
+            BookingRoom bookingRoomEdit = bookingRoomRepo.GetById(id);
+
+            if (bookingRoomEdit == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["OfferList"] = offerRepo.GetAll();
+            ViewData["FloorList"] = hotelFloorRepo.GetAll();
+            ViewData["RoomTypeList"] = hotelRoomTypeRepo.GetAll();
+
+            BookingRoomOfferRoomTypeVM bookingRoom = new BookingRoomOfferRoomTypeVM
+            {
+                Id=bookingRoomEdit.Id,
+                NumAdults = bookingRoomEdit.NumAdults,
+                //HotelFloorId= bookingRoomEdit.HotelRoom.HotelFloorId,
+                NumOfRooms = bookingRoomEdit.NumOfRooms,
+                NumChildren = bookingRoomEdit.NumChildren,
+                OfferId = bookingRoomEdit.OfferId,
+                CheckInDate = bookingRoomEdit.CheckInDate,
+                CheckOutDate = bookingRoomEdit.CheckOutDate,
+                SpecialRequest = bookingRoomEdit.SpecialRequest,          
+                //HotelRoomTypeId= bookingRoomEdit.HotelRoom.HotelRoomTypeId
+            };
+
+            return View(bookingRoom);
+        }
+        [HttpPost]
+        public IActionResult SaveEdit(BookingRoomOfferRoomTypeVM viewModel)
+        {
+            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
+            {
+                Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                string userId = ClaimId.Value;
+
+                if (ModelState.IsValid)
+                {
+                    var bookingRoomDb = bookingRoomRepo.GetById(viewModel.Id);
+
+                    bookingRoomDb.CheckInDate = viewModel.CheckInDate;
+                    bookingRoomDb.CheckOutDate = viewModel.CheckOutDate;    
+                    bookingRoomDb.NumAdults = viewModel.NumAdults;
+                    bookingRoomDb.SpecialRequest = viewModel.SpecialRequest;
+                    bookingRoomDb.NumChildren = viewModel.NumChildren;
+                    bookingRoomDb.OfferId = viewModel.OfferId;          
+                    bookingRoomDb.NumOfRooms = viewModel.NumOfRooms;
+                    bookingRoomDb.HotelRoom = new HotelRoom
+                    {
+                        HotelRoomTypeId = viewModel.HotelRoomTypeId,
+                        HotelFloorId = viewModel.HotelFloorId
+                    };
+                    
+                    int newPrice = (int)bookingRoomRepo.DuplicatePrice(bookingRoomDb);
+                    bookingRoomDb.TotalPrice= newPrice;
+
+                    bookingRoomRepo.Update(bookingRoomDb);
+                    bookingRoomRepo.Save();
+
+                    var cart = cartRepo.GetCartByGuestId(userId);
+                    cart.ShippingPrice = (int)cartRepo.CalculateTotalPrice(cart);
+                    cartRepo.Update(cart);
+                    cartRepo.Save();
+                    return RedirectToAction("GetAllCart", "Cart");
+                }
+            }
+            ViewData["OfferList"] = offerRepo.GetAll();
+            ViewData["FloorList"] = hotelFloorRepo.GetAll();
+            ViewData["RoomTypeList"] = hotelRoomTypeRepo.GetAll();
+
+            return View("Edit", viewModel);
         }
     }
+}
+
+
 

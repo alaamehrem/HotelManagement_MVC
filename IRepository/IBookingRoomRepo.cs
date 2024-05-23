@@ -11,7 +11,7 @@ namespace HotelManagement_MVC.IRepository
         //public List<BookingRoom> Search(string search);
         public void Delete(int Id);
         public HotelRoomType GetRoomTypeById(int Id);
-        public void Update(HotelRoom obj);
+        public void Update(BookingRoom obj);
         public int? DuplicatePrice(BookingRoom bookingRoom);
     }
 }

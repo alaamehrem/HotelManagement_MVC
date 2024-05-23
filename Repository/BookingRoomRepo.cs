@@ -39,7 +39,7 @@ namespace HotelManagement_MVC.Repository
         //            .ToList();
         //}
 
-        public void Update(HotelRoom obj)
+        public void Update(BookingRoom obj)
         {
             context.Update(obj);
         }
@@ -56,7 +56,7 @@ namespace HotelManagement_MVC.Repository
         }
         public int? DuplicatePrice(BookingRoom bookingRoom)
         {
-            if (bookingRoom == null || bookingRoom.CheckInDate == default || bookingRoom.CheckOutDate == default)
+            if (bookingRoom == null || bookingRoom.CheckInDate == default || bookingRoom.CheckOutDate == default || bookingRoom.HotelRoomId ==null)
             {
                 return null;
             }
@@ -67,7 +67,7 @@ namespace HotelManagement_MVC.Repository
             // Ensure checkoutDate is after checkinDate
             if (checkoutDate <= checkinDate)
             {
-                return null; 
+                return null;
             }
 
             // Calculate the number of days
@@ -86,7 +86,41 @@ namespace HotelManagement_MVC.Repository
                     return roomType.Price * bookingRoom.NumOfRooms * numberOfDays;
                 }
             }
-            return null; 
+            return null;
+        }
+        public int? DuplicatePriceEdit(BookingRoom bookingRoom)
+        {
+            if (bookingRoom == null || bookingRoom.CheckInDate == default || bookingRoom.CheckOutDate == default || bookingRoom.HotelRoomId == null)
+            {
+                return null;
+            }
+
+            DateTime checkinDate = bookingRoom.CheckInDate;
+            DateTime checkoutDate = bookingRoom.CheckOutDate;
+
+            // Ensure checkoutDate is after checkinDate
+            if (checkoutDate <= checkinDate)
+            {
+                return null;
+            }
+
+            // Calculate the number of days
+            int numberOfDays = (checkoutDate - checkinDate).Days;
+
+            var roomType = context.HotelRoomTypes.FirstOrDefault(d => d.Id == bookingRoom.HotelRoom.HotelRoomTypeId);
+            if (roomType != null)
+            {
+                var offer = context.Offers.FirstOrDefault(d => d.Id == bookingRoom.OfferId);
+                if (offer != null)
+                {
+                    return (roomType.Price + offer.OfferPrice) * bookingRoom.NumOfRooms * numberOfDays;
+                }
+                else
+                {
+                    return roomType.Price * bookingRoom.NumOfRooms * numberOfDays;
+                }
+            }
+            return null;
         }
     }
 }

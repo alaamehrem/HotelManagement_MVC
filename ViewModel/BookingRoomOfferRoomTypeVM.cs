@@ -23,6 +23,8 @@ namespace HotelManagement_MVC.ViewModel
         //public string? SpecialRequest { get; set; }
         //public PaymentStatus PaymentStatus { get; set; }
         //public string applicationUserId { get; set; }
+           
+        public int Id { get; set; }
         public int HotelFloorId { get; set; }
         public int HotelRoomTypeId { get; set; }
         public int OfferId { get; set; }
@@ -32,6 +34,7 @@ namespace HotelManagement_MVC.ViewModel
         public int NumChildren { get; set; } = 0;
         public int? NumOfRooms { get; set; } = 1;
         public string? SpecialRequest { get; set; }
+        
 
     }
 }
