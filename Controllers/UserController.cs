@@ -72,16 +72,17 @@ namespace HotelManagement_MVC.Controllers
             }
             else
             {
-                users = userManager.Users.Where(u => u.Fname.Contains(search) || u.Lname.Contains(search));
+                users = userManager.Users.Where(u => u.UserName.Contains(search));
             }
 
             var userViewModels = users.Select(u => new UserViewModel()
             {
                 Id = u.Id,
+                UserName = u.UserName,
                 FName = u.Fname,
                 LName = u.Lname,
                 Email = u.Email,
-                PhoneNumber = u.PhoneNumber,
+                PhoneNumber = u.PhoneNumber            
                 //Roles = userManager.GetRolesAsync(u).Result
             });
 
@@ -102,9 +103,11 @@ namespace HotelManagement_MVC.Controllers
             var UserVM = new UserViewModel()
             {
                 Id = user.Id,
+                UserName=user.UserName,
                 FName = user.Fname,
                 LName = user.Lname,
                 Email = user.Email,
+                password = user.PasswordHash,
                 PhoneNumber = user.PhoneNumber,
             };
             return View("Details", UserVM);
@@ -122,6 +125,7 @@ namespace HotelManagement_MVC.Controllers
             var userVM = new UserViewModel
             {
                 Id = user.Id,
+                UserName = user.UserName,
                 FName = user.Fname,
                 LName = user.Lname,
                 Email = user.Email,
@@ -146,9 +150,11 @@ namespace HotelManagement_MVC.Controllers
 
                 userDb.Fname = userReq.FName;
                 userDb.Lname = userReq.LName;
+                userDb.UserName = userReq.UserName;
                 userDb.Email = userReq.Email;
                 userDb.PasswordHash = userReq.password;
                 userDb.PhoneNumber = userReq.PhoneNumber;
+                
 
                 var result = await userManager.UpdateAsync(userDb);
 
@@ -173,6 +179,7 @@ namespace HotelManagement_MVC.Controllers
             var User = new UserViewModel()
             {
                 Id = user.Id,
+                UserName = user.UserName,
                 FName = user.Fname,
                 LName = user.Lname,
                 Email = user.Email,
@@ -199,6 +206,7 @@ namespace HotelManagement_MVC.Controllers
            var User = new UserViewModel()
             {
                 Id = user.Id,
+                UserName = user.UserName,
                 FName = user.Fname,
                 LName = user.Lname,
                 Email = user.Email,
