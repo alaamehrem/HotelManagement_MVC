@@ -111,5 +111,60 @@ namespace HotelManagement_MVC.Controllers
             }
         
         }
+        //EDIT
+        public IActionResult Edit(int id)
+        {
+            var bookingExperienceEdit = BookingExperienceRepo.GetById(id);
+
+            if (bookingExperienceEdit == null)
+            {
+                return NotFound();
+            }
+
+           
+            var viewModel = new BookingExperienceEditVM
+            {
+                Date = bookingExperienceEdit.Date,
+                NumAdults = bookingExperienceEdit.NumAdults,
+                SpecialRequest = bookingExperienceEdit.SpecialRequest,
+                Id=bookingExperienceEdit.Id
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult SaveEdit(BookingExperienceEditVM viewModel)
+        {
+            if (User.Identity.IsAuthenticated == true) //If the user is not logedin redirect the view to the login
+            {
+                Claim ClaimId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                string userId = ClaimId.Value;
+
+                if (ModelState.IsValid)
+                {
+                    var bookingexperienceDb = BookingExperienceRepo.GetById(viewModel.Id);
+
+                    bookingexperienceDb.Date = viewModel.Date;
+                    bookingexperienceDb.NumAdults = viewModel.NumAdults;
+                    bookingexperienceDb.SpecialRequest = viewModel.SpecialRequest;
+
+                    int newPrice = (int)BookingExperienceRepo.DuplicatePrice(bookingexperienceDb);
+                    bookingexperienceDb.Price = newPrice;
+
+                    BookingExperienceRepo.Update(bookingexperienceDb);
+                    BookingExperienceRepo.Save();
+
+                    var cart = CartRepo.GetCartByGuestId(userId);
+                    cart.ShippingPrice = (int)CartRepo.CalculateTotalPrice(cart);
+                    CartRepo.Update(cart);
+                    CartRepo.Save();
+                    return RedirectToAction("GetAllCart", "Cart");
+                }
+            }
+
+            return View("Edit", viewModel);
+        }
+       
     }
 }
