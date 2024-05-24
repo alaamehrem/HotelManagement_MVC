@@ -30,8 +30,10 @@ namespace HotelManagement_MVC.ViewModel
         public int OfferId { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
+        [Range(1, 10)]
         public int NumAdults { get; set; }
         public int NumChildren { get; set; } = 0;
+        [Range(1, 10)]
         public int? NumOfRooms { get; set; } = 1;
         public string? SpecialRequest { get; set; }
         

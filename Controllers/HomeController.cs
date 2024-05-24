@@ -2,6 +2,7 @@
 using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
 using HotelManagement_MVC.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -48,6 +49,7 @@ namespace HotelManagement_MVC.Controllers
         //    allBookingEventsViewModel.HotelRoomType = hotelRoomTypeRepo.GetAll();
         //    return View(allBookingEventsViewModel);
         //}
+        [Authorize(Roles = "Admin")]
         public IActionResult Calendar()
         {
             AllBookingEventsViewModel allBookingEventsViewModel = new AllBookingEventsViewModel();

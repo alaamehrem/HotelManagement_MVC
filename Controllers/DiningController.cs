@@ -2,6 +2,7 @@
 using HotelManagement_MVC.Models;
 using HotelManagement_MVC.Repository;
 using HotelManagement_MVC.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,6 +10,7 @@ using NuGet.Packaging.Signing;
 
 namespace HotelManagement_MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DiningController : Controller
     {
         IDiningRepo DiningRepo;
@@ -34,6 +36,7 @@ namespace HotelManagement_MVC.Controllers
 
             return View("Index", dinings);
         }
+        [AllowAnonymous]
         public IActionResult GetAll()
         {
             List<Dining> DiningList = DiningRepo.GetAll();
@@ -56,6 +59,7 @@ namespace HotelManagement_MVC.Controllers
             }
             return RedirectToAction("AllDining");
         }
+        [AllowAnonymous]
         public IActionResult Details(int Id,BookingDiningVM bookingDiningVM)
         {
             Dining diningFromDB = DiningRepo.GetById(Id);

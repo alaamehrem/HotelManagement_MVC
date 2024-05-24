@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 namespace HotelManagement_MVC.Controllers
 {
     [Authorize(Roles = "Admin")]
-
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;

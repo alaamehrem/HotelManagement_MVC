@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace HotelManagement_MVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class BookingRoomController : Controller
     {
         private readonly IBookingRoomRepo bookingRoomRepo;
@@ -149,6 +150,7 @@ namespace HotelManagement_MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
+  
         public IActionResult Edit(int id)
         {
             BookingRoom bookingRoomEdit = bookingRoomRepo.GetById(id);
@@ -158,26 +160,30 @@ namespace HotelManagement_MVC.Controllers
                 return NotFound();
             }
 
+            var roomTypeId = bookingRoomEdit.HotelRoom?.HotelRoomTypeId;
+            var floorId = bookingRoomEdit.HotelRoom?.HotelFloorId;
+
             ViewData["OfferList"] = offerRepo.GetAll();
             ViewData["FloorList"] = hotelFloorRepo.GetAll();
             ViewData["RoomTypeList"] = hotelRoomTypeRepo.GetAll();
 
             BookingRoomOfferRoomTypeVM bookingRoom = new BookingRoomOfferRoomTypeVM
             {
-                Id=bookingRoomEdit.Id,
+                Id = bookingRoomEdit.Id,
                 NumAdults = bookingRoomEdit.NumAdults,
-                //HotelFloorId= bookingRoomEdit.HotelRoom.HotelFloorId,
+                HotelFloorId = floorId ?? 0, // Assuming default value if null
                 NumOfRooms = bookingRoomEdit.NumOfRooms,
                 NumChildren = bookingRoomEdit.NumChildren,
                 OfferId = bookingRoomEdit.OfferId,
                 CheckInDate = bookingRoomEdit.CheckInDate,
                 CheckOutDate = bookingRoomEdit.CheckOutDate,
-                SpecialRequest = bookingRoomEdit.SpecialRequest,          
-                //HotelRoomTypeId= bookingRoomEdit.HotelRoom.HotelRoomTypeId
+                SpecialRequest = bookingRoomEdit.SpecialRequest,
+                HotelRoomTypeId = roomTypeId ?? 0 // Assuming default value if null
             };
 
             return View(bookingRoom);
         }
+
         [HttpPost]
         public IActionResult SaveEdit(BookingRoomOfferRoomTypeVM viewModel)
         {
@@ -191,20 +197,23 @@ namespace HotelManagement_MVC.Controllers
                     var bookingRoomDb = bookingRoomRepo.GetById(viewModel.Id);
 
                     bookingRoomDb.CheckInDate = viewModel.CheckInDate;
-                    bookingRoomDb.CheckOutDate = viewModel.CheckOutDate;    
+                    bookingRoomDb.CheckOutDate = viewModel.CheckOutDate;
                     bookingRoomDb.NumAdults = viewModel.NumAdults;
                     bookingRoomDb.SpecialRequest = viewModel.SpecialRequest;
                     bookingRoomDb.NumChildren = viewModel.NumChildren;
-                    bookingRoomDb.OfferId = viewModel.OfferId;          
+                    bookingRoomDb.OfferId = viewModel.OfferId;
                     bookingRoomDb.NumOfRooms = viewModel.NumOfRooms;
-                    bookingRoomDb.HotelRoom = new HotelRoom
+
+                    var hotelRoom = hotelRoomRepo.GetById(bookingRoomDb.HotelRoomId);
+                    if (hotelRoom != null)
                     {
-                        HotelRoomTypeId = viewModel.HotelRoomTypeId,
-                        HotelFloorId = viewModel.HotelFloorId
-                    };
-                    
+                        hotelRoom.HotelRoomTypeId = viewModel.HotelRoomTypeId;
+                        hotelRoom.HotelFloorId = viewModel.HotelFloorId;
+                        bookingRoomDb.HotelRoom = hotelRoom;
+                    }
+
                     int newPrice = (int)bookingRoomRepo.DuplicatePrice(bookingRoomDb);
-                    bookingRoomDb.TotalPrice= newPrice;
+                    bookingRoomDb.TotalPrice = newPrice;
 
                     bookingRoomRepo.Update(bookingRoomDb);
                     bookingRoomRepo.Save();
@@ -222,6 +231,8 @@ namespace HotelManagement_MVC.Controllers
 
             return View("Edit", viewModel);
         }
+
+
     }
 }
 

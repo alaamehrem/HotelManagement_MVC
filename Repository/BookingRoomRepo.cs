@@ -18,8 +18,14 @@ namespace HotelManagement_MVC.Repository
 
         public BookingRoom GetById(int Id)
         {
-            return context.BookingRooms.FirstOrDefault(d => d.Id == Id);
+            return context.BookingRooms
+                .Include(br => br.HotelRoom)
+                .ThenInclude(hr => hr.HotelRoomType)
+                .Include(br => br.HotelRoom)
+                .ThenInclude(hr => hr.HotelFloor)
+                .FirstOrDefault(d => d.Id == Id);
         }
+
 
 
         public void Insert(BookingRoom obj)

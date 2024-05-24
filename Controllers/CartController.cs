@@ -38,7 +38,7 @@ namespace HotelManagement_MVC.Controllers
             this.BookingExperienceRepo = bookingExperienceRepo;
             this.BookingRoomRepo = bookingRoomRepo;
         }
-        [AllowAnonymous]
+
         public IActionResult Index(string search, int pg = 1)
         {
             List<Cart> cartList ;
