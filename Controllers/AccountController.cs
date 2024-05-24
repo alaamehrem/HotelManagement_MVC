@@ -46,7 +46,7 @@ namespace HotelManagement_MVC.Controllers
                 if (result.Succeeded == true)
                 {
                     //add role Admin
-                    IdentityResult roleResult = await userManager.AddToRoleAsync(user, "Admin");
+                    //IdentityResult roleResult = await userManager.AddToRoleAsync(user, "Admin");
                     //create cookie //id,name,role
                     await signInManager.SignInAsync(user, false);//session cookie
                     return RedirectToAction("Index", "Home");

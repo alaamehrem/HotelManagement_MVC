@@ -10,7 +10,7 @@ namespace HotelManagement_MVC.Helper
 		{
 			var client = new SmtpClient("smtp.gmail.com",587);
 			client.EnableSsl=true;
-			client.Credentials = new NetworkCredential("bookingroom177@gmail.com", "ckjofrqbftrvjwlm");
+			client.Credentials = new NetworkCredential("bookingroom177@gmail.com", "dmhbveehplfhjgto");
 			client.Send("hotelbooking@bookingroom.com", email.To, email.Subject, email.Body);
 		}
 	}
